@@ -1,4 +1,3 @@
-import os
 import socket
 from time import sleep
 
@@ -9,7 +8,7 @@ EXIT = 'EXIT'
 
 def main():
     # connect to server
-    tries_left = 5  # tries until
+    tries_left = 5  # tries until terminating program
     print('Connecting to server')
 
     while tries_left:  # when connection doesn't work try again
@@ -18,12 +17,13 @@ def main():
                 server_sock.connect((HOST, PORT))  # connect to the server
                 print('Connection has been made with the server')
 
+                message = ''
                 while message != EXIT:
                     # send message to the server
                     message = input('Enter message: ')
                     server_sock.sendall(message.encode())
 
-                    # get response from the serv er
+                    # get response from the server
                     response = server_sock.recv(1024)
                     print(response.decode())
             return  # end program
