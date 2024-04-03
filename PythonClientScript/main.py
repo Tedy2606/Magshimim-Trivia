@@ -18,11 +18,14 @@ def main():
                 print('Connection has been made with the server')
 
                 message = ''
-                while message != EXIT:
+                while true:
                     # send message to the server
                     message = input('Enter message: ')
                     server_sock.sendall(message.encode())
-
+                    
+                    if message == EXIT:
+                        break
+                    
                     # get response from the server
                     response = server_sock.recv(1024)
                     print(response.decode())

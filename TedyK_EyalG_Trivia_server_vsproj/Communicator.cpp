@@ -4,7 +4,7 @@
 #include <string>
 #include <thread>
 #include "IRequestHandler.h"
-#define MAX_MSG_LEN 1024
+#define MAX_MSG_LEN 5
 #define NAME_LEN_IN_BYTES 2
 #define PORT 56812
 using std::cout;
@@ -42,6 +42,17 @@ void Communicator::startHandleRequests()
 	//beacuse we detach the threads we want to makesure that the program dosnt stop running
 	while (true)
 	{
+		std::string command = "";
+
+		std::cout << ">>> ";
+
+		std::cin >> command;
+
+		if (command == "EXIT")
+		{
+			exit(0);
+		}
+
 	}
 
 }
@@ -97,13 +108,19 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	this->m_clients[clientSocket] = &loginReq;
 	try
 	{
-		std::string second_user_name = "";
-		std::string file_content = "";
+		while (true)
+		{
+			std::string second_user_name = "";
+			std::string file_content = "";
 
-		std::string client_response = getPartFromSocket(clientSocket, MAX_MSG_LEN, 0);
+			std::string client_response = getPartFromSocket(clientSocket, MAX_MSG_LEN, 0);
+
+
+			std::cout << client_response << std::endl;
+
+			sendData(clientSocket, client_response);
+		}
 		
-		
-		std::cout << client_response << std::endl;
 	}
 	catch (const std::exception& e)
 	{
@@ -132,4 +149,13 @@ char* Communicator::getPartFromSocket(SOCKET sc, int bytesNum, int flags)
 
 	data[bytesNum] = 0;
 	return data;
+}
+void Communicator::sendData(SOCKET sc, std::string message)
+{
+	const char* data = message.c_str();
+
+	if (send(sc, data, message.size(), 0) == INVALID_SOCKET)
+	{
+		throw std::exception("Error while sending message to client");
+	}
 }
