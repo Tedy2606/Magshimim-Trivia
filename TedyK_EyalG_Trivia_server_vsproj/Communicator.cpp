@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include "IRequestHandler.h"
 #define MAX_MSG_LEN 1024
 #define NAME_LEN_IN_BYTES 2
 #define PORT 56812
@@ -92,7 +93,8 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
-	
+	LoginRequestHandler loginReq;
+	this->m_clients[clientSocket] = &loginReq;
 	try
 	{
 		std::string second_user_name = "";

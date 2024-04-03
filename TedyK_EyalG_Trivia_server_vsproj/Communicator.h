@@ -1,5 +1,5 @@
 #pragma once
-
+#include "LoginRequestHandler.h"
 #include <WinSock2.h>
 #include <Windows.h>
 #include <queue>
@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <sstream>
 #include <map>
+#include "IRequestHandler.h"
 class Communicator
 {
 public:
@@ -31,7 +32,7 @@ private:
 	char *getPartFromSocket(SOCKET sc, int bytesNum, int flags);
 
 
-	//std::map<SOCKET, IRequestHandler*>;
+	std::map<SOCKET, IRequestHandler*> m_clients;
 	SOCKET m_serverSocket;
 };
 
