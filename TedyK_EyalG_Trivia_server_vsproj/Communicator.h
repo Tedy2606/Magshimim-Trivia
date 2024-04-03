@@ -30,7 +30,7 @@ private:
 	
 
 	char *getPartFromSocket(SOCKET sc, int bytesNum, int flags);
-
+	void sendData(SOCKET sc, std::string message);
 
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	SOCKET m_serverSocket;
