@@ -4,6 +4,7 @@
 #include <string>
 #include <thread>
 #include "IRequestHandler.h"
+#include "JsonResponsePacketSerializer.h"
 #define MAX_MSG_LEN 5
 #define NAME_LEN_IN_BYTES 2
 #define PORT 56812
@@ -106,14 +107,24 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 {
 	LoginRequestHandler loginReq;
 	this->m_clients[clientSocket] = &loginReq;
+	JsonResponsePacketSerializer seri;
+
+	//conitinue from here 
+
 	try
 	{
 		while (true)
 		{
-			std::string second_user_name = "";
-			std::string file_content = "";
 
+			// probably need to change the max len into a long and not int
+			// cus my only idea right now is to get the longest possible msg and then 
+			// just cut the array on however we need (long beacuse we have 5 bytes of header (id, len) + max bytes of content)
+			
 			std::string client_response = getPartFromSocket(clientSocket, MAX_MSG_LEN, 0);
+
+
+			//then send it to the seri function...? maybe?
+
 
 
 			std::cout << client_response << std::endl;
