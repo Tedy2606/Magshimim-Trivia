@@ -1,8 +1,9 @@
 #pragma once
 #include <vector>
+#include <string>
 struct ErrorResponse
 {
-	//complete this 
+	std::string err;
 };
 struct LoginResponse
 {
@@ -17,9 +18,9 @@ typedef std::vector<unsigned char> buffer;
 class JsonResponsePacketSerializer
 {
 public:
-	buffer serializeResponse(ErrorResponse);
-	buffer serializeResponse(LoginResponse);
-	buffer serializeResponse(SignupResponse);
+	static buffer serializeResponse(ErrorResponse response);
+	static buffer serializeResponse(LoginResponse response);
+	static buffer serializeResponse(SignupResponse response);
 };
 
 
