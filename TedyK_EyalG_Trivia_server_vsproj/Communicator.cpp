@@ -124,10 +124,11 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			
 			//needs to be const unsinged char...
 			const char* client_response = getPartFromSocket(clientSocket, MAX_MSG_LEN, 0);
-			int len = strlen(client_response);
-			std::vector<unsigned char> buf(len);
+			
+			std::vector<unsigned char> buf(client_response, client_response + MAX_MSG_LEN);
 			//puts the client response int a vector
-			std::copy(client_response, client_response + len, buf.begin());
+
+			
 			//turn client response into the needed response struct (signup, login, error) (probably with the use of desi)
 			LoginRequest req = desi.desirializeLoginRequest(buf);
 
