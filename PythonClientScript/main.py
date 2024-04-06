@@ -18,7 +18,7 @@ def main():
                 print('Connection has been made with the server')
 
                 message = ''
-                while true:
+                while True:
                     # send message to the server
                     message = input('Enter message: ')
                     server_sock.sendall(message.encode())

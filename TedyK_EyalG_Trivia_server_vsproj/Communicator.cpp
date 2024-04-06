@@ -3,9 +3,11 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include <algorithm>
 #include "IRequestHandler.h"
 #include "JsonResponsePacketSerializer.h"
-#define MAX_MSG_LEN 5
+#include "JsonResponsePacketDeserializer.h"
+#define MAX_MSG_LEN 92233
 #define NAME_LEN_IN_BYTES 2
 #define PORT 56812
 using std::cout;
@@ -108,7 +110,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	LoginRequestHandler loginReq;
 	this->m_clients[clientSocket] = &loginReq;
 	JsonResponsePacketSerializer seri;
-
+	JsonResponsePacketDeserializer desi;
 	//conitinue from here 
 
 	try
@@ -116,18 +118,24 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		while (true)
 		{
 
-			// probably need to change the max len into a long and not int
+			// probably need to change the max len into a big num
 			// cus my only idea right now is to get the longest possible msg and then 
-			// just cut the array on however we need (long beacuse we have 5 bytes of header (id, len) + max bytes of content)
+			// just cut the array on however we need 
 			
-			std::string client_response = getPartFromSocket(clientSocket, MAX_MSG_LEN, 0);
-
+			//needs to be const unsinged char...
+			const char* client_response = getPartFromSocket(clientSocket, MAX_MSG_LEN, 0);
+			int len = strlen(client_response);
+			std::vector<unsigned char> buf(len);
+			//puts the client response int a vector
+			std::copy(client_response, client_response + len, buf.begin());
 			//turn client response into the needed response struct (signup, login, error) (probably with the use of desi)
+			LoginRequest req = desi.desirializeLoginRequest(buf);
+
+			//handle req.... for now just print and see that it works
 			
+			std::cout << req.password << std::endl;
 
-
-			//send it to seri, sent it back to client 
-			//std::vector<unsinged char> buf = seri.serializeResponse(response);
+			
 			
 
 			sendData(clientSocket, client_response);
