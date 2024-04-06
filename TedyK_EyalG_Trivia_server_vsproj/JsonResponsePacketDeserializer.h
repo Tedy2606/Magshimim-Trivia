@@ -21,7 +21,7 @@ class JsonResponsePacketDeserializer
 {
 public:
 	LoginRequest desirializeLoginRequest(std::vector<unsigned char> buffer);
-	LoginRequest desirializeSignupRequest(std::vector<unsigned char> buffer);
+	SignupRequest desirializeSignupRequest(std::vector<unsigned char> buffer);
 
 };
 

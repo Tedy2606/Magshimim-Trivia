@@ -18,6 +18,9 @@ typedef std::vector<unsigned char> buffer;
 class JsonResponsePacketSerializer
 {
 public:
+
+	
+
 	static buffer serializeResponse(ErrorResponse response);
 	static buffer serializeResponse(LoginResponse response);
 	static buffer serializeResponse(SignupResponse response);

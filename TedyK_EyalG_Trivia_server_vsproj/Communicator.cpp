@@ -122,12 +122,13 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			
 			std::string client_response = getPartFromSocket(clientSocket, MAX_MSG_LEN, 0);
 
+			//turn client response into the needed response struct (signup, login, error) (probably with the use of desi)
+			
 
-			//then send it to the seri function...? maybe?
 
-
-
-			std::cout << client_response << std::endl;
+			//send it to seri, sent it back to client 
+			//std::vector<unsinged char> buf = seri.serializeResponse(response);
+			
 
 			sendData(clientSocket, client_response);
 		}
