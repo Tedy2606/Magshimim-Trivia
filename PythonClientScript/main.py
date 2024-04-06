@@ -1,28 +1,22 @@
 import socket
 from time import sleep
 import json
+import struct
 HOST = "127.0.0.1"  # The server's hostname or IP address
 PORT = 56812  # The port used by the server
 EXIT = 'EXIT'
 
 
-def make_sign_up_packet(data):
-    # makes the sign-up packet using the mail, name, password
-    data_len = len(data['username']) + len(data['password']) + len(data['mail'])
-    str_data_len = str(data_len)
-    data_len_encode = str_data_len.encode()
-    user_encode_data = json.dumps(data).encode('utf-8')
-    packet_encoded = b'3' + data_len_encode + user_encode_data
-    return packet_encoded
-
-
-def make_login_packet(data):
+def make_login_and_signup_packet(data, code):
     # makes the login packet using the name, password
-    data_len = len(data['username']) + len(data['password'])
-    str_data_len = str(data_len)
-    data_len_encode = str_data_len.encode()
+
+    # serialize the json and encode it then get its len
+    # get the len after the encoding for the format to also be included
     user_encode_data = json.dumps(data).encode('utf-8')
-    packet_encoded = b'2' + data_len_encode + user_encode_data
+    data_len = len(user_encode_data)
+    # Pack the length into 4 bytes
+    data_len_bytes = struct.pack('>I', data_len)  # Pack the length into 4 bytes
+    packet_encoded = code + data_len_bytes + user_encode_data
     return packet_encoded
 
 
@@ -50,24 +44,23 @@ def main():
                     # send message to the server
                     message = get_input('please enter action:\n 1 log in\n 2 sign up\n EXIT exit the program\n')
                     if message == EXIT:
-                        break
+                        return
 
                     name = input("please enter username: ")
                     password = input("please enter password: ")
 
                     if message == "1":
-                        packet = make_login_packet({'username': name, 'password': password})
+                        packet = make_login_and_signup_packet({'username': name, 'password': password}, b'2')
                         break
                     if message == "2":
-                        packet = make_sign_up_packet({'username': name, 'password': password, 'mail': input("enter mail please: ")})
+                        packet = make_login_and_signup_packet({'username': name, 'password': password, 'mail': input("enter mail please: ")}, b'3')
                         break
 
-                    server_sock.sendall(packet)
+                server_sock.sendall(packet)
 
-
-                    # get response from the server
-                    response = server_sock.recv(1024)
-                    print(response.decode())
+                # get response from the server
+                response = server_sock.recv(1024)
+                print(response[5:].decode())
             return  # end program
         except socket.error:
             print('Connection with server has Failed\nTrying again ' + str(tries_left), end='')
