@@ -8,8 +8,7 @@ class IRequestHandler;
 struct RequestInfo
 {
 	 int id;
-	 // please finish this field
-	 // ctime recival_time;
+	 time_t recival_time;
 	 std::vector<unsigned char> buffer;
 };
 

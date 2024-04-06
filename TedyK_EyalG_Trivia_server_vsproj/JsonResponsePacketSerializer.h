@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "json.hpp"
+using json = nlohmann::json;
 struct ErrorResponse
 {
 	std::string err;
@@ -17,6 +19,10 @@ typedef std::vector<unsigned char> buffer;
 
 class JsonResponsePacketSerializer
 {
+private:
+	static buffer serializeResponseWithJson(json data);
+
+
 public:
 
 	static buffer serializeResponse(ErrorResponse response);
