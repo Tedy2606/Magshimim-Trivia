@@ -5,10 +5,20 @@ import struct
 HOST = "127.0.0.1"  # The server's hostname or IP address
 PORT = 56812  # The port used by the server
 EXIT = 'EXIT'
+HEADERS = 5
 
 
-def make_login_and_signup_packet(data, code):
-    # makes the login packet using the name, password
+def make_login_and_signup_packet(data: dict, code: bin):
+    """
+        makes the login and signup packet to send
+        to the server
+        Parameters
+        ----------
+        :param code: the code of the packet (weather it is a signup or a login packet
+        :param data: the data to be sent to server
+        ------------
+        :return the packet to send to server
+        """
 
     # serialize the json and encode it then get its len
     # get the len after the encoding for the format to also be included
@@ -20,8 +30,16 @@ def make_login_and_signup_packet(data, code):
     return packet_encoded
 
 
-def get_input(message):
-    # get the user input if he wants to log in or sign up
+def get_input(message: str):
+    """
+            asks the user for input and waits until he chooses one of the
+            given ones
+            Parameters
+            ----------
+            :param message the message that asks the user for input
+            ------------
+            :return the user input
+            """
     while True:
         user_input = input(message)
         if user_input in {'1', '2', EXIT}:
@@ -52,7 +70,7 @@ def main():
                     if message == "1":
                         packet = make_login_and_signup_packet({'username': name, 'password': password}, b'2')
                         break
-                    if message == "2":
+                    elif message == "2":
                         packet = make_login_and_signup_packet({'username': name, 'password': password, 'mail': input("enter mail please: ")}, b'3')
                         break
 
@@ -60,7 +78,7 @@ def main():
 
                 # get response from the server
                 response = server_sock.recv(1024)
-                print(response[5:].decode())
+                print(response[HEADERS:].decode())
             return  # end program
         except socket.error:
             print('Connection with server has Failed\nTrying again ' + str(tries_left), end='')
