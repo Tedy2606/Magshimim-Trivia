@@ -1,17 +1,17 @@
 #include "JsonResponsePacketSerializer.h"
-
-
-
+#define ERROR_MSG_CODE 4
+#define SIGNUP_MSG_CODE 3
+#define LOGIN_MSG_CODE 2
 #define LENGHT_IN_BYTES 4
 
-buffer JsonResponsePacketSerializer::serializeResponseWithJson(json data)
+buffer JsonResponsePacketSerializer::serializeResponseWithJson(json data, int code)
 {
     //make the buffer
     std::vector<unsigned char> buf;
 
     std::string data_as_str = data.dump();
 
-    buf.push_back(3); //the messege code (random val for now)
+    buf.push_back(code); // enter the msg code 
     int len = data_as_str.length();
 
     //messege len is 4 byte 
@@ -40,7 +40,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
   {"status", response.err},
     };
     
-    return serializeResponseWithJson(data);
+    return serializeResponseWithJson(data, ERROR_MSG_CODE);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(LoginResponse response)
@@ -50,7 +50,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(LoginResponse response)
   {"status", response.status},
     };
     
-    return serializeResponseWithJson(data);
+    return serializeResponseWithJson(data, LOGIN_MSG_CODE);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(SignupResponse response)

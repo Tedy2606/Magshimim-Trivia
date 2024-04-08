@@ -128,7 +128,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			std::vector<unsigned char> buf(client_response, client_response + MAX_MSG_LEN);
 			
 
-			
+			//make the info of the request 
 			std::vector<unsigned char> response;
 			RequestInfo info;
 			info.id = buf[0] - '0';
@@ -137,12 +137,13 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			
 			if (this->m_clients[clientSocket]->isRequestRelevant(info))
 			{
-				
+				//handle requests 
 				RequestResult res = this->m_clients[clientSocket]->handleRequest(info);
 				response = res.buffer;
 			}
 			else
 			{
+				//handle erros 
 				ErrorResponse err;
 				err.err = "ERROR";
 				response = seri.serializeResponse(err);
