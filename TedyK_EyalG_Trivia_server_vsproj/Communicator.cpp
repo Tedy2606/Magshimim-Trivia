@@ -3,11 +3,12 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include <sstream>
 #include <algorithm>
 #include "IRequestHandler.h"
 #include "JsonResponsePacketSerializer.h"
 #include "JsonResponsePacketDeserializer.h"
-#define MAX_MSG_LEN 92233
+#define HEADER_SIZE 5
 #define NAME_LEN_IN_BYTES 2
 #define PORT 56812
 using std::cout;
@@ -123,11 +124,15 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			// just cut the array on however we need 
 			
 			//needs to be const unsinged char...
-			const char* client_response = getPartFromSocket(clientSocket, MAX_MSG_LEN, 0);
-			//puts the client response int a vector
-			std::vector<unsigned char> buf(client_response, client_response + MAX_MSG_LEN);
+			const char* client_response_header = getPartFromSocket(clientSocket, HEADER_SIZE, 0);
+			int data_len = (client_response_header[1] << 24) | (client_response_header[2] << 16) | (client_response_header[3] << 8) | client_response_header[4];
+			const char* client_response_data = getPartFromSocket(clientSocket, data_len + HEADER_SIZE, 0);
 			
-
+			std::string client_response(client_response_header, HEADER_SIZE);
+			client_response.append(client_response_data, data_len);
+			//puts the client response int a vector
+			std::vector<unsigned char> buf(client_response.begin(), client_response.end());
+			
 			//make the info of the request 
 			std::vector<unsigned char> response;
 			RequestInfo info;
