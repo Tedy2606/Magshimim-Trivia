@@ -3,7 +3,6 @@
 #include <vector>
 using std::string;
 
-// uml says struct... dont really know where json comes in 
 
 struct LoginRequest
 {
@@ -20,7 +19,19 @@ struct SignupRequest
 class JsonResponsePacketDeserializer
 {
 public:
+
+	/***
+	* desirializes a login request from an array of bytes
+	* @params buffer - the array of bytes 
+	* @return loginRequest - the login request 
+	**/
 	LoginRequest desirializeLoginRequest(std::vector<unsigned char> buffer);
+
+	/***
+	* desirializes a signup request from an array of bytes
+	* @params buffer - the array of bytes
+	* @return signupRequest - the signup request
+	**/
 	SignupRequest desirializeSignupRequest(std::vector<unsigned char> buffer);
 
 };

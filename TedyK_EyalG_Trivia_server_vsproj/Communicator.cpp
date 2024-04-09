@@ -124,22 +124,35 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			
 			//needs to be const unsinged char...
 			const char* client_response = getPartFromSocket(clientSocket, MAX_MSG_LEN, 0);
-			
-			std::vector<unsigned char> buf(client_response, client_response + MAX_MSG_LEN);
 			//puts the client response int a vector
-
-			
-			//turn client response into the needed response struct (signup, login, error) (probably with the use of desi)
-			LoginRequest req = desi.desirializeLoginRequest(buf);
-
-			//handle req.... for now just print and see that it works
-			
-			std::cout << req.password << std::endl;
-
-			
+			std::vector<unsigned char> buf(client_response, client_response + MAX_MSG_LEN);
 			
 
-			sendData(clientSocket, client_response);
+			//make the info of the request 
+			std::vector<unsigned char> response;
+			RequestInfo info;
+			info.id = buf[0] - '0';
+			info.buffer = buf;
+			info.recival_time = time(nullptr);
+			
+			if (this->m_clients[clientSocket]->isRequestRelevant(info))
+			{
+				//handle requests 
+				RequestResult res = this->m_clients[clientSocket]->handleRequest(info);
+				response = res.buffer;
+			}
+			else
+			{
+				//handle erros 
+				ErrorResponse err;
+				err.err = "ERROR";
+				response = seri.serializeResponse(err);
+			}
+
+			//convert the vector to an str to send it
+			std::string responseStr(response.begin(), response.end());
+			
+			sendData(clientSocket, responseStr);
 		}
 		
 	}
