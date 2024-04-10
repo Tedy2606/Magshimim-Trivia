@@ -14,6 +14,11 @@ public:
 	@return whether or not the method succeeded.
 	*/
 	virtual bool open() override;
+
+	/*
+	Method closes the database.
+	@return whether or not the method succeeded.
+	*/
 	virtual bool close() override;
 	virtual bool doesUserExist(std::string username) override;
 	virtual bool doesPasswordMatch(std::string username, std::string password) override;

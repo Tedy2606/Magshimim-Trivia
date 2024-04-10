@@ -33,7 +33,15 @@ bool SqliteDatabase::open()
 
 bool SqliteDatabase::close()
 {
-    return false;
+    int res = sqlite3_close(this->_db);
+    if (res != SQLITE_OK)
+    {
+        std::cerr << "An error occured when trying to close the databse." << std::endl;
+        return false;
+    }
+
+    this->_db = nullptr;
+    return true;
 }
 
 bool SqliteDatabase::doesUserExist(std::string username)
