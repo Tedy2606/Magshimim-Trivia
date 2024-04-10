@@ -20,6 +20,12 @@ public:
 	@return whether or not the method succeeded.
 	*/
 	virtual bool close() override;
+
+	/*
+	Method returns whether a user with the given username exists.
+	@param username - the username to search
+	@return whether or not the user exists
+	*/
 	virtual bool doesUserExist(std::string username) override;
 	virtual bool doesPasswordMatch(std::string username, std::string password) override;
 	virtual bool addNewUser(std::string username, std::string password, std::string email) override;

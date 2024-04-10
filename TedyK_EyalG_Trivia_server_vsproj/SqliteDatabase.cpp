@@ -46,7 +46,18 @@ bool SqliteDatabase::close()
 
 bool SqliteDatabase::doesUserExist(std::string username)
 {
-    return false;
+    bool doesUserExist = false;
+    auto callback = [](void* data, int argc, char** argv, char** azColName)
+        {
+            *(bool*)data = true; // entered callback function, meaning at least 1 record was found (user exists)
+            return 0;
+        };
+
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("SELECT * FROM users WHERE username=" + username + ";").c_str(), callback, &doesUserExist, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+
+    return doesUserExist;
 }
 
 bool SqliteDatabase::doesPasswordMatch(std::string username, std::string password)
