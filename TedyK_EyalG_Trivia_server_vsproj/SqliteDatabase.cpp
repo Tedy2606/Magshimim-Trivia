@@ -2,7 +2,33 @@
 
 bool SqliteDatabase::open()
 {
-    return false;
+    int file_exist = _access(DATABASE_PATH, 0);
+    int res = sqlite3_open(DATABASE_PATH, &this->_db);
+    if (res != SQLITE_OK)
+    {
+        this->_db = nullptr;
+        std::cerr << "Failed to open DB" << std::endl;
+        exit(-1);
+    }
+
+    if (file_exist != 0)
+    {
+        // create users table
+        const char* sqlStatement1 = "CREATE TABLE IF NOT EXISTS users("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            "username TEXT NOT NULL,"
+            "password TEXT NOT NULL,"
+            "email TEXT NOT NULL);";
+
+        char* errMessage = nullptr;
+        res = sqlite3_exec(this->_db, sqlStatement1, nullptr, nullptr, &errMessage);
+        if (res != SQLITE_OK)
+        {
+            std::cerr << "Failed to add table to the new database" << std::endl;
+            return false;
+        }
+    }
+    return true;
 }
 
 bool SqliteDatabase::close()
