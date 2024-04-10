@@ -27,6 +27,13 @@ public:
 	@return whether or not the user exists
 	*/
 	virtual bool doesUserExist(std::string username) override;
+
+	/*
+	Method returns whether the input username has the input password.
+	@param username - the username
+	@param password - the password to check
+	@return whether or not the password matches to the username
+	*/
 	virtual bool doesPasswordMatch(std::string username, std::string password) override;
 	virtual bool addNewUser(std::string username, std::string password, std::string email) override;
 
