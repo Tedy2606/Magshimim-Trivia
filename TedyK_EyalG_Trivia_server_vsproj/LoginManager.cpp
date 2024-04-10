@@ -3,7 +3,7 @@
 void LoginManager::signup(string name, string password, string mail)
 {
 
-	if (this->m_database->doesUserExists(name))
+	if (this->m_database->doesUserExist(name))
 	{
 		this->m_database->addNewUser(name, password, mail);
 	}
@@ -11,7 +11,7 @@ void LoginManager::signup(string name, string password, string mail)
 
 void LoginManager::login(string name, string password)
 {
-	if (this->m_database->doesUserExists(name) && this->m_database->doesPasswordMatch(name, password))
+	if (this->m_database->doesUserExist(name) && this->m_database->doesPasswordMatch(name, password))
 	{
 		LoggedUser user;
 		//inser value into logged user
@@ -24,7 +24,7 @@ void LoginManager::login(string name, string password)
 
 void LoginManager::logout(string name)
 {
-	if (this->m_database->doesUserExists(name))
+	if (this->m_database->doesUserExist(name))
 	{
 		//do an error or something
 		return;

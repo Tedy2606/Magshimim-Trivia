@@ -31,5 +31,5 @@ public:
 
 private:
 	std::vector<LoggedUser> m_loggedUsers;
-	IDatabase* m_database;
+	IDataBase* m_database;
 };
