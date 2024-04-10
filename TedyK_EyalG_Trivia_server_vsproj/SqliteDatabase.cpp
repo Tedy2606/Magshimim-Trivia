@@ -78,5 +78,19 @@ bool SqliteDatabase::doesPasswordMatch(std::string username, std::string passwor
 
 bool SqliteDatabase::addNewUser(std::string username, std::string password, std::string email)
 {
-    return false;
+    if (this->doesUserExist(username))
+    {
+        return false; // user with the username already exists
+    }
+
+    std::string sqlQuery = "INSERT INTO users (username, password, email) VALUES ('" + username + ", " + password + ", " + email + "');";
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, sqlQuery.c_str(), nullptr, nullptr, &errMessage);
+    if (res != SQLITE_OK)
+    {
+        std::cerr << errMessage << std::endl;
+        return false;
+    }
+
+    return true;
 }

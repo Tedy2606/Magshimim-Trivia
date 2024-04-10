@@ -35,6 +35,14 @@ public:
 	@return whether or not the password matches to the username
 	*/
 	virtual bool doesPasswordMatch(std::string username, std::string password) override;
+
+	/*
+	Method adds a new user to the users table in the database.
+	@param username - the username of the user
+	@param password - the password of the user
+	@param email - the email of the user
+	@return whether the user has been added to the users table in the database
+	*/
 	virtual bool addNewUser(std::string username, std::string password, std::string email) override;
 
 private:
