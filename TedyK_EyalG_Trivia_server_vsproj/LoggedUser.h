@@ -3,6 +3,7 @@
 class LoggedUser
 {
 public:
+	//getter for the user name
 	std::string GetUserName();
 
 private:
