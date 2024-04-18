@@ -1,5 +1,9 @@
 #pragma once
 #include "IRequestHandler.h"
+#include "RequestHandlerFactory.h"
+
+class RequestHandlerFactory;
+
 class LoginRequestHandler : public IRequestHandler
 {
 public: 
@@ -17,4 +21,11 @@ public:
 	* @return the result (serialised response and new handler)
 	**/
 	RequestResult handleRequest(RequestInfo info);
+
+private:
+	RequestResult login(RequestInfo info);
+	RequestResult signup(RequestInfo info);
+
+	// fields
+	RequestHandlerFactory& m_handlerFactory;
 };
