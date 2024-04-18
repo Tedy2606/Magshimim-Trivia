@@ -3,20 +3,21 @@
 void LoginManager::signup(string name, string password, string mail)
 {
 
-	if (this->m_database->doesUserExist(name))
+	if (!this->m_database->doesUserExist(name))
 	{
 		this->m_database->addNewUser(name, password, mail);
+	}
+	else
+	{
+		//throw error
 	}
 }
 
 void LoginManager::login(string name, string password)
 {
-	if (this->m_database->doesUserExist(name) && this->m_database->doesPasswordMatch(name, password))
+	if (this->m_database->doesPasswordMatch(name, password))
 	{
-		LoggedUser user;
-		//inser value into logged user
-
-
+		LoggedUser user(name);
 		// add the user to the logged ones 
 		this->m_loggedUsers.push_back(user);
 	}
@@ -24,11 +25,7 @@ void LoginManager::login(string name, string password)
 
 void LoginManager::logout(string name)
 {
-	if (this->m_database->doesUserExist(name))
-	{
-		//do an error or something
-		return;
-	}
+	
 
 	//finds the position of the user in the vector 
 	int count = 0;
@@ -38,6 +35,11 @@ void LoginManager::logout(string name)
 			break;
 
 	}
-	//removes from the vector
-	this->m_loggedUsers.erase(this->m_loggedUsers.begin() + count);
+	// remove user from vector only if he exists in the vector
+	if (count != this->m_loggedUsers.size())
+	{
+		//removes from the vector
+		this->m_loggedUsers.erase(this->m_loggedUsers.begin() + count);
+	}
+	
 }
