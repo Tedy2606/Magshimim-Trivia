@@ -7,6 +7,8 @@ class RequestHandlerFactory;
 class LoginRequestHandler : public IRequestHandler
 {
 public: 
+	LoginRequestHandler(RequestHandlerFactory& m_handlerFactory);
+
 	/***
 	* function checks if a request is relevant by compering its id to the login and sign up id 
 	* @param RequestInfo info - the info (mainly the id) of the request
@@ -23,8 +25,20 @@ public:
 	RequestResult handleRequest(RequestInfo info);
 
 private:
+	/*
+	Method returns a response to the input login info
+	@param info - the info of the request
+	@return the result (serialised response and new handler)
+	*/
 	RequestResult login(RequestInfo info);
+
+	/*
+	Method returns a response to the input signup info
+	@param info - the info of the request
+	@return the result (serialised response and new handler)
+	*/
 	RequestResult signup(RequestInfo info);
+
 
 	// fields
 	RequestHandlerFactory& m_handlerFactory;

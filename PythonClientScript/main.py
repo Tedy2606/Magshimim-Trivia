@@ -6,6 +6,8 @@ HOST = "127.0.0.1"  # The server's hostname or IP address
 PORT = 56812  # The port used by the server
 EXIT = 'EXIT'
 HEADERS = 5
+LOGIN_REQ = 101
+SIGNUP_REQ = 102
 
 
 def make_login_and_signup_packet(data: dict, code: bin):
@@ -42,7 +44,7 @@ def get_input(message: str):
             """
     while True:
         user_input = input(message)
-        if user_input in {'1', '2', EXIT}:
+        if user_input in {str(LOGIN_REQ), str(SIGNUP_REQ), EXIT}:
             return user_input
 
 
@@ -67,11 +69,11 @@ def main():
                     name = input("please enter username: ")
                     password = input("please enter password: ")
 
-                    if message == "1":
-                        packet = make_login_and_signup_packet({'username': name, 'password': password}, b'2')
+                    if message == str(LOGIN_REQ):
+                        packet = make_login_and_signup_packet({'username': name, 'password': password}, (LOGIN_REQ).to_bytes())
                         break
-                    elif message == "2":
-                        packet = make_login_and_signup_packet({'username': name, 'password': password, 'mail': input("enter mail please: ")}, b'3')
+                    elif message == str(SIGNUP_REQ):
+                        packet = make_login_and_signup_packet({'username': name, 'password': password, 'mail': input("enter mail please: ")}, (SIGNUP_REQ).to_bytes())
                         break
 
                 server_sock.sendall(packet)
