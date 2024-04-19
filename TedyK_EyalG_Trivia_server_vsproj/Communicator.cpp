@@ -15,7 +15,8 @@ using std::cout;
 using std::endl;
 
 
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory& handlerFactory)
+	: m_handlerFactory(handlerFactory)
 {
 
 	// this server use TCP. that why SOCK_STREAM & IPPROTO_TCP
@@ -108,7 +109,7 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
-	LoginRequestHandler loginReq;
+	LoginRequestHandler loginReq(this->m_handlerFactory);
 	this->m_clients[clientSocket] = &loginReq;
 	JsonResponsePacketSerializer seri;
 	JsonResponsePacketDeserializer desi;
