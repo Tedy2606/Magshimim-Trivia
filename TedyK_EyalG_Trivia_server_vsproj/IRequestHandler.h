@@ -22,6 +22,9 @@ struct RequestResult
 class IRequestHandler
 {
 public:
+	IRequestHandler() = default;
+	virtual ~IRequestHandler() { };
+	
 	virtual bool isRequestRelevant(RequestInfo info) = 0;
 	virtual RequestResult handleRequest(RequestInfo info) = 0;
 
