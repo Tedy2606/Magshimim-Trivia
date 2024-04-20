@@ -63,6 +63,6 @@ private:
 
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	SOCKET m_serverSocket;
-	RequestHandlerFactory& m_handlerFactory
+	RequestHandlerFactory& m_handlerFactory;
 };
 

@@ -7,6 +7,8 @@ class RequestHandlerFactory;
 class MenuRequestHandler : public IRequestHandler
 {
 public:
+	MenuRequestHandler(RequestHandlerFactory& handlerFactory);
+
 	virtual bool isRequestRelevant(RequestInfo info) override;
 	virtual RequestResult handleRequest(RequestInfo info) override;
 

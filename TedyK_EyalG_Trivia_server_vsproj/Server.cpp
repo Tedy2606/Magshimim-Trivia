@@ -12,9 +12,9 @@
 
 
 Server::Server()
-	: m_handlerFactory(), m_communicator(this->m_handlerFactory)
+	: m_handlerFactory(new SqliteDatabase()), m_communicator(this->m_handlerFactory)
 {
-	this->m_database = new SqliteDatabase();
+	this->m_database = this->m_handlerFactory.getDatabase();
 }
 
 Server::~Server()

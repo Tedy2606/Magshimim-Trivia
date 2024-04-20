@@ -7,6 +7,8 @@ using std::string;
 class LoginManager
 {
 public:
+	LoginManager(IDataBase* database);
+
 	/***
 	* signs a user up (adds him to the database)
 	* @param string name - the name of the user

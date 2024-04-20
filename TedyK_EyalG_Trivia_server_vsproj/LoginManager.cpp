@@ -1,5 +1,10 @@
 #include "LoginManager.h"
 
+LoginManager::LoginManager(IDataBase* database)
+{
+	this->m_database = database;
+}
+
 bool LoginManager::signup(string name, string password, string mail)
 {
 

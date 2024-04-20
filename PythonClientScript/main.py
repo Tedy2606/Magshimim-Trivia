@@ -6,6 +6,10 @@ HOST = "127.0.0.1"  # The server's hostname or IP address
 PORT = 56812  # The port used by the server
 EXIT = 'EXIT'
 HEADERS = 5
+
+LOGIN_INPUT = '1'
+SIGNUP_INPUT = '2'
+
 LOGIN_REQ = 101
 SIGNUP_REQ = 102
 
@@ -44,7 +48,7 @@ def get_input(message: str):
             """
     while True:
         user_input = input(message)
-        if user_input in {str(LOGIN_REQ), str(SIGNUP_REQ), EXIT}:
+        if user_input in {LOGIN_INPUT, SIGNUP_INPUT, EXIT}:
             return user_input
 
 
@@ -64,24 +68,21 @@ def main():
                     # send message to the server
                     message = get_input('please enter action:\n 1 log in\n 2 sign up\n EXIT exit the program\n')
                     if message == EXIT:
-                        return
+                        return  # exit program
 
                     name = input("please enter username: ")
                     password = input("please enter password: ")
 
-                    if message == str(LOGIN_REQ):
+                    if message == LOGIN_INPUT:
                         packet = make_login_and_signup_packet({'username': name, 'password': password}, (LOGIN_REQ).to_bytes())
-                        break
-                    elif message == str(SIGNUP_REQ):
+                    elif message == SIGNUP_INPUT:
                         packet = make_login_and_signup_packet({'username': name, 'password': password, 'mail': input("enter mail please: ")}, (SIGNUP_REQ).to_bytes())
-                        break
 
-                server_sock.sendall(packet)
+                    server_sock.sendall(packet)
 
-                # get response from the server
-                response = server_sock.recv(1024)
-                print(response[HEADERS:].decode())
-            return  # end program
+                    # get response from the server
+                    response = server_sock.recv(1024)
+                    print(response[HEADERS:].decode())
         except socket.error:
             print('Connection with server has Failed\nTrying again ' + str(tries_left), end='')
             tries_left -= 1

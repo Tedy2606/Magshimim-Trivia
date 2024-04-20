@@ -7,7 +7,7 @@ class RequestHandlerFactory;
 class LoginRequestHandler : public IRequestHandler
 {
 public: 
-	LoginRequestHandler(RequestHandlerFactory& m_handlerFactory);
+	LoginRequestHandler(RequestHandlerFactory& handlerFactory);
 
 	/***
 	* function checks if a request is relevant by compering its id to the login and sign up id 

@@ -109,8 +109,7 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
-	LoginRequestHandler loginReq(this->m_handlerFactory);
-	this->m_clients[clientSocket] = &loginReq;
+	this->m_clients[clientSocket] = new LoginRequestHandler(this->m_handlerFactory);
 	JsonResponsePacketSerializer seri;
 	JsonResponsePacketDeserializer desi;
 	//conitinue from here 
@@ -127,17 +126,17 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			//needs to be const unsinged char...
 			const char* client_response_header = getPartFromSocket(clientSocket, HEADER_SIZE, 0);
 			int data_len = (client_response_header[1] << 24) | (client_response_header[2] << 16) | (client_response_header[3] << 8) | client_response_header[4];
-			const char* client_response_data = getPartFromSocket(clientSocket, data_len + HEADER_SIZE, 0);
+			const char* client_response_data = getPartFromSocket(clientSocket, data_len, 0);
 			
 			std::string client_response(client_response_header, HEADER_SIZE);
 			client_response.append(client_response_data, data_len);
 			//puts the client response int a vector
-			std::vector<unsigned char> buf(client_response.begin(), client_response.end());
+			buffer buf(client_response.begin(), client_response.end());
 			
 			//make the info of the request 
-			std::vector<unsigned char> response;
+			buffer response;
 			RequestInfo info;
-			info.id = buf[0] - '0';
+			info.id = buf[0];
 			info.buffer = buf;
 			info.recival_time = time(nullptr);
 			
@@ -146,6 +145,10 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 				//handle requests 
 				RequestResult res = this->m_clients[clientSocket]->handleRequest(info);
 				response = res.buffer;
+
+				// switch to new handle
+				delete this->m_clients[clientSocket];
+				this->m_clients[clientSocket] = res.newHandler;
 			}
 			else
 			{
