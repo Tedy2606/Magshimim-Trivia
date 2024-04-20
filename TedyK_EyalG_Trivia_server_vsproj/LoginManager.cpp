@@ -1,29 +1,38 @@
 #include "LoginManager.h"
 
-void LoginManager::signup(string name, string password, string mail)
+LoginManager::LoginManager(IDataBase* database)
+{
+	this->m_database = database;
+}
+
+bool LoginManager::signup(string name, string password, string mail)
 {
 
 	if (!this->m_database->doesUserExist(name))
 	{
 		this->m_database->addNewUser(name, password, mail);
+
+		return true;
 	}
-	else
-	{
-		//throw error
-	}
+
+	return false;
 }
 
-void LoginManager::login(string name, string password)
+bool LoginManager::login(string name, string password)
 {
 	if (this->m_database->doesPasswordMatch(name, password))
 	{
 		LoggedUser user(name);
 		// add the user to the logged ones 
 		this->m_loggedUsers.push_back(user);
+
+		return true;
 	}
+
+	return false;
 }
 
-void LoginManager::logout(string name)
+bool LoginManager::logout(string name)
 {
 	
 
@@ -40,6 +49,8 @@ void LoginManager::logout(string name)
 	{
 		//removes from the vector
 		this->m_loggedUsers.erase(this->m_loggedUsers.begin() + count);
+
+		return true;
 	}
-	
+	return false;
 }

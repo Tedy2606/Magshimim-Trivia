@@ -54,7 +54,7 @@ bool SqliteDatabase::doesUserExist(std::string username)
         };
 
     char* errMessage = nullptr;
-    int res = sqlite3_exec(this->_db, ("SELECT * FROM users WHERE username=" + username + ";").c_str(), callback, &doesUserExist, &errMessage);
+    int res = sqlite3_exec(this->_db, ("SELECT * FROM users WHERE username='" + username + "';").c_str(), callback, &doesUserExist, &errMessage);
     if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 
     return doesUserExist;
@@ -70,7 +70,7 @@ bool SqliteDatabase::doesPasswordMatch(std::string username, std::string passwor
         };
 
     char* errMessage = nullptr;
-    int res = sqlite3_exec(this->_db, ("SELECT * FROM users WHERE username=" + username + " AND password=" + password + ";").c_str(), callback, &doesPasswordMatch, &errMessage);
+    int res = sqlite3_exec(this->_db, ("SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "';").c_str(), callback, &doesPasswordMatch, &errMessage);
     if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 
     return doesPasswordMatch;
@@ -83,7 +83,7 @@ bool SqliteDatabase::addNewUser(std::string username, std::string password, std:
         return false; // user with the username already exists
     }
 
-    std::string sqlQuery = "INSERT INTO users (username, password, email) VALUES ('" + username + ", " + password + ", " + email + "');";
+    std::string sqlQuery = "INSERT INTO users (username, password, email) VALUES ('" + username + "', '" + password + "', '" + email + "');";
     char* errMessage = nullptr;
     int res = sqlite3_exec(this->_db, sqlQuery.c_str(), nullptr, nullptr, &errMessage);
     if (res != SQLITE_OK)

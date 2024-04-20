@@ -37,7 +37,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
 {
     //make the data json 
     json data = {
-  {"status", response.err},
+  {"message", response.err},
     };
     
     return serializeResponseWithJson(data, ERROR_MSG_CODE);
@@ -55,9 +55,9 @@ buffer JsonResponsePacketSerializer::serializeResponse(LoginResponse response)
 
 buffer JsonResponsePacketSerializer::serializeResponse(SignupResponse response)
 {
-    //for now the result is the same so to cut in lines this is what weill be done (WILL BE CHANGED AFTER DATABASE)
-    LoginResponse loginRes;
-    loginRes.status = response.status;
+    json data = {
+  {"status", response.status},
+    };
 
-    return serializeResponse(loginRes);
+    return serializeResponseWithJson(data, SIGNUP_MSG_CODE);
 }
