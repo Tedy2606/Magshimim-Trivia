@@ -27,3 +27,15 @@ void Room::removeUser(LoggedUser user)
 		}
 	}
 }
+
+std::vector<string> Room::getAllUsers()
+{
+	std::vector<string> names;
+	//go over all of the users 
+	for (auto it : this->m_users)
+	{
+		names.push_back(it.GetUserName());
+	}
+
+	return names;
+}
