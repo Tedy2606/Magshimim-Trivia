@@ -10,7 +10,7 @@ void RoomManager::createRoom(LoggedUser user, RoomData data)
 
 void RoomManager::deleteRoom(int ID)
 {
-	//erase works by giving the keyval so this works 
+	//erase in map removes by keyval
 	this->m_rooms.erase(ID);
 }
 
