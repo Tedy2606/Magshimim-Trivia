@@ -16,6 +16,46 @@ struct SignupRequest
 	string password;
 	string email;
 };
+
+
+//ver 2
+struct GetPlayersInRoomRequest
+{
+	unsigned int roomID;
+};
+struct JoinRoomRequest
+{
+	unsigned int roomID;
+};
+
+
+struct CreateRoomRequest
+{
+	string roomName;
+	unsigned int maxUsers;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
+};
+
+
+//ver 2
+struct GetPlayersInRoomRequest
+{
+	unsigned int roomID;
+};
+struct JoinRoomRequest
+{
+	unsigned int roomID;
+};
+
+
+struct CreateRoomRequest
+{
+	string roomName;
+	unsigned int maxUsers;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
+};
 class JsonResponsePacketDeserializer
 {
 public:
