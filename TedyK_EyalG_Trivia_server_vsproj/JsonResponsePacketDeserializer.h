@@ -73,6 +73,14 @@ public:
 	* @return signupRequest - the signup request
 	**/
 	SignupRequest desirializeSignupRequest(std::vector<unsigned char> buffer);
+private:
+
+	/***
+	* gets an array of bytes and turns it into a json
+	* @params buffer - the array of bytes
+	* @return json - the array of bytes as a json
+	**/
+	json bufferToJson(std::vector<unsigned char> buffer);
 
 };
 
