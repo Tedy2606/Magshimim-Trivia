@@ -28,6 +28,17 @@ JoinRoomRequest JsonResponsePacketDeserializer::desirializeJoinRoomRequest(std::
     return request;
 }
 
+
+GetPlayersInRoomRequest JsonResponsePacketDeserializer::desirializeGetPlayersInRoomRequest(std::vector<unsigned char> buffer)
+{
+    json data_as_json = bufferToJson(buffer);
+    //make the request
+    GetPlayersInRoomRequest request;
+    request.roomID = data_as_json["roomID"];
+    return request;
+}
+
+
 LoginRequest JsonResponsePacketDeserializer::desirializeLoginRequest(std::vector<unsigned char> buffer)
 {
 
