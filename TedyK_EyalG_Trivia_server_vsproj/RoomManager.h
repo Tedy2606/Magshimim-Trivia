@@ -20,14 +20,14 @@ public:
 	* @param int ID - the id of the wanted room 
 	* @return none
 	**/
-	void deleteRoom(int ID);
+	void deleteRoom(int id);
 
 	/***
 	* function return the state that the room is in 
 	* @param int ID - the id of the wanted room 
 	* @return int - the state
 	**/
-	unsigned int getRoomState(int ID);
+	unsigned int getRoomState(int id);
 
 	/***
 	* function returns all rooms
@@ -40,7 +40,7 @@ public:
 	* @param int ID - the id of the room
 	* @return Room - the requested room 
 	**/
-	Room& getRoom(int ID);
+	Room& getRoom(int id);
 
 private:
 	std::map<int, Room> m_rooms;

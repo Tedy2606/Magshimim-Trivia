@@ -3,7 +3,7 @@
 Room::Room(RoomData data)
 {
 	this->m_metadata = data;
-	m_users = std::vector<LoggedUser>();
+	this->m_users = std::vector<LoggedUser>();
 }
 
 RoomData Room::getData() const
