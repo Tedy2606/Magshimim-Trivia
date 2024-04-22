@@ -14,9 +14,11 @@ void LoginManager::signup(string name, string password, string mail)
 		LoggedUser user(name);
 		// add the user to the logged ones 
 		this->m_loggedUsers.push_back(user);
-		return ;
 	}
-	throw std::runtime_error("error in signup, user already exists");
+	else
+	{
+		throw std::runtime_error("error in signup, user already exists");
+	}
 }
 
 void LoginManager::login(string name, string password)
@@ -26,11 +28,11 @@ void LoginManager::login(string name, string password)
 		LoggedUser user(name);
 		// add the user to the logged ones 
 		this->m_loggedUsers.push_back(user);
-
-		return;
 	}
-
-	throw std::runtime_error("error in login, username or password do not match");
+	else
+	{
+		throw std::runtime_error("error in login, username or password do not match");
+	}
 }
 
 void LoginManager::logout(string name)
@@ -50,8 +52,9 @@ void LoginManager::logout(string name)
 	{
 		//removes from the vector
 		this->m_loggedUsers.erase(this->m_loggedUsers.begin() + count);
-
-		return ;
 	}
-	throw std::runtime_error("error loggin out, user is not logged in");
+	else
+	{
+		throw std::runtime_error("error loggin out, user is not logged in");
+	}
 }
