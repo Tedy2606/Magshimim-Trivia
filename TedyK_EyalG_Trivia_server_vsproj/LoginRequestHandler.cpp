@@ -52,20 +52,26 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
     RequestResult result;
 
     // if login succeeded make an ok response
-    if (this->m_handlerFactory.getLoginManager().login(request.name, request.password)) // login
+    try
     {
+        this->m_handlerFactory.getLoginManager().login(request.name, request.password); // login
+
         response.status = OK_RESPONSE;
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+        result.buffer = seri.serializeResponse(response);
+
     }
-    else // login failed, make a bad response
+    catch (const std::exception& err) // login failed, make a bad response
     {
-        response.status = BAD_RESPONSE;
+        //make an error 
+        ErrorResponse error;
+        error.err = err.what();
+
+        //return to the login handler
         result.newHandler = this->m_handlerFactory.createLoginRequestHandler();
+        //send the error
+        result.buffer = seri.serializeResponse(error);
     }
-
-    // Serialize the response into the buffer
-    result.buffer = seri.serializeResponse(response);
-
     return result;
 }
 
@@ -84,19 +90,26 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
     RequestResult result;
 
     // if signup succeeded make an ok response
-    if (this->m_handlerFactory.getLoginManager().signup(request.name, request.password, request.email)) // signup
+    try
     {
+        this->m_handlerFactory.getLoginManager().signup(request.name, request.password, request.email); // signup
+        
         response.status = OK_RESPONSE;
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+        result.buffer = seri.serializeResponse(response);
+
     }
-    else // signup failed, make a bad response
+    catch(const std::exception& err) // signup failed, make a bad response
     {
-        response.status = BAD_RESPONSE;
+        //make an error 
+        ErrorResponse error;
+        error.err = err.what();
+
+        //return to the login handler
         result.newHandler = this->m_handlerFactory.createLoginRequestHandler();
+        //send the error
+        result.buffer = seri.serializeResponse(error);
     }
-
-    // Serialize the response into the buffer
-    result.buffer = seri.serializeResponse(response);
-
+    
     return result;
 }
