@@ -5,7 +5,7 @@ LoginManager::LoginManager(IDataBase* database)
 	this->m_database = database;
 }
 
-bool LoginManager::signup(string name, string password, string mail)
+void LoginManager::signup(string name, string password, string mail)
 {
 
 	if (!this->m_database->doesUserExist(name))
@@ -14,12 +14,12 @@ bool LoginManager::signup(string name, string password, string mail)
 		LoggedUser user(name);
 		// add the user to the logged ones 
 		this->m_loggedUsers.push_back(user);
-		return true;
+		return ;
 	}
-	return false;
+	throw std::runtime_error("error in signup, user already exists");
 }
 
-bool LoginManager::login(string name, string password)
+void LoginManager::login(string name, string password)
 {
 	if (this->m_database->doesPasswordMatch(name, password))
 	{
@@ -27,13 +27,13 @@ bool LoginManager::login(string name, string password)
 		// add the user to the logged ones 
 		this->m_loggedUsers.push_back(user);
 
-		return true;
+		return;
 	}
 
-	return false;
+	throw std::runtime_error("error in login, username or password do not match");
 }
 
-bool LoginManager::logout(string name)
+void LoginManager::logout(string name)
 {
 	
 
@@ -51,7 +51,7 @@ bool LoginManager::logout(string name)
 		//removes from the vector
 		this->m_loggedUsers.erase(this->m_loggedUsers.begin() + count);
 
-		return true;
+		return ;
 	}
-	return false;
+	throw std::runtime_error("error loggin out, user is not logged in");
 }

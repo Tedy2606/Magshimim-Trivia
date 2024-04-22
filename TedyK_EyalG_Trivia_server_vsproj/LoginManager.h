@@ -16,20 +16,20 @@ public:
 	* @param string mail - the mail of the user
 	* @return whether the function succeeded
 	**/
-	bool signup(string name, string password, string mail);
+	void signup(string name, string password, string mail);
 	/***
 	* logs a user in (adds him to the logged user vector)
 	* @param string name - the name of the user
 	* @param string password - the password of the user
 	* @return whether the function succeeded
 	**/
-	bool login(string name, string password);
+	void login(string name, string password);
 	/***
 	* logs a user out (removes him from the logged user vector)
 	* @param string name - the name of the user
 	* @return whether the function succeeded
 	**/
-	bool logout(string name);
+	void logout(string name);
 
 private:
 	std::vector<LoggedUser> m_loggedUsers;
