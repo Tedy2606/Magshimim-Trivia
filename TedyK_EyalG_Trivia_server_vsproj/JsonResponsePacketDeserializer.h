@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
-using std::string;
 #include "json.hpp"
+
+using std::string;
 using json = nlohmann::json;
 
 struct LoginRequest

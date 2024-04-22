@@ -11,10 +11,11 @@ bool LoginManager::signup(string name, string password, string mail)
 	if (!this->m_database->doesUserExist(name))
 	{
 		this->m_database->addNewUser(name, password, mail);
-
+		LoggedUser user(name);
+		// add the user to the logged ones 
+		this->m_loggedUsers.push_back(user);
 		return true;
 	}
-
 	return false;
 }
 
