@@ -8,16 +8,16 @@ void RoomManager::createRoom(LoggedUser user, RoomData data)
 	this->m_rooms.emplace(room.getData().id, room);
 }
 
-void RoomManager::deleteRoom(int ID)
+void RoomManager::deleteRoom(int id)
 {
 	//erase in map removes by keyval
-	this->m_rooms.erase(ID);
+	this->m_rooms.erase(id);
 }
 
-unsigned int RoomManager::getRoomState(int ID)
+unsigned int RoomManager::getRoomState(int id)
 {
 	//what is a state in terms of code? is the isActive field in data?
-	return this->m_rooms[ID].getData().isActive;
+	return this->m_rooms[id].getData().isActive;
 }
 
 std::vector<RoomData> RoomManager::getRooms()
@@ -31,7 +31,7 @@ std::vector<RoomData> RoomManager::getRooms()
 	return data;
 }
 
-Room& RoomManager::getRoom(int ID)
+Room& RoomManager::getRoom(int id)
 {
-	return this->m_rooms[ID];
+	return this->m_rooms[id];
 }
