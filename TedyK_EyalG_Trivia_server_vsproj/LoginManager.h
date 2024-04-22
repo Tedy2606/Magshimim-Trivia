@@ -14,20 +14,20 @@ public:
 	* @param string name - the name of the user
 	* @param string password - the password of the user
 	* @param string mail - the mail of the user
-	* @return whether the function succeeded
+	* @return none
 	**/
 	void signup(string name, string password, string mail);
 	/***
 	* logs a user in (adds him to the logged user vector)
 	* @param string name - the name of the user
 	* @param string password - the password of the user
-	* @return whether the function succeeded
+	* @return none
 	**/
 	void login(string name, string password);
 	/***
 	* logs a user out (removes him from the logged user vector)
 	* @param string name - the name of the user
-	* @return whether the function succeeded
+	* @return none
 	**/
 	void logout(string name);
 
