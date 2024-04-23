@@ -27,6 +27,23 @@ bool SqliteDatabase::open()
             std::cerr << "Failed to add table to the new database" << std::endl;
             return false;
         }
+
+        // create questions table
+        const char* sqlStatement2 = "CREATE TABLE IF NOT EXISTS questions("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            "question TEXT NOT NULL,"
+            "correctAnswer TEXT NOT NULL,"
+            "wrongAnswer1 TEXT NOT NULL,"
+            "wrongAnswer2 TEXT NOT NULL,"
+            "wrongAnswer3 TEXT NOT NULL);";
+
+        errMessage = nullptr;
+        res = sqlite3_exec(this->_db, sqlStatement2, nullptr, nullptr, &errMessage);
+        if (res != SQLITE_OK)
+        {
+            std::cerr << "Failed to add table to the new database" << std::endl;
+            return false;
+        }
     }
     return true;
 }
