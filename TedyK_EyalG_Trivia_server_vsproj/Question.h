@@ -5,6 +5,10 @@
 class Question
 {
 public:
+	// constructors
+	Question() = default;
+	Question(std::string question, std::vector<std::string> possibleAnswers);
+
 	/*
 	Getter of m_question field
 	@return m_question field
