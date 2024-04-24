@@ -27,6 +27,23 @@ bool SqliteDatabase::open()
             std::cerr << "Failed to add table to the new database" << std::endl;
             return false;
         }
+
+        // create questions table
+        const char* sqlStatement2 = "CREATE TABLE IF NOT EXISTS questions("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            "question TEXT NOT NULL,"
+            "correctAnswer TEXT NOT NULL,"
+            "wrongAnswer1 TEXT NOT NULL,"
+            "wrongAnswer2 TEXT NOT NULL,"
+            "wrongAnswer3 TEXT NOT NULL);";
+
+        errMessage = nullptr;
+        res = sqlite3_exec(this->_db, sqlStatement2, nullptr, nullptr, &errMessage);
+        if (res != SQLITE_OK)
+        {
+            std::cerr << "Failed to add table to the new database" << std::endl;
+            return false;
+        }
     }
     return true;
 }
@@ -93,4 +110,36 @@ bool SqliteDatabase::addNewUser(std::string username, std::string password, std:
     }
 
     return true;
+}
+
+std::list<Question> SqliteDatabase::getQuestions(int questionsNum)
+{
+    std::list<Question> questions;
+    auto callback = [](void* data, int argc, char** argv, char** azColName)
+        {
+            std::string question;
+            std::vector<std::string> possibleAnswers;
+
+            for (int i = 0; i < argc; i++)
+            {
+                if (std::string(azColName[i]) == "question")
+                {
+                    question = std::string(argv[i]);
+                }
+                // count how many times the current colum appears (if 1 it is the colum, if 0 it is not the colum (there are no other options))
+                else if (std::set<std::string>{"correctAnswer", "wrongAnswer1", "wrongAnswer2", "wrongAnswer3"}.count(std::string(azColName[i])))
+                {
+                    possibleAnswers.push_back(std::string(argv[i]));
+                }
+            }
+
+            ((std::list<Question>*)data)->push_back(Question(question, possibleAnswers));
+            return 0;
+        };
+
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("SELECT * FROM questions LIMIT " + std::to_string(questionsNum) + ";").c_str(), callback, &questions, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+
+    return questions;
 }
