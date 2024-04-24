@@ -126,10 +126,8 @@ std::list<Question> SqliteDatabase::getQuestions(int questionsNum)
                 {
                     question = std::string(argv[i]);
                 }
-                else if (std::string(azColName[i]) == "correctAnswer" || 
-                    std::string(azColName[i]) == "wrongAnswer1" ||
-                    std::string(azColName[i]) == "wrongAnswer2" ||
-                    std::string(azColName[i]) == "wrongAnswer3")
+                // count how many times the current colum appears (if 1 it is the colum, if 0 it is not the colum (there are no other options))
+                else if (std::set<std::string>{"correctAnswer", "wrongAnswer1", "wrongAnswer2", "wrongAnswer3"}.count(std::string(azColName[i])))
                 {
                     possibleAnswers.push_back(std::string(argv[i]));
                 }

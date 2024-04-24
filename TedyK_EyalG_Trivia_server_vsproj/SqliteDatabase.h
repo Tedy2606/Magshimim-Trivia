@@ -3,6 +3,7 @@
 #include "IDataBase.h"
 #include <iostream>
 #include <io.h>
+#include <set>
 
 #define DATABASE_PATH "database.sqlite"
 
