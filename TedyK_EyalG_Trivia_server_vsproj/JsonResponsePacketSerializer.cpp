@@ -112,3 +112,21 @@ buffer JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse 
     };
     return serializeResponseWithJson(data, GET_STATS_MSG_CODE);
 }
+
+buffer JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse response)
+{
+
+    json data = {
+  {"status", response.status},  {"statistics", response.statistics}
+    };
+    return serializeResponseWithJson(data, GET_HIGH_SCORE_MSG_CODE);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse response)
+{
+
+    json data = {
+  {"players", response.players},
+    };
+    return serializeResponseWithJson(data, GET_PLAYERS_IN_ROOM_MSG_CODE);
+}
