@@ -111,3 +111,37 @@ bool SqliteDatabase::addNewUser(std::string username, std::string password, std:
 
     return true;
 }
+
+std::list<Question> SqliteDatabase::getQuestions(int questionsNum)
+{
+    std::list<Question> questions;
+    auto callback = [](void* data, int argc, char** argv, char** azColName)
+        {
+            std::string question;
+            std::vector<std::string> possibleAnswers;
+
+            for (int i = 0; i < argc; i++)
+            {
+                if (std::string(azColName[i]) == "question")
+                {
+                    question = std::string(argv[i]);
+                }
+                else if (std::string(azColName[i]) == "correctAnswer" || 
+                    std::string(azColName[i]) == "wrongAnswer1" ||
+                    std::string(azColName[i]) == "wrongAnswer2" ||
+                    std::string(azColName[i]) == "wrongAnswer3")
+                {
+                    possibleAnswers.push_back(std::string(argv[i]));
+                }
+            }
+
+            ((std::list<Question>*)data)->push_back(Question(question, possibleAnswers));
+            return 0;
+        };
+
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("SELECT * FROM questions LIMIT " + std::to_string(questionsNum) + ";").c_str(), callback, &questions, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+
+    return questions;
+}

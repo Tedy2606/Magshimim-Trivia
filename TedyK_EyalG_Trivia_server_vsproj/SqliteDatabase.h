@@ -45,6 +45,13 @@ public:
 	*/
 	virtual bool addNewUser(std::string username, std::string password, std::string email) override;
 
+	/*
+	Method to get a list of questions from the database
+	@param questionsNum - number of records to select from the database
+	@return A list of questions
+	*/
+	virtual std::list<Question> getQuestions(int questionsNum) override;
+
 private:
 	sqlite3* _db;
 };
