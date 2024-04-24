@@ -1,8 +1,20 @@
 #include "JsonResponsePacketSerializer.h"
-#define ERROR_MSG_CODE 4
-#define SIGNUP_MSG_CODE 3
-#define LOGIN_MSG_CODE 2
-#define LENGHT_IN_BYTES 4
+#define ERROR_MSG_CODE 103
+#define SIGNUP_MSG_CODE 102
+#define LOGIN_MSG_CODE 101
+
+
+
+#define LOGOUT_MSG_CODE 104
+
+#define JOIN_ROOM_MSG_CODE 105
+#define CREATE_ROOM_MSG_CODE 106
+#define GET_STATS_MSG_CODE 107
+#define GET_HIGH_SCORE_MSG_CODE 110
+
+
+#define GET_PLAYERS_IN_ROOM_MSG_CODE 111
+#define GET_ROOMS_MSG_CODE 112
 
 buffer JsonResponsePacketSerializer::serializeResponseWithJson(json data, int code)
 {
@@ -61,3 +73,4 @@ buffer JsonResponsePacketSerializer::serializeResponse(SignupResponse response)
 
     return serializeResponseWithJson(data, SIGNUP_MSG_CODE);
 }
+
