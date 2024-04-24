@@ -130,3 +130,21 @@ buffer JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse 
     };
     return serializeResponseWithJson(data, GET_PLAYERS_IN_ROOM_MSG_CODE);
 }
+
+buffer JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response)
+{
+    //turn the struct into a string 
+    string rooms = "";
+    for (int i = 0; i < response.rooms.size(); i++)
+    {
+        rooms += response.rooms[i].name + ":" + std::to_string(response.rooms[i].id);
+        if (i != response.rooms.size() - 1)
+        {
+            rooms += ",";
+        }
+    }
+    json data = {
+  {"status", response.status},  {"rooms", rooms}
+    };
+    return serializeResponseWithJson(data, GET_ROOMS_MSG_CODE);
+}
