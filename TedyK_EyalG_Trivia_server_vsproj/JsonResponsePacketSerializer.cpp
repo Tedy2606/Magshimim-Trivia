@@ -94,3 +94,21 @@ buffer JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response
     };
     return serializeResponseWithJson(data, JOIN_ROOM_MSG_CODE);
 }
+
+buffer JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse response)
+{
+
+    json data = {
+  {"status", response.status},
+    };
+    return serializeResponseWithJson(data, CREATE_ROOM_MSG_CODE);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse response)
+{
+
+    json data = {
+  {"status", response.status}, {"statistics", response.statistics}
+    };
+    return serializeResponseWithJson(data, GET_STATS_MSG_CODE);
+}
