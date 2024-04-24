@@ -16,6 +16,9 @@
 #define GET_PLAYERS_IN_ROOM_MSG_CODE 111
 #define GET_ROOMS_MSG_CODE 112
 
+
+
+#define LENGHT_IN_BYTES 4
 buffer JsonResponsePacketSerializer::serializeResponseWithJson(json data, int code)
 {
     //make the buffer
@@ -74,3 +77,20 @@ buffer JsonResponsePacketSerializer::serializeResponse(SignupResponse response)
     return serializeResponseWithJson(data, SIGNUP_MSG_CODE);
 }
 
+buffer JsonResponsePacketSerializer::serializeResponse(LogoutResponse response)
+{
+
+    json data = {
+  {"status", response.status},
+    };
+    return serializeResponseWithJson(data, LOGOUT_MSG_CODE);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
+{
+
+    json data = {
+  {"status", response.status},
+    };
+    return serializeResponseWithJson(data, JOIN_ROOM_MSG_CODE);
+}
