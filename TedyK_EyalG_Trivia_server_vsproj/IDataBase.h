@@ -23,4 +23,5 @@ public:
 	virtual int getNumOfTotalAnswers(std::string username) = 0;
 	virtual int getNumOfCorrectAnswers(std::string username) = 0;
 	virtual float getPlayerAverageAnswerTime(std::string username) = 0;
+	virtual std::vector<std::string> getHighScores() = 0;
 };

@@ -88,6 +88,12 @@ public:
 	*/
 	virtual float getPlayerAverageAnswerTime(std::string username) override;
 
+	/*
+	Method returns the top 5 highest scores in the statistics table
+	@return a vector with the top 5 highest scores
+	*/
+	virtual std::vector<std::string> getHighScores() override;
+
 private:
 	sqlite3* _db;
 };

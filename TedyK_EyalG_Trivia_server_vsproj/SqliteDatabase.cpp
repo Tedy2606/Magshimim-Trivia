@@ -187,3 +187,8 @@ float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
 {
     return 0.0f;
 }
+
+std::vector<std::string> SqliteDatabase::getHighScores()
+{
+    return std::vector<std::string>();
+}
