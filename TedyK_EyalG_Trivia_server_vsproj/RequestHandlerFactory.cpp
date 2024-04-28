@@ -25,3 +25,8 @@ IDataBase* RequestHandlerFactory::getDatabase()
 {
     return this->m_database;
 }
+
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser user)
+{
+    return new MenuRequestHandler(*this, user);
+}
