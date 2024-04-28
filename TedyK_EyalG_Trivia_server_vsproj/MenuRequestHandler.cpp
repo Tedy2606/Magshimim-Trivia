@@ -32,3 +32,72 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 {
     return RequestResult();
 }
+
+
+
+RequestResult MenuRequestHandler::signout(RequestInfo info)
+{
+    JsonResponsePacketSerializer seri;
+
+
+    // ***Start making the response***
+    LogoutResponse response;
+    RequestResult result;
+
+    // if logout succeeded make an ok response
+    try
+    {
+        this->m_handlerFactory.getLoginManager().logout(this->m_user.GetUserName()); // logout
+
+        response.status = OK_RESPONSE;
+        result.newHandler = this->m_handlerFactory.createLoginRequestHandler();
+        result.buffer = seri.serializeResponse(response);
+
+    }
+    catch (const std::exception& err) // logout failed, make a bad response
+    {
+        //make an error 
+        ErrorResponse error;
+        error.err = err.what();
+
+        //return to the menu handler
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        //send the error
+        result.buffer = seri.serializeResponse(error);
+    }
+    return result;
+}
+
+RequestResult MenuRequestHandler::getRooms(RequestInfo info)
+{
+    JsonResponsePacketSerializer seri;
+
+
+    // ***Start making the response***
+    GetRoomsResponse response;
+    RequestResult result;
+
+    // if GetRooms succeeded make an ok response
+    try
+    {
+
+        response.rooms = this->m_handlerFactory.getRoomManagaer().getRooms(); // GetRooms
+
+        response.status = OK_RESPONSE;
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        result.buffer = seri.serializeResponse(response);
+
+    }
+    catch (const std::exception& err) // GetRooms failed, make a bad response
+    {
+        //make an error 
+        ErrorResponse error;
+        error.err = err.what();
+
+        //return to the menu handler
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        //send the error
+        result.buffer = seri.serializeResponse(error);
+    }
+    return result;
+}
