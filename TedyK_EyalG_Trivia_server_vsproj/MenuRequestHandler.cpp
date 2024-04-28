@@ -3,16 +3,16 @@
 #include "JsonResponsePacketSerializer.h"
 #include "JsonResponsePacketDeserializer.h"
 
-#define LOGOUT_MSG_CODE 104
+#define LOGOUT_MSG_REQ 111
 
-#define JOIN_ROOM_MSG_CODE 105
-#define CREATE_ROOM_MSG_CODE 106
-#define GET_STATS_MSG_CODE 107
-#define GET_HIGH_SCORE_MSG_CODE 108
+#define JOIN_ROOM_MSG_REQ 112
+#define CREATE_ROOM_MSG_REQ 113
+#define GET_STATS_MSG_REQ 114
+#define GET_HIGH_SCORE_MSG_REQ 115
 
 
-#define GET_PLAYERS_IN_ROOM_MSG_CODE 109
-#define GET_ROOMS_MSG_CODE 110
+#define GET_PLAYERS_IN_ROOM_MSG_REQ 116
+#define GET_ROOMS_MSG_REQ 117
 
 
 #define OK_RESPONSE 1
@@ -21,18 +21,50 @@ MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handlerFactory, Lo
     : m_handlerFactory(handlerFactory), m_user(user)
 {
 }
-
-
 bool MenuRequestHandler::isRequestRelevant(RequestInfo info)
 {
-    return false;
+    return info.id == LOGOUT_MSG_REQ ||
+        info.id == JOIN_ROOM_MSG_REQ ||
+        info.id == CREATE_ROOM_MSG_REQ ||
+        info.id == GET_STATS_MSG_REQ ||
+        info.id == GET_HIGH_SCORE_MSG_REQ ||
+        info.id == GET_PLAYERS_IN_ROOM_MSG_REQ ||
+        info.id == GET_ROOMS_MSG_REQ;
 }
 
 RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 {
-    return RequestResult();
-}
+    RequestResult result;
 
+    switch (info.id)
+    {
+    case LOGOUT_MSG_REQ:
+        result = signout(info);
+        break;
+
+    case JOIN_ROOM_MSG_REQ:
+        result = getRooms(info);
+        break;
+    case CREATE_ROOM_MSG_REQ:
+        result = getPlayersInRoom(info);
+        break;
+    case GET_STATS_MSG_REQ:
+        /*result = getPersonalStats(info);*/
+        break;
+    case GET_HIGH_SCORE_MSG_REQ:
+        /*result = getHighScore(info);*/
+        break;
+    case GET_PLAYERS_IN_ROOM_MSG_REQ:
+        result = joinRoom(info);
+        break;
+    case GET_ROOMS_MSG_REQ:
+        result = createRoom(info);
+        break;
+
+    }
+
+    return result;
+}
 
 
 RequestResult MenuRequestHandler::signout(RequestInfo info)

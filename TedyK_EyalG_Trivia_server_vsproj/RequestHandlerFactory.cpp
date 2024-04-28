@@ -33,5 +33,5 @@ RoomManager& RequestHandlerFactory::getRoomManagaer()
 
 StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 {
-    return m_statisticsManager;
+    return this->m_statisticsManager;
 }
