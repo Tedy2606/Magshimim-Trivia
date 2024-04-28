@@ -78,27 +78,14 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
     RequestResult result;
 
     // if GetRooms succeeded make an ok response
-    try
-    {
 
-        response.rooms = this->m_handlerFactory.getRoomManagaer().getRooms(); // GetRooms
+    response.rooms = this->m_handlerFactory.getRoomManagaer().getRooms(); // GetRooms
 
-        response.status = OK_RESPONSE;
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-        result.buffer = seri.serializeResponse(response);
-
-    }
-    catch (const std::exception& err) // GetRooms failed, make a bad response
-    {
-        //make an error 
-        ErrorResponse error;
-        error.err = err.what();
-
-        //return to the menu handler
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-        //send the error
-        result.buffer = seri.serializeResponse(error);
-    }
+    response.status = OK_RESPONSE;
+    result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+    result.buffer = seri.serializeResponse(response);
+    //no need to check for errors since the are no possible errors
+    //(assumiong that there being no rooms is not an error)
     return result;
 }
 RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
@@ -116,24 +103,11 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
     RequestResult result;
 
     // if get Players In Room succeeded make an ok response
-    try
-    {
-        response.players = this->m_handlerFactory.getRoomManagaer().getRoom(request.roomID).getAllUsers(); // get Players In Room
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-        result.buffer = seri.serializeResponse(response);
 
-    }
-    catch (const std::exception& err) // get Players In Room failed, make a bad response
-    {
-        //make an error 
-        ErrorResponse error;
-        error.err = err.what();
-
-        //return to the menu handler
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-        //send the error
-        result.buffer = seri.serializeResponse(error);
-    }
+    response.players = this->m_handlerFactory.getRoomManagaer().getRoom(request.roomID).getAllUsers(); // get Players In Room
+    result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+    result.buffer = seri.serializeResponse(response);
+    //no need to check for errors since the are no possible errors
     return result;
 }
 
