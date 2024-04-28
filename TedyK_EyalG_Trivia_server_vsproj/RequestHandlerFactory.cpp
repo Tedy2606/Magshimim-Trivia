@@ -11,9 +11,9 @@ LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
     return new LoginRequestHandler(*this);
 }
 
-MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler()
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser user)
 {
-    return new MenuRequestHandler(*this);
+    return new MenuRequestHandler(*this, user);
 }
 
 LoginManager& RequestHandlerFactory::getLoginManager()
@@ -24,11 +24,6 @@ LoginManager& RequestHandlerFactory::getLoginManager()
 IDataBase* RequestHandlerFactory::getDatabase()
 {
     return this->m_database;
-}
-
-MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser user)
-{
-    return new MenuRequestHandler(*this, user);
 }
 
 RoomManager& RequestHandlerFactory::getRoomManagaer()
