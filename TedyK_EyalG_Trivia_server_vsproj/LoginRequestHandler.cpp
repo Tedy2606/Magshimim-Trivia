@@ -33,7 +33,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
         result = signup(info);
         break;
     }
-    
+
     return result;
 }
 
@@ -45,7 +45,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
     // ***Process the info***
     // deserialize the info into a login request
     LoginRequest request = desi.desirializeLoginRequest(info.buffer);
-    
+
 
     // ***Start making the response***
     LoginResponse response;
@@ -55,9 +55,9 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
     try
     {
         this->m_handlerFactory.getLoginManager().login(request.name, request.password); // login
-
+        LoggedUser user(request.name);
         response.status = OK_RESPONSE;
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(user);
         result.buffer = seri.serializeResponse(response);
 
     }
@@ -93,13 +93,13 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
     try
     {
         this->m_handlerFactory.getLoginManager().signup(request.name, request.password, request.email); // signup
-        
+        LoggedUser user(request.name);
         response.status = OK_RESPONSE;
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(user);
         result.buffer = seri.serializeResponse(response);
 
     }
-    catch(const std::exception& err) // signup failed, make a bad response
+    catch (const std::exception& err) // signup failed, make a bad response
     {
         //make an error 
         ErrorResponse error;
@@ -110,6 +110,6 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
         //send the error
         result.buffer = seri.serializeResponse(error);
     }
-    
+
     return result;
 }

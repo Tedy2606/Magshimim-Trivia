@@ -16,7 +16,7 @@ void RoomManager::deleteRoom(int id)
 
 unsigned int RoomManager::getRoomState(int id)
 {
-	//what is a state in terms of code? is the isActive field in data?
+	
 	return this->m_rooms[id].getData().isActive;
 }
 

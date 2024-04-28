@@ -1,5 +1,5 @@
 #include "Room.h"
-
+#include <stdexcept>
 Room::Room(RoomData data)
 {
 	this->m_metadata = data;
@@ -13,12 +13,17 @@ RoomData Room::getData() const
 
 void Room::addUser(LoggedUser user)
 {
+	if (this->m_metadata.maxPlayers == this->m_users.size())
+	{
+		throw std::runtime_error("error in signup, user already exists");
+	}
 	this->m_users.push_back(user);
 }
 
 void Room::removeUser(LoggedUser user)
 {
 	//go over all of the rooms andd erase the given one 
+	
 	for (auto it = this->m_users.begin(); it != this->m_users.end(); it++)
 	{
 		if (it->GetUserName() == user.GetUserName()) {
@@ -26,6 +31,7 @@ void Room::removeUser(LoggedUser user)
 			break;
 		}
 	}
+	
 }
 
 std::vector<string> Room::getAllUsers()

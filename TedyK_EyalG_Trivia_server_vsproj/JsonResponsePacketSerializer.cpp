@@ -5,16 +5,16 @@
 
 
 
-#define LOGOUT_MSG_CODE 104
+#define LOGOUT_MSG_REQ 104
 
-#define JOIN_ROOM_MSG_CODE 105
-#define CREATE_ROOM_MSG_CODE 106
-#define GET_STATS_MSG_CODE 107
-#define GET_HIGH_SCORE_MSG_CODE 110
+#define JOIN_ROOM_MSG_REQ 105
+#define CREATE_ROOM_MSG_REQ 106
+#define GET_STATS_MSG_REQ 107
+#define GET_HIGH_SCORE_MSG_REQ 110
 
 
-#define GET_PLAYERS_IN_ROOM_MSG_CODE 111
-#define GET_ROOMS_MSG_CODE 112
+#define GET_PLAYERS_IN_ROOM_MSG_REQ 111
+#define GET_ROOMS_MSG_REQ 112
 
 
 
@@ -83,7 +83,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(LogoutResponse response)
     json data = {
   {"status", response.status},
     };
-    return serializeResponseWithJson(data, LOGOUT_MSG_CODE);
+    return serializeResponseWithJson(data, LOGOUT_MSG_REQ);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
@@ -92,7 +92,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response
     json data = {
   {"status", response.status},
     };
-    return serializeResponseWithJson(data, JOIN_ROOM_MSG_CODE);
+    return serializeResponseWithJson(data, JOIN_ROOM_MSG_REQ);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse response)
@@ -101,7 +101,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse respon
     json data = {
   {"status", response.status},
     };
-    return serializeResponseWithJson(data, CREATE_ROOM_MSG_CODE);
+    return serializeResponseWithJson(data, CREATE_ROOM_MSG_REQ);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse response)
@@ -110,7 +110,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse 
     json data = {
   {"status", response.status}, {"statistics", response.statistics}
     };
-    return serializeResponseWithJson(data, GET_STATS_MSG_CODE);
+    return serializeResponseWithJson(data, GET_STATS_MSG_REQ);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse response)
@@ -119,7 +119,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse resp
     json data = {
   {"status", response.status},  {"statistics", response.statistics}
     };
-    return serializeResponseWithJson(data, GET_HIGH_SCORE_MSG_CODE);
+    return serializeResponseWithJson(data, GET_HIGH_SCORE_MSG_REQ);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse response)
@@ -128,7 +128,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse 
     json data = {
   {"players", response.players},
     };
-    return serializeResponseWithJson(data, GET_PLAYERS_IN_ROOM_MSG_CODE);
+    return serializeResponseWithJson(data, GET_PLAYERS_IN_ROOM_MSG_REQ);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response)
@@ -146,5 +146,5 @@ buffer JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response
     json data = {
   {"status", response.status},  {"rooms", rooms}
     };
-    return serializeResponseWithJson(data, GET_ROOMS_MSG_CODE);
+    return serializeResponseWithJson(data, GET_ROOMS_MSG_REQ);
 }
