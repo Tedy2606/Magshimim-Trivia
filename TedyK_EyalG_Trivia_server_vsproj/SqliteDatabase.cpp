@@ -165,7 +165,18 @@ std::list<Question> SqliteDatabase::getQuestions(int questionsNum)
 
 float SqliteDatabase::getPlayerScore(std::string username)
 {
-    return 0.0f;
+    float score = 0;
+    auto callback = [](void* data, int argc, char** argv, char** azColName)
+        {
+            *(float*)data = std::atof(argv[0]); // select first column's value which is the score since we only selected the score
+            return 0;
+        };
+
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("SELECT score FROM statistics WHERE userID=(SELECT id FROM users WHERE username='" + username + "');").c_str(), callback, &score, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+
+    return score;
 }
 
 int SqliteDatabase::getNumOfPlayerGames(std::string username)
