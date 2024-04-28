@@ -101,3 +101,38 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
     }
     return result;
 }
+RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
+{
+    JsonResponsePacketSerializer seri;
+    JsonResponsePacketDeserializer desi;
+
+    // ***Process the info***
+    // deserialize the info into a get Players In Room request
+    GetPlayersInRoomRequest request = desi.desirializeGetPlayersInRoomRequest(info.buffer);
+
+
+    // ***Start making the response***
+    GetPlayersInRoomResponse response;
+    RequestResult result;
+
+    // if get Players In Room succeeded make an ok response
+    try
+    {
+        response.players = this->m_handlerFactory.getRoomManagaer().getRoom(request.roomID).getAllUsers(); // get Players In Room
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        result.buffer = seri.serializeResponse(response);
+
+    }
+    catch (const std::exception& err) // get Players In Room failed, make a bad response
+    {
+        //make an error 
+        ErrorResponse error;
+        error.err = err.what();
+
+        //return to the menu handler
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        //send the error
+        result.buffer = seri.serializeResponse(error);
+    }
+    return result;
+}
