@@ -162,3 +162,28 @@ std::list<Question> SqliteDatabase::getQuestions(int questionsNum)
 
     return questions;
 }
+
+float SqliteDatabase::getPlayerScore(std::string username)
+{
+    return 0.0f;
+}
+
+int SqliteDatabase::getNumOfPlayerGames(std::string username)
+{
+    return 0;
+}
+
+int SqliteDatabase::getNumOfTotalAnswers(std::string username)
+{
+    return 0;
+}
+
+int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
+{
+    return 0;
+}
+
+float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
+{
+    return 0.0f;
+}
