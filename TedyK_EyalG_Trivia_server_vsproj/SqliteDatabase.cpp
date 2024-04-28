@@ -44,6 +44,25 @@ bool SqliteDatabase::open()
             std::cerr << "Failed to add table to the new database" << std::endl;
             return false;
         }
+
+        // create statistics table
+        const char* sqlStatement3 = "CREATE TABLE IF NOT EXISTS statistics("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            "score REAL NOT NULL,"
+            "games INTEGER NOT NULL,"
+            "totalAnswers INTEGER NOT NULL,"
+            "correctAnswers INTEGER NOT NULL,"
+            "totalAnswerTime INTEGER NOT NULL,"
+            "userID INTEGER NOT NULL,"
+            "FOREIGN KEY(userID) REFERENCES users(id));";
+
+        errMessage = nullptr;
+        res = sqlite3_exec(this->_db, sqlStatement3, nullptr, nullptr, &errMessage);
+        if (res != SQLITE_OK)
+        {
+            std::cerr << "Failed to add table to the new database" << std::endl;
+            return false;
+        }
     }
     return true;
 }
