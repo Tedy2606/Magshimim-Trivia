@@ -44,6 +44,25 @@ bool SqliteDatabase::open()
             std::cerr << "Failed to add table to the new database" << std::endl;
             return false;
         }
+
+        // create statistics table
+        const char* sqlStatement3 = "CREATE TABLE IF NOT EXISTS statistics("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            "score REAL NOT NULL,"
+            "games INTEGER NOT NULL,"
+            "totalAnswers INTEGER NOT NULL,"
+            "correctAnswers INTEGER NOT NULL,"
+            "totalAnswerTime INTEGER NOT NULL,"
+            "userID INTEGER NOT NULL,"
+            "FOREIGN KEY(userID) REFERENCES users(id));";
+
+        errMessage = nullptr;
+        res = sqlite3_exec(this->_db, sqlStatement3, nullptr, nullptr, &errMessage);
+        if (res != SQLITE_OK)
+        {
+            std::cerr << "Failed to add table to the new database" << std::endl;
+            return false;
+        }
     }
     return true;
 }
@@ -142,4 +161,114 @@ std::list<Question> SqliteDatabase::getQuestions(int questionsNum)
     if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 
     return questions;
+}
+
+float SqliteDatabase::getPlayerScore(std::string username)
+{
+    float score = 0;
+    auto callback = [](void* data, int argc, char** argv, char** azColName)
+        {
+            *(float*)data = std::atof(argv[0]); // select first column's value which is the score since we only selected the score
+            return 0;
+        };
+
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("SELECT score FROM statistics WHERE userID=(SELECT id FROM users WHERE username='" + username + "');").c_str(), callback, &score, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+
+    return score;
+}
+
+int SqliteDatabase::getNumOfPlayerGames(std::string username)
+{
+    int playerGames = 0;
+    auto callback = [](void* data, int argc, char** argv, char** azColName)
+        {
+            *(int*)data = std::atoi(argv[0]); // select first column's value which is the num of games since we only selected the score
+            return 0;
+        };
+
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("SELECT games FROM statistics WHERE userID=(SELECT id FROM users WHERE username='" + username + "');").c_str(), callback, &playerGames, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+
+    return playerGames;
+}
+
+int SqliteDatabase::getNumOfTotalAnswers(std::string username)
+{
+    int totalAnswers = 0;
+    auto callback = [](void* data, int argc, char** argv, char** azColName)
+        {
+            *(int*)data = std::atoi(argv[0]); // select first column's value which is the num of total answers since we only selected the score
+            return 0;
+        };
+
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("SELECT totalAnswers FROM statistics WHERE userID=(SELECT id FROM users WHERE username='" + username + "');").c_str(), callback, &totalAnswers, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+
+    return totalAnswers;
+}
+
+int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
+{
+    int correctAnswers = 0;
+    auto callback = [](void* data, int argc, char** argv, char** azColName)
+        {
+            *(int*)data = std::atoi(argv[0]); // select first column's value which is the num of correct answers since we only selected the score
+            return 0;
+        };
+
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("SELECT correctAnswers FROM statistics WHERE userID=(SELECT id FROM users WHERE username='" + username + "');").c_str(), callback, &correctAnswers, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+
+    return correctAnswers;
+}
+
+float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
+{
+    int totalAnswerTime = 0;
+    auto callback = [](void* data, int argc, char** argv, char** azColName)
+        {
+            *(int*)data = std::atoi(argv[0]); // select first column's value which is the totalAnswerTime since we only selected the score
+            return 0;
+        };
+
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("SELECT totalAnswerTime FROM statistics WHERE userID=(SELECT id FROM users WHERE username='" + username + "');").c_str(), callback, &totalAnswerTime, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+
+    // return the average answer time
+    return (float)totalAnswerTime / this->getNumOfTotalAnswers(username);
+}
+
+std::vector<std::string> SqliteDatabase::getHighScores()
+{
+    std::vector<std::string> highScores;
+    auto callback = [](void* data, int argc, char** argv, char** azColName)
+        {
+            std::string score = "";
+            for (int i = 0; i < argc; i++)
+            {
+                if (std::string(azColName[i]) == "username")
+                {
+                    score += std::string(argv[i]) + ": ";
+                }
+                else if (std::string(azColName[i]) == "score")
+                {
+                    score += std::string(argv[i]);
+                }
+            }
+
+            ((std::vector<std::string>*)data)->push_back(score);
+            return 0;
+        };
+
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, "SELECT users.username, statistics.score FROM statistics INNER JOIN users ON users.id = statistics.userID ORDER BY score DESC LIMIT 5;", callback, &highScores, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+
+    return highScores;
 }
