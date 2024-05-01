@@ -9,20 +9,20 @@
 #include "SqliteDatabase.h"
 #include "RequestHandlerFactory.h"
 #include <map>
-
-
+#include <mutex>
 
 class Server
 {
 public:
-	Server();
-	~Server();
-
-	void run();
+    ~Server();
+    static Server& getInstance();
+    Server(const Server& obj) = delete;
+    void run();
 
 private:
-	IDataBase* m_database;
-	RequestHandlerFactory m_handlerFactory;
-	Communicator m_communicator;
+    Server();
+    static Server* instance;
+    IDataBase* m_database;
+    RequestHandlerFactory m_handlerFactory;
+    Communicator& m_communicator;
 };
-

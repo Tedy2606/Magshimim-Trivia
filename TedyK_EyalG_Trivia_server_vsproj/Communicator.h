@@ -14,7 +14,7 @@
 class Communicator
 {
 public:
-	Communicator(RequestHandlerFactory& handlerFactory);
+	
 	~Communicator();
 
 	/***
@@ -23,7 +23,22 @@ public:
 	**/
 	void startHandleRequests();
 
+
+	/*
+	funciton returns the only instance of the Communicator, if there isnt one then it makes one
+	@return a pointer to the instance of the Communicator
+	*/
+	static Communicator& getInstance(RequestHandlerFactory& handlerFactory);
+	Communicator(const Communicator& obj) //delete anything that tries to be copied
+		= delete;
+
+
+
+
 private:
+	Communicator(RequestHandlerFactory& handlerFactory);
+
+
 	//this function is for easier readabilty of the code
 	//bind and listen can be merged into it  
 	void clientAccepter();
@@ -60,7 +75,7 @@ private:
 	* @return none 
 	**/
 	void sendData(SOCKET sc, std::string message);
-
+	static Communicator* instance;
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	SOCKET m_serverSocket;
 	RequestHandlerFactory& m_handlerFactory;

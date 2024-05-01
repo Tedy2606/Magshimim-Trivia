@@ -15,7 +15,7 @@ using std::cout;
 using std::endl;
 
 
-
+Communicator* Communicator::instance = nullptr; // Definition of the static member variable
 Communicator::Communicator(RequestHandlerFactory& handlerFactory)
 	: m_handlerFactory(handlerFactory)
 {
@@ -61,6 +61,17 @@ void Communicator::startHandleRequests()
 
 	}
 
+}
+
+Communicator& Communicator::getInstance(RequestHandlerFactory& handlerFactory)
+{
+	static std::mutex mutex;
+	std::lock_guard<std::mutex> lock(mutex);
+
+	if (instance == nullptr) {
+		instance = new Communicator(handlerFactory);
+	}
+	return *instance;
 }
 
 

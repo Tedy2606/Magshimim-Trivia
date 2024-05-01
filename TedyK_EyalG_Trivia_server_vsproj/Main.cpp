@@ -8,7 +8,7 @@ int main()
 	{
 
 		WSAInitializer wsaInit;
-		Server server;
+		Server& server = Server::getInstance();
 		//run the server
 		server.run();
 	}
