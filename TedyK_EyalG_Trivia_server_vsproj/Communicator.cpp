@@ -15,6 +15,7 @@ using std::cout;
 using std::endl;
 
 
+
 Communicator::Communicator(RequestHandlerFactory& handlerFactory)
 	: m_handlerFactory(handlerFactory)
 {

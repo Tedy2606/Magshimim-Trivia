@@ -36,6 +36,9 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 {
     RequestResult result;
 
+	// create a lock guard
+    std::lock_guard<std::mutex> lock(this->m_menuMutex);
+
     switch (info.id)
     {
     case LOGOUT_MSG_REQ:

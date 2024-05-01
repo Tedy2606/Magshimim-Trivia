@@ -23,6 +23,9 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
     RequestResult result;
 
+    // create a lock guard
+    std::lock_guard<std::mutex> lock(this->m_loginMutex);
+
     switch (info.id)
     {
     case LOGIN_REQ:
