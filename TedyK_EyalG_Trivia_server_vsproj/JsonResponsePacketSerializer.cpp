@@ -170,7 +170,13 @@ buffer JsonResponsePacketSerializer::serializeResponse(StartGameResponse respons
 
 buffer JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
 {
-    return buffer();
+    json data = {
+   {"status", response.status},  {"answerTimeout", response.answerTimeout}
+   ,  {"hasGameBegun", response.hasGameBegun}
+   ,  {"players", response.players}
+   ,  {"questionCount", response.questionCount}
+    };
+    return serializeResponseWithJson(data, GET_ROOM_STATS_REQ);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
