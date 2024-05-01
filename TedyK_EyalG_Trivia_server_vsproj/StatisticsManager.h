@@ -5,6 +5,8 @@
 class StatisticsManager
 {
 public:
+    StatisticsManager(IDataBase* database);
+
 	/*
 	A method to return the high scores in the database
 	@return 5 highest scores from the database

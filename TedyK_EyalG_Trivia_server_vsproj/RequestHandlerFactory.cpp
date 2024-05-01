@@ -1,7 +1,7 @@
 #include "RequestHandlerFactory.h"
 
 RequestHandlerFactory::RequestHandlerFactory(IDataBase* database)
-    : m_loginManager(database)
+    : m_loginManager(database), m_statisticsManager(database), m_roomManager()
 {
     this->m_database = database;
 }

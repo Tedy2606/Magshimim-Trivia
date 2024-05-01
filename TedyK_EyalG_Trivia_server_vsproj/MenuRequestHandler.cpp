@@ -49,10 +49,10 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
         result = getPlayersInRoom(info);
         break;
     case GET_STATS_MSG_REQ:
-        /*result = getPersonalStats(info);*/
+        result = getPersonalStats(info);
         break;
     case GET_HIGH_SCORE_MSG_REQ:
-        /*result = getHighScore(info);*/
+        result = getHighScore(info);
         break;
     case GET_PLAYERS_IN_ROOM_MSG_REQ:
         result = joinRoom(info);
@@ -144,69 +144,69 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 }
 
 //
-//RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
-//{
-//    JsonResponsePacketSerializer seri;
-//
-//    // ***Start making the response***
-//    GetPersonalStatsResponse response;
-//    RequestResult result;
-//
-//    // if get stats succeeded make an ok response
-//    try
-//    {
-//        response.statistics = this->m_handlerFactory.getStatisticsManager().getUserStatistics(this->m_user.GetUserName()); // get stats
-//
-//        response.status = OK_RESPONSE;
-//        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-//        result.buffer = seri.serializeResponse(response);
-//
-//    }
-//    catch (const std::exception& err) // get stats failed, make a bad response
-//    {
-//        //make an error 
-//        ErrorResponse error;
-//        error.err = err.what();
-//
-//        //return to the menu handler
-//        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-//        //send the error
-//        result.buffer = seri.serializeResponse(error);
-//    }
-//    return result;
-//}
-//
-//RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
-//{
-//    JsonResponsePacketSerializer seri;
-//
-//    // ***Start making the response***
-//    GetHighScoreResponse response;
-//    RequestResult result;
-//
-//    // if get high score succeeded make an ok response
-//    try
-//    {
-//        response.statistics = this->m_handlerFactory.getStatisticsManager().getHighScore(); // get high score
-//
-//        response.status = OK_RESPONSE;
-//        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-//        result.buffer = seri.serializeResponse(response);
-//
-//    }
-//    catch (const std::exception& err) // get high score failed, make a bad response
-//    {
-//        //make an error 
-//        ErrorResponse error;
-//        error.err = err.what();
-//
-//        //return to the menu handler
-//        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-//        //send the error
-//        result.buffer = seri.serializeResponse(error);
-//    }
-//    return result;
-//}
+RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
+{
+    JsonResponsePacketSerializer seri;
+
+    // ***Start making the response***
+    GetPersonalStatsResponse response;
+    RequestResult result;
+
+    // if get stats succeeded make an ok response
+    try
+    {
+        response.statistics = this->m_handlerFactory.getStatisticsManager().getUserStatistics(this->m_user.GetUserName()); // get stats
+
+        response.status = OK_RESPONSE;
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        result.buffer = seri.serializeResponse(response);
+
+    }
+    catch (const std::exception& err) // get stats failed, make a bad response
+    {
+        //make an error 
+        ErrorResponse error;
+        error.err = err.what();
+
+        //return to the menu handler
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        //send the error
+        result.buffer = seri.serializeResponse(error);
+    }
+    return result;
+}
+
+RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
+{
+    JsonResponsePacketSerializer seri;
+
+    // ***Start making the response***
+    GetHighScoreResponse response;
+    RequestResult result;
+
+    // if get high score succeeded make an ok response
+    try
+    {
+        response.statistics = this->m_handlerFactory.getStatisticsManager().getHighScore(); // get high score
+
+        response.status = OK_RESPONSE;
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        result.buffer = seri.serializeResponse(response);
+
+    }
+    catch (const std::exception& err) // get high score failed, make a bad response
+    {
+        //make an error 
+        ErrorResponse error;
+        error.err = err.what();
+
+        //return to the menu handler
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        //send the error
+        result.buffer = seri.serializeResponse(error);
+    }
+    return result;
+}
 
 
 RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
