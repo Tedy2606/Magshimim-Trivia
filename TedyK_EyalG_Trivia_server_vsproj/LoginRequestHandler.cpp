@@ -23,6 +23,9 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
     RequestResult result;
 
+    // create a lock guard
+    std::lock_guard<std::mutex> lock(this->m_loginMutex);
+
     switch (info.id)
     {
     case LOGIN_REQ:
@@ -33,7 +36,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
         result = signup(info);
         break;
     }
-    
+
     return result;
 }
 
@@ -45,27 +48,33 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
     // ***Process the info***
     // deserialize the info into a login request
     LoginRequest request = desi.desirializeLoginRequest(info.buffer);
-    
+
 
     // ***Start making the response***
     LoginResponse response;
     RequestResult result;
 
     // if login succeeded make an ok response
-    if (this->m_handlerFactory.getLoginManager().login(request.name, request.password)) // login
+    try
     {
+        this->m_handlerFactory.getLoginManager().login(request.name, request.password); // login
+        LoggedUser user(request.name);
         response.status = OK_RESPONSE;
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(user);
+        result.buffer = seri.serializeResponse(response);
+
     }
-    else // login failed, make a bad response
+    catch (const std::exception& err) // login failed, make a bad response
     {
-        response.status = BAD_RESPONSE;
+        //make an error 
+        ErrorResponse error;
+        error.err = err.what();
+
+        //return to the login handler
         result.newHandler = this->m_handlerFactory.createLoginRequestHandler();
+        //send the error
+        result.buffer = seri.serializeResponse(error);
     }
-
-    // Serialize the response into the buffer
-    result.buffer = seri.serializeResponse(response);
-
     return result;
 }
 
@@ -84,19 +93,26 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
     RequestResult result;
 
     // if signup succeeded make an ok response
-    if (this->m_handlerFactory.getLoginManager().signup(request.name, request.password, request.email)) // signup
+    try
     {
+        this->m_handlerFactory.getLoginManager().signup(request.name, request.password, request.email); // signup
+        LoggedUser user(request.name);
         response.status = OK_RESPONSE;
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler();
-    }
-    else // signup failed, make a bad response
-    {
-        response.status = BAD_RESPONSE;
-        result.newHandler = this->m_handlerFactory.createLoginRequestHandler();
-    }
+        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(user);
+        result.buffer = seri.serializeResponse(response);
 
-    // Serialize the response into the buffer
-    result.buffer = seri.serializeResponse(response);
+    }
+    catch (const std::exception& err) // signup failed, make a bad response
+    {
+        //make an error 
+        ErrorResponse error;
+        error.err = err.what();
+
+        //return to the login handler
+        result.newHandler = this->m_handlerFactory.createLoginRequestHandler();
+        //send the error
+        result.buffer = seri.serializeResponse(error);
+    }
 
     return result;
 }

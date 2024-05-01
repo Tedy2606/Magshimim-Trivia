@@ -1,6 +1,7 @@
 #pragma once
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
+#include <mutex>
 
 class RequestHandlerFactory;
 
@@ -42,4 +43,5 @@ private:
 
 	// fields
 	RequestHandlerFactory& m_handlerFactory;
+	std::mutex m_loginMutex;
 };
