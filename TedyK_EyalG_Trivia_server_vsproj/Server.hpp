@@ -21,7 +21,7 @@ public:
 
 private:
     Server();
-    static Server* instance;
+    static Server* m_instance;
     IDataBase* m_database;
     RequestHandlerFactory m_handlerFactory;
     Communicator& m_communicator;

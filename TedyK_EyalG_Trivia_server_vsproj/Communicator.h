@@ -75,7 +75,7 @@ private:
 	* @return none 
 	**/
 	void sendData(SOCKET sc, std::string message);
-	static Communicator* instance;
+	static Communicator* m_instance;
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	SOCKET m_serverSocket;
 	RequestHandlerFactory& m_handlerFactory;

@@ -15,7 +15,7 @@ using std::cout;
 using std::endl;
 
 
-Communicator* Communicator::instance = nullptr; // Definition of the static member variable
+Communicator* Communicator::m_instance = nullptr; // Definition of the static member variable
 Communicator::Communicator(RequestHandlerFactory& handlerFactory)
 	: m_handlerFactory(handlerFactory)
 {
@@ -42,6 +42,7 @@ Communicator::~Communicator()
 //this is the main thread (probably)
 void Communicator::startHandleRequests()
 {
+	
 	//makes a thread for each client then detaches it
 	std::thread client_thread(&Communicator::clientAccepter, this);
 	client_thread.detach();
@@ -65,13 +66,14 @@ void Communicator::startHandleRequests()
 
 Communicator& Communicator::getInstance(RequestHandlerFactory& handlerFactory)
 {
+	
 	static std::mutex mutex;
 	std::lock_guard<std::mutex> lock(mutex);
-
-	if (instance == nullptr) {
-		instance = new Communicator(handlerFactory);
+	
+	if (m_instance == nullptr) {
+		m_instance = new Communicator(handlerFactory);
 	}
-	return *instance;
+	return *m_instance;
 }
 
 

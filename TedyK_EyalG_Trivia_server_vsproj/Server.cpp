@@ -6,7 +6,7 @@
 #include "SqliteDatabase.h"
 #include "RequestHandlerFactory.h"
 
-Server* Server::instance = nullptr;
+Server* Server::m_instance = nullptr;
 
 Server::Server()
     : m_handlerFactory(new SqliteDatabase()), m_communicator(Communicator::getInstance(this->m_handlerFactory))
@@ -23,10 +23,10 @@ Server& Server::getInstance()
     static std::mutex mutex;
     std::lock_guard<std::mutex> lock(mutex);
 
-    if (instance == nullptr) {
-        instance = new Server();
+    if (m_instance == nullptr) {
+        m_instance = new Server();
     }
-    return *instance;
+    return *m_instance;
 }
 
 void Server::run()
