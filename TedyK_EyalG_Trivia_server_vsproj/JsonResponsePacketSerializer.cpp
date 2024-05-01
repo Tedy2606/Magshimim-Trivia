@@ -148,3 +148,23 @@ buffer JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response
     };
     return serializeResponseWithJson(data, GET_ROOMS_MSG_REQ);
 }
+
+buffer JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
+{
+    return buffer();
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)
+{
+    return buffer();
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
+{
+    return buffer();
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
+{
+    return buffer();
+}
