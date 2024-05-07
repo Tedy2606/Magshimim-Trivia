@@ -16,7 +16,10 @@
 #define GET_PLAYERS_IN_ROOM_MSG_REQ 111
 #define GET_ROOMS_MSG_REQ 112
 
-
+#define CLOSE_ROOM_REQ 113
+#define START_GAME_REQ 114
+#define GET_ROOM_STATS_REQ 115
+#define LEAVE_ROOM_REQ 116
 
 #define LENGHT_IN_BYTES 4
 buffer JsonResponsePacketSerializer::serializeResponseWithJson(json data, int code)
@@ -147,4 +150,39 @@ buffer JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response
   {"status", response.status},  {"rooms", rooms}
     };
     return serializeResponseWithJson(data, GET_ROOMS_MSG_REQ);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
+{
+    json data = {
+  {"status", response.status}
+    };
+    return serializeResponseWithJson(data, CLOSE_ROOM_REQ);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)
+{
+    json data = {
+ {"status", response.status}
+    };
+    return serializeResponseWithJson(data, START_GAME_REQ);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
+{
+    json data = {
+   {"status", response.status},  {"answerTimeout", response.answerTimeout}
+   ,  {"hasGameBegun", response.hasGameBegun}
+   ,  {"players", response.players}
+   ,  {"questionCount", response.questionCount}
+    };
+    return serializeResponseWithJson(data, GET_ROOM_STATS_REQ);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
+{
+    json data = {
+ {"status", response.status}
+    };
+    return serializeResponseWithJson(data, LEAVE_ROOM_REQ);
 }

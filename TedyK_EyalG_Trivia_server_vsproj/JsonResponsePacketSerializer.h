@@ -5,6 +5,36 @@
 #include "Room.h"
 using json = nlohmann::json;
 
+//v3.0/
+
+
+struct CloseRoomResponse
+{
+	unsigned int status;
+};
+
+struct StartGameResponse
+{
+	unsigned int status;
+};
+
+struct GetRoomStateResponse
+{
+	unsigned int status;
+	bool hasGameBegun;
+	std::vector<string> players;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
+};
+
+struct LeaveRoomResponse
+{
+	unsigned int status;
+};
+
+
+
+
 //v2.0/
 
 struct LogoutResponse
@@ -138,8 +168,32 @@ public:
 	static buffer serializeResponse(GetRoomsResponse response);
 
 
+	//ver 3 functions
 
-
+	/***
+	* serializes a close room Response to an array of bytes
+	* @param response - the reponse the server wants to send back
+	* @return buffer - the array of bytes
+	**/
+	static buffer serializeResponse(CloseRoomResponse response);
+	/***
+	* serializes a start game Response to an array of bytes
+	* @param response - the reponse the server wants to send back
+	* @return buffer - the array of bytes
+	**/
+	static buffer serializeResponse(StartGameResponse response);
+	/***
+	* serializes a get room state Response to an array of bytes
+	* @param response - the reponse the server wants to send back
+	* @return buffer - the array of bytes
+	**/
+	static buffer serializeResponse(GetRoomStateResponse response);
+	/***
+	* serializes a leave room Response to an array of bytes
+	* @param response - the reponse the server wants to send back
+	* @return buffer - the array of bytes
+	**/
+	static buffer serializeResponse(LeaveRoomResponse response);
 
 
 
