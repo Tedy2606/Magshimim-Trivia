@@ -5,8 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TriviaClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Height="600" Width="550"
+        Background="Black">
+    
     <Grid>
+        <Image Width="400" Source="images/title.png" Margin="75,-120,75,160"/>
+        
+        <Button x:Name="login" Content="Login" Width = "360" Height = "60" Background="Orange" Margin="95,290,95,230" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
 
+        <Button x:Name="signup" Content="Signup" Width = "360" Height = "60" Background="Orange" Margin="95,370,95,150" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button x:Name="exit" Content="Exit" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="95,450,95,70" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
     </Grid>
 </Window>
