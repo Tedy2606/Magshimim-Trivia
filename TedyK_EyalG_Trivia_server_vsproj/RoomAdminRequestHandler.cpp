@@ -7,12 +7,29 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handlerF
 
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return false;
+	return info.id == CLOSE_ROOM_REQ ||
+		info.id == START_GAME_REQ ||
+		info.id == GET_ROOM_STATS_REQ;
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 {
-	return RequestResult();
+    RequestResult result;
+
+    switch (info.id)
+    {
+    case CLOSE_ROOM_REQ:
+        result = closeRoom(info);
+        break;
+    case START_GAME_REQ:
+        result = startGame(info);
+        break;
+    case GET_ROOM_STATS_REQ:
+        result = getRoomState(info);
+        break;
+    }
+
+    return result;
 }
 
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)

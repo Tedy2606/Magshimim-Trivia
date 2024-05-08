@@ -1,6 +1,12 @@
 #pragma once
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
+#include "JsonResponsePacketSerializer.h"
+#include "JsonResponsePacketDeserializer.h"
+
+#define CLOSE_ROOM_REQ 113
+#define START_GAME_REQ 114
+#define GET_ROOM_STATS_REQ 115
 
 class RequestHandlerFactory;
 

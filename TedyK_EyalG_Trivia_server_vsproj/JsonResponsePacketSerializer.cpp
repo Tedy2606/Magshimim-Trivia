@@ -3,8 +3,6 @@
 #define SIGNUP_MSG_CODE 102
 #define LOGIN_MSG_CODE 101
 
-
-
 #define LOGOUT_MSG_REQ 104
 
 #define JOIN_ROOM_MSG_REQ 105

@@ -7,12 +7,25 @@ RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handle
 
 bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return false;
+    return info.id == LEAVE_ROOM_REQ ||
+        info.id == GET_ROOM_STATS_REQ;
 }
 
 RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 {
-	return RequestResult();
+    RequestResult result;
+
+    switch (info.id)
+    {
+    case LEAVE_ROOM_REQ:
+        result = leaveRoom(info);
+        break;
+    case GET_ROOM_STATS_REQ:
+        result = getRoomState(info);
+        break;
+    }
+
+    return result;
 }
 
 RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo info)
