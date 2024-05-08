@@ -23,6 +23,7 @@ namespace TriviaClient
         public MainWindow()
         {
             InitializeComponent();
+            //img.Source = new ImageSource("/images/title.jpg");
         }
     }
 }

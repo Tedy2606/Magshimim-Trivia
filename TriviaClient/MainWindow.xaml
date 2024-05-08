@@ -9,8 +9,7 @@
         Background="Black">
     
     <Grid>
-        <Image Width="400" Source="images/title.png" Margin="75,-120,75,160"/>
-        
+
         <Button x:Name="login" Content="Login" Width = "360" Height = "60" Background="Orange" Margin="95,290,95,230" FontSize="36" FontFamily="Arial" FontWeight="Bold">
             <Button.Resources>
                 <Style TargetType="Border">
@@ -34,5 +33,7 @@
                 </Style>
             </Button.Resources>
         </Button>
+
+        <Image x:Name="img" Width="400" Height="200" Source="/images/title.png" Margin="75,-120,75,160"/>
     </Grid>
 </Window>
