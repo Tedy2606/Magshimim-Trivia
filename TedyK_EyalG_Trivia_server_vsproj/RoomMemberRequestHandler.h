@@ -7,6 +7,8 @@
 #define GET_ROOM_STATS_REQ 115
 #define LEAVE_ROOM_REQ 116
 
+#define OK_RESPONSE 1
+
 class RequestHandlerFactory;
 
 class RoomMemberRequestHandler : public IRequestHandler

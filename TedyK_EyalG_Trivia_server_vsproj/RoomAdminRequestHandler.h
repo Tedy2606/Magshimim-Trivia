@@ -8,6 +8,8 @@
 #define START_GAME_REQ 114
 #define GET_ROOM_STATS_REQ 115
 
+#define OK_RESPONSE 1
+
 class RequestHandlerFactory;
 
 class RoomAdminRequestHandler : public IRequestHandler
