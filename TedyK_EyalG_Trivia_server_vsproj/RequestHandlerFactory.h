@@ -17,21 +17,15 @@ class RequestHandlerFactory
 public:
 	RequestHandlerFactory(IDataBase* database);
 
+	// create request handlers
 	LoginRequestHandler* createLoginRequestHandler();
-
-
-	/*
-	Getter for the m_logginManager field
-	*/
-	LoginManager& getLoginManager();
-
-	IDataBase* getDatabase();
-
-
-
-	//ver 2
-
 	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room room);
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room room);
+
+	// getters
+	LoginManager& getLoginManager();
+	IDataBase* getDatabase();
 	RoomManager& getRoomManager();
 	StatisticsManager& getStatisticsManager();
 
