@@ -24,6 +24,7 @@ namespace TriviaClient
         {
             InitializeComponent();
             //img.Source = new ImageSource("/images/title.jpg");
+            frame.Navigate(new MainMenu());
         }
     }
 }
