@@ -54,12 +54,13 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,545,145,95" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,545,145,95" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
                 </Style>
             </Button.Resources>
         </Button>
+        
     </Grid>
 </Page>

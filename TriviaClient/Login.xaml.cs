@@ -24,5 +24,13 @@ namespace TriviaClient
         {
             InitializeComponent();
         }
+
+        private void back_Click(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService?.GoBack();
+            }
+        }
     }
 }
