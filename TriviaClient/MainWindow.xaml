@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:TriviaClient"
         mc:Ignorable="d"
         Height="800" Width="750"
+        ResizeMode="NoResize"
         Background="Black">
     
     <Grid>
