@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TriviaClient"
         mc:Ignorable="d"
-        Height="700" Width="650"
+        Height="800" Width="750"
         Background="Black">
     
     <Grid>

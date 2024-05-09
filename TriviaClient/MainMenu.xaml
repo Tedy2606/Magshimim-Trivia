@@ -11,7 +11,7 @@
 
     <Grid>
 
-        <Button x:Name="login" Content="Login" Width = "360" Height = "60" Background="Orange" Margin="95,290,95,230" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="login" Content="Login" Height = "60" Background="Orange" Margin="145,350,145,290" FontSize="36" FontFamily="Arial" FontWeight="Bold">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -19,7 +19,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="signup" Content="Signup" Width = "360" Height = "60" Background="Orange" Margin="95,370,95,150" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="signup" Content="Signup" Height = "60" Background="Orange" Margin="145,430,145,210" FontSize="36" FontFamily="Arial" FontWeight="Bold">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -27,7 +27,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="exit" Content="Exit" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="95,450,95,70" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="exit" Content="Exit" Height = "60" Background="#222222" Foreground="White" Margin="145,510,145,130" FontSize="36" FontFamily="Arial" FontWeight="Bold">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -35,6 +35,6 @@
             </Button.Resources>
         </Button>
 
-        <Image x:Name="img" Width="400" Height="200" Source="/images/title.png" Margin="75,-120,75,160"/>
+        <Image x:Name="img" Source="/images/title.png" Margin="75,65,75,425"/>
     </Grid>
 </Page>

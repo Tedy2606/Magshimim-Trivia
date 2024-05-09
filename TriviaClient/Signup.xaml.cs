@@ -16,15 +16,13 @@ using System.Windows.Shapes;
 namespace TriviaClient
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Signup.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Signup : Page
     {
-        public MainWindow()
+        public Signup()
         {
             InitializeComponent();
-            //img.Source = new ImageSource("/images/title.jpg");
-            frame.Navigate(new Signup());
         }
     }
 }
