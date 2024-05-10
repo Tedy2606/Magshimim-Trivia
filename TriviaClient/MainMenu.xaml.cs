@@ -46,26 +46,39 @@ namespace TriviaClient
                 message["password"] = "b";
                 string jsonString = message.ToString();
                 byte byteValue = 101;
+
+
+                
+                //gonna change the lengh to be 4 bytes
                 jsonString = ((char)byteValue) + jsonString.Length.ToString() + jsonString;
+
+
+
+
+
+
                 var messageBytes = Encoding.UTF8.GetBytes(jsonString);
+
                 _ = await client.SendAsync(messageBytes, SocketFlags.None);
                 MessageBox.Show($"Socket client sent message: \"{jsonString}\"");
 
-                // Receive ack.
-                var buffer = new byte[1_024];
+
+
+
+
+
+                // Receive response.
+                var buffer = new byte[1024];
                 var received = await client.ReceiveAsync(buffer, SocketFlags.None);
                 var response = Encoding.UTF8.GetString(buffer, 0, received);
-                MessageBox.Show($"Socket client sent message: \"{response}\"");
+                MessageBox.Show($"Socket client got message: \"{received}\"");
                 string t = JsonConvert.SerializeObject(response);
                 if (response == "")
                 {
                    MessageBox.Show(
                         $"Socket client received acknowledgment: \"{response}\"");
                     break;
-                }
-                // Sample output:
-                //     Socket client sent message: "Hi friends 👋!"
-                //     Socket client received acknowledgment: ""
+                }  
 
             }
         }
