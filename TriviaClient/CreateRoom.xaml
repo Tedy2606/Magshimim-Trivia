@@ -11,7 +11,7 @@
     <Grid>
 
         <TextBlock Text="Room Name" Width="210" Height="60" Foreground="White" Margin="47.5,84,392.5,556" FontSize="36" FontWeight="DemiBold"/>
-        <TextBox x:Name="roomName" Width ="340" Height = "60" Background="#222222" Foreground="White" Margin="262.5,84,47.5,556" FontSize="38">
+        <TextBox x:Name="roomName" Width ="360" Height = "60" Background="#222222" Foreground="White" Margin="263,84,27,556" FontSize="38">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -19,13 +19,13 @@
             </TextBox.Resources>
         </TextBox>
 
-        <TextBlock Text="Players" Width="120" Foreground="White" Margin="85,192,445,448" FontSize="36" FontWeight="DemiBold"/>
-        <Slider x:Name="playerNum" Width="300" IsSnapToTickEnabled="True" Minimum="1" Maximum="10" Margin="210,215,140,454"/>
-        <TextBlock Width="50" Text="{Binding Value, ElementName=playerNum, StringFormat={}{0:0}}" Foreground="White" VerticalAlignment="Top" FontSize="36" FontFamily="Arial" FontWeight="DemiBold" Margin="515,205,85,0" Height="41"/>
+        <TextBlock Text="Players" Width="120" Foreground="White" Margin="138,220,392,420" FontSize="36" FontWeight="DemiBold"/>
+        <Slider x:Name="playerNum" Width="300" IsSnapToTickEnabled="True" Minimum="1" Maximum="10" Margin="263,243,87,426"/>
+        <TextBlock Width="50" Text="{Binding Value, ElementName=playerNum, StringFormat={}{0:0}}" Foreground="White" VerticalAlignment="Top" FontSize="36" FontFamily="Arial" FontWeight="DemiBold" Margin="568,233,32,0" Height="41"/>
 
-        <TextBlock Text="Answer Time" Foreground="White" Margin="75,296,361,344" FontSize="36" FontWeight="DemiBold"/>
-        <Slider x:Name="answerTime" Width="300" IsSnapToTickEnabled="True" Minimum="5" Maximum="60" TickFrequency="5" Margin="253,319,97,350"/>
-        <TextBlock Text="{Binding Value, ElementName=answerTime, StringFormat=\{0:0\}s}" Foreground="White" VerticalAlignment="Top" FontSize="36" FontFamily="Arial" FontWeight="DemiBold" Margin="601,309,-11,0" Height="41"/>
+        <TextBlock Text="Answer Time" Foreground="White" Margin="85,311,351,329" FontSize="36" FontWeight="DemiBold"/>
+        <Slider x:Name="answerTime" Width="300" IsSnapToTickEnabled="True" Minimum="5" Maximum="60" TickFrequency="5" Margin="263,334,87,335"/>
+        <TextBlock Text="{Binding Value, ElementName=answerTime, StringFormat=\{0:0\}s}" Foreground="White" VerticalAlignment="Top" FontSize="36" FontFamily="Arial" FontWeight="DemiBold" Margin="611,324,-21,0" Height="41"/>
 
         <Button x:Name="createRoom" Content="Create Room" Width = "360" Height = "60" Background="Orange" Margin="145,465,145,175" FontSize="36" FontFamily="Arial" FontWeight="Bold">
             <Button.Resources>
