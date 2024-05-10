@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:TriviaClient"
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="650"
-      Title="Login"
-      Background="Black">
+      Title="Login">
 
 
     <Grid>
