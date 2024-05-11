@@ -35,7 +35,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="logout" Content="Logout" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,460,145,180" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="logout" Content="Logout" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,460,145,180" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="logout_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -43,7 +43,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="exit" Content="Exit" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,560,145,80" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="exit" Content="Exit" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,560,145,80" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="exit_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

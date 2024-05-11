@@ -89,7 +89,14 @@ namespace TriviaClient
             //turn string into json 
             JObject jsonObject = JObject.Parse(utf8String);
 
-            MessageBox.Show($"Response from server: {jsonObject}");
+            if (!jsonObject.ContainsKey("message"))
+            {
+                NavigationService?.Navigate(new Menu(this._stream));
+            }
+            else
+            {
+                MessageBox.Show($"Response from server: {jsonObject}");
+            }
         }
     }
 }
