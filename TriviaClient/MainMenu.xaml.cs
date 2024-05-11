@@ -30,11 +30,6 @@ namespace TriviaClient
     public partial class MainMenu : Page
     {
         private NetworkStream _stream;
-        private void rndfunc() 
-        {
-            
-
-        }
 
         public MainMenu()
         {
