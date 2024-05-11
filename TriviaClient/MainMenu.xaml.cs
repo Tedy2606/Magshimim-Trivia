@@ -18,6 +18,9 @@ using System.Windows.Shapes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.Json.Nodes;
+using System.Collections;
+
+
 
 namespace TriviaClient
 {
@@ -27,60 +30,74 @@ namespace TriviaClient
     public partial class MainMenu : Page
     {
 
-        async public void rndfunc() 
+        private void rndfunc() 
         {
-            IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+            //no defines 
+            const int port = 56812;
 
-            IPEndPoint ipEndPoint = new(ipAddress, 56812);
-            using Socket client = new(
-                ipEndPoint.AddressFamily,
-                SocketType.Stream,
-                ProtocolType.Tcp);
-
-            await client.ConnectAsync(ipEndPoint);
-            while (true)
+            using (TcpClient cliente = new TcpClient())
             {
-                // Send message.
-                JObject message = new JObject();
-                message["username"] = "t";
-                message["password"] = "b";
-                string jsonString = message.ToString();
-                byte byteValue = 101;
-
-
-                
-                //gonna change the lengh to be 4 bytes
-                jsonString = ((char)byteValue) + jsonString.Length.ToString() + jsonString;
-
-
-
-
-
-
-                var messageBytes = Encoding.UTF8.GetBytes(jsonString);
-
-                _ = await client.SendAsync(messageBytes, SocketFlags.None);
-                MessageBox.Show($"Socket client sent message: \"{jsonString}\"");
-
-
-
-
-
-
-                // Receive response.
-                var buffer = new byte[1024];
-                var received = await client.ReceiveAsync(buffer, SocketFlags.None);
-                var response = Encoding.UTF8.GetString(buffer, 0, received);
-                MessageBox.Show($"Socket client got message: \"{received}\"");
-                string t = JsonConvert.SerializeObject(response);
-                if (response == "")
+                IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+                try
                 {
-                   MessageBox.Show(
-                        $"Socket client received acknowledgment: \"{response}\"");
-                    break;
-                }  
+                    cliente.Connect(ipAddress, port); // connect to the server
+                    Console.WriteLine("Connection has been made with the server");
 
+                    // Get a stream object for reading and writing
+                    NetworkStream stream = cliente.GetStream();
+
+                    // Send a message to the server
+                    JObject message = new JObject();
+                    message["username"] = "ra";
+                    message["password"] = "ma";
+                    string jsonString = message.ToString();
+                    byte byteValue = 101;
+
+
+
+
+                    byte[] data_len_bytes = BitConverter.GetBytes(jsonString.Length);
+                    //reverse to reverse the endian orientation 
+                    data_len_bytes = data_len_bytes.Reverse().ToArray();
+
+
+
+
+                    var messageBytes = Encoding.UTF8.GetBytes(jsonString);
+
+                    byte[] message_and_len = data_len_bytes.Concat(messageBytes).ToArray();
+
+                    var full_msg_byte = Enumerable.Prepend(message_and_len, byteValue).ToArray();
+
+                    stream.Write(full_msg_byte, 0, full_msg_byte.Length);
+
+
+                    // Receive response from the server
+                    byte[] len_buffer = new byte[5];
+                    int len_bytesRead = stream.Read(len_buffer, 0, len_buffer.Length);
+                    //guess whos fucking back
+                    int data_len = (len_buffer[1] << 24) | (len_buffer[2] << 16) | (len_buffer[3] << 8) | len_buffer[4];
+
+                    byte[] buffer = new byte[data_len];
+
+
+
+                    //read from stream 
+                    int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                    //get the string 
+                    string utf8String = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    //turn string into json 
+                    JObject jsonObject = JObject.Parse(utf8String);
+                    
+                    MessageBox.Show($"Response from server: {jsonObject}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
             }
+
+
         }
 
         public MainMenu()
