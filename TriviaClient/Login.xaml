@@ -28,7 +28,7 @@
             </TextBox.Resources>
         </TextBox>
 
-        <Button x:Name="login" Content="Login" Width = "360" Height = "60" Background="Orange" Margin="95,370,95,150" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="login" Content="Login" Width = "360" Height = "60" Background="Orange" Margin="95,370,95,150" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="login_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

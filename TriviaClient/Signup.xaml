@@ -45,7 +45,7 @@
             </TextBox.Resources>
         </TextBox>
 
-        <Button x:Name="signup" Content="Signup" Width = "360" Height = "60" Background="Orange" Margin="145,465,145,175" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="signup" Content="Signup" Width = "360" Height = "60" Background="Orange" Margin="145,465,145,175" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="signup_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
