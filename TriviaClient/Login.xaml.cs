@@ -85,7 +85,7 @@ namespace TriviaClient
             JObject jsonObject = JObject.Parse(utf8String);
             if (!jsonObject.ContainsKey("message"))
             {
-                NavigationService?.Navigate(new Menu(this._stream));
+                NavigationService?.Navigate(new Menu(this._stream, username.Text));
             }
             else
             {

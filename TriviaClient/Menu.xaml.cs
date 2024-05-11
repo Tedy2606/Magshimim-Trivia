@@ -23,10 +23,11 @@ namespace TriviaClient
     public partial class Menu : Page
     {
         private NetworkStream _stream;
-        public Menu(NetworkStream stream)
+        public Menu(NetworkStream stream, string name)
         {
             InitializeComponent();
             this._stream = stream;
+            this.username.Text = name;
         }
 
         private void logout_Click(object sender, RoutedEventArgs e)
@@ -90,6 +91,11 @@ namespace TriviaClient
 
             // Close the main window (which effectively closes the application)
             mainWindow.Close();
+        }
+
+        private void createRoom_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new CreateRoom(this._stream));
         }
     }
 }

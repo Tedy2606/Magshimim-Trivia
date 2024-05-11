@@ -27,7 +27,7 @@
         <Slider x:Name="answerTime" Width="300" IsSnapToTickEnabled="True" Minimum="5" Maximum="60" TickFrequency="5" Margin="263,334,87,335"/>
         <TextBlock Text="{Binding Value, ElementName=answerTime, StringFormat=\{0:0\}s}" Foreground="White" VerticalAlignment="Top" FontSize="36" FontFamily="Arial" FontWeight="DemiBold" Margin="611,324,-21,0" Height="41"/>
 
-        <Button x:Name="createRoom" Content="Create Room" Width = "360" Height = "60" Background="Orange" Margin="145,465,145,175" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="createRoom" Content="Create Room" Width = "360" Height = "60" Background="Orange" Margin="145,465,145,175" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="createRoom_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -35,7 +35,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,545,145,95" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,545,145,95" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

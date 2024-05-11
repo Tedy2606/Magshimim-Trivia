@@ -91,7 +91,7 @@ namespace TriviaClient
 
             if (!jsonObject.ContainsKey("message"))
             {
-                NavigationService?.Navigate(new Menu(this._stream));
+                NavigationService?.Navigate(new Menu(this._stream, username.Text));
             }
             else
             {

@@ -11,7 +11,7 @@
     <Grid>
         <TextBlock x:Name="username" Text="change me" Width="360" Height="80" Foreground="White" Margin="145,40,145,580" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
 
-        <Button x:Name="createRoom" Content="Create Room" Width = "360" Height = "60" Background="Orange" Margin="145,160,145,480" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="createRoom" Content="Create Room" Width = "360" Height = "60" Background="Orange" Margin="145,160,145,480" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="createRoom_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
