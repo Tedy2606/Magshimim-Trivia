@@ -19,7 +19,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="joinRoom" Content="Join Room" Width = "360" Height = "60" Background="Orange" Margin="145,260,145,380" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="joinRoom" Content="Join Room" Width = "360" Height = "60" Background="Orange" Margin="145,260,145,380" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="joinRoom_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

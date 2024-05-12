@@ -97,5 +97,10 @@ namespace TriviaClient
         {
             NavigationService?.Navigate(new CreateRoom(this._stream));
         }
+
+        private void joinRoom_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new JoinRoom(this._stream));
+        }
     }
 }

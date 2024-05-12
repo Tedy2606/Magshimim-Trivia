@@ -220,7 +220,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
     // ***Process the info***
     // deserialize the info into a join room request
     JoinRoomRequest request = desi.desirializeJoinRoomRequest(info.buffer);
-
+    
 
     // ***Start making the response***
     JoinRoomResponse response;
