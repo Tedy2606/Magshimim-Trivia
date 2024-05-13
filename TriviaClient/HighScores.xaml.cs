@@ -37,8 +37,11 @@ namespace TriviaClient
 
             Networker networker = new Networker();
             JObject jsonObject = networker.sendAndRecive(message, this._stream, code);
-
-            if (!jsonObject.ContainsKey("message"))
+            if (!jsonObject["statistics"].HasValues)
+            {
+                MessageBox.Show($"no one has played yet ");
+            }
+            else if (!jsonObject.ContainsKey("message"))
             {
                 this.user1.Text = "user1 : " + jsonObject["statistics"][0];
                 this.user2.Text = "user2 : " + jsonObject["statistics"][1];
@@ -50,10 +53,6 @@ namespace TriviaClient
             {
                 MessageBox.Show($"Response from server: {jsonObject}");
             }
-
-
-
-
 
         }
 

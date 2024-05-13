@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +21,29 @@ namespace TriviaClient
     /// </summary>
     public partial class Statistics : Page
     {
-        public Statistics()
+        private NetworkStream _stream;
+        public Statistics(NetworkStream stream)
         {
             InitializeComponent();
+            this._stream = stream;  
+        }
+
+        private void back_Click(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService?.GoBack();
+            }
+        }
+
+        private void playerStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new PlayerStatistics(this._stream));
+        }
+
+        private void highScores_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new HighScores(this._stream));
         }
     }
 }

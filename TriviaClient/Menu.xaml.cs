@@ -73,7 +73,7 @@ namespace TriviaClient
 
         private void statistics_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new PlayerStatistics(this._stream));
+            NavigationService?.Navigate(new Statistics(this._stream));
         }
     }
 }
