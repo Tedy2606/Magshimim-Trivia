@@ -76,9 +76,22 @@ namespace TriviaClient
                     buttons[count].Tag = id;
                     buttons[count].Click += button_click;
                     // *** design here ***
-                    
-                   
 
+                    // basic design
+                    buttons[count].Width = 360;
+                    buttons[count].Height = 60;
+                    buttons[count].Background = Brushes.Orange;
+                    buttons[count].FontSize = 36;
+                    buttons[count].FontFamily = new FontFamily("Arial");
+                    buttons[count].FontWeight = FontWeights.Bold;
+
+                    // Create a border with rounded corners
+                    Border border = new Border();
+                    border.CornerRadius = new CornerRadius(10);
+                    border.Child = buttons[count];
+
+                    // add it to the button
+                    buttons[count].Content = border;
 
 
                     // *** end design here ***
