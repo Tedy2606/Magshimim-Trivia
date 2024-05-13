@@ -45,7 +45,7 @@ namespace TriviaClient
                 this.games.Text = "games : " + jsonObject["statistics"][1];
                 this.answers.Text = "answers : " + jsonObject["statistics"][2];
                 this.correctAnswers.Text = "correctAnswers : " + jsonObject["statistics"][3];
-                this.averageAnswerTime.Text = "score : " + jsonObject["statistics"][4];
+                this.averageAnswerTime.Text = "averageAnswerTime : " + jsonObject["statistics"][4];
 
             }
             else
