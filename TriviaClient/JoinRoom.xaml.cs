@@ -78,6 +78,7 @@ namespace TriviaClient
                     // *** design here ***
 
                     // basic design
+                    buttons[count].Content = name;
                     buttons[count].Width = 360;
                     buttons[count].Height = 60;
                     buttons[count].Background = Brushes.Orange;
@@ -88,14 +89,14 @@ namespace TriviaClient
                     // Create a border with rounded corners
                     Border border = new Border();
                     border.CornerRadius = new CornerRadius(10);
-                    border.Child = buttons[count];
+                    //border.Child = buttons[count];
 
-                    // add it to the button
-                    buttons[count].Content = border;
+                    //// add it to the button
+                    //buttons[count].Content = border;
 
 
                     // *** end design here ***
-                    // Add the button to the window's content (assuming you have a grid named 'grid' as your window's root element)
+                    
                     grid.Children.Add(buttons[count]);
 
 
