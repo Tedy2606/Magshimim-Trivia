@@ -18,7 +18,7 @@
         <TextBlock x:Name="averageAnswerTime" Text="Average Answer Time: value" Height="80" Foreground="White" Margin="0,470,0,150" FontSize="48" FontWeight="DemiBold" TextAlignment="Center"/>
 
 
-        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,575,145,65" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,575,145,65" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

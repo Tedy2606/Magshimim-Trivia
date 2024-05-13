@@ -27,7 +27,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="statistics" Content="Statistics" Width = "360" Height = "60" Background="Orange" Margin="145,360,145,280" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="statistics" Content="Statistics" Width = "360" Height = "60" Background="Orange" Margin="145,360,145,280" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="statistics_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
