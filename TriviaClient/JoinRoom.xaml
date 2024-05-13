@@ -8,7 +8,7 @@
       d:DesignHeight="700" d:DesignWidth="650"
       Title="JoinRoom">
 
-    <Grid>
+    <Grid x:Name="grid">
         <TextBlock Text="Rooms" Width="360" Height="80" Foreground="White" Margin="145,55,145,565" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
 
         <ScrollViewer Width="400" Height="390" Margin="125,140,125,170" Background="#060606" VerticalScrollBarVisibility="Auto">

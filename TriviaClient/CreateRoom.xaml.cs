@@ -41,8 +41,8 @@ namespace TriviaClient
         {
             // Send a message to the server
             JObject message = new JObject();
-            message["maxUsers"] = playerNum.Value;
-            message["answerTimeout"] = answerTime.Value;
+            message["maxUsers"] = (int)playerNum.Value;
+            message["answerTimeout"] = (int)answerTime.Value;
             message["questionCount"] = 10;
             message["roomName"] = roomName.Text;
             string jsonString = message.ToString();
@@ -83,7 +83,10 @@ namespace TriviaClient
             JObject jsonObject = JObject.Parse(utf8String);
             if (!jsonObject.ContainsKey("message"))
             {
-                //not done yet
+                if (NavigationService.CanGoBack)
+                {
+                    NavigationService?.GoBack();
+                }
             }
             else
             {

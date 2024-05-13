@@ -38,18 +38,16 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 
 	// create a lock guard
     std::lock_guard<std::mutex> lock(this->m_menuMutex);
-
     switch (info.id)
     {
     case LOGOUT_MSG_REQ:
         result = signout(info);
         break;
-
     case JOIN_ROOM_MSG_REQ:
         result = getRooms(info);
         break;
     case CREATE_ROOM_MSG_REQ:
-        result = getPlayersInRoom(info);
+        result = createRoom(info);
         break;
     case GET_STATS_MSG_REQ:
         result = getPersonalStats(info);
@@ -61,7 +59,7 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
         result = joinRoom(info);
         break;
     case GET_ROOMS_MSG_REQ:
-        result = createRoom(info);
+        result = getRooms(info);
         break;
 
     }
@@ -254,7 +252,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 {
     JsonResponsePacketSerializer seri;
     JsonResponsePacketDeserializer desi;
-
+    
     // ***Process the info***
     // deserialize the info into a create Room request
     CreateRoomRequest request = desi.desirializeCreateRoomRequest(info.buffer);
@@ -263,7 +261,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
     // ***Start making the response***
     JoinRoomResponse response;
     RequestResult result;
-
+    
 
     //make the data of the room
     RoomData data;

@@ -88,22 +88,41 @@ namespace TriviaClient
                 if (i == 0 || rooms[i].Equals(","))
                 {
                     int stopIndex = rooms.IndexOf(':', i);
-                    string name = rooms.Substring(i + 1, stopIndex - i); // Extract the substring
+                    string name = rooms.Substring(i, stopIndex - i - 1); // Extract the substring
                     stopIndex = rooms.IndexOf(',', i);
-                    string id = rooms.Substring(i + 1, stopIndex - i); // Extract the substring
+                    string id;
+                    if (stopIndex == -1) // if there is no , (ie last id)
+                    {
+                        id = rooms.Substring(i + 1);
+                    }
+                    else
+                    {
+                       id = rooms.Substring(i + 1, stopIndex - i); // Extract the substring
+                    }
+                   
 
 
                     buttons[count] = new Button();
                     buttons[count].Name = name;
                     buttons[count].Tag = id;
                     buttons[count].Click += button_click;
-                    count++;
-                    //edit the button as youd like  
+                    // *** design here ***
                     
+                   
+
+
+
+                    // *** end design here ***
+                    // Add the button to the window's content (assuming you have a grid named 'grid' as your window's root element)
+                    grid.Children.Add(buttons[count]);
 
 
 
 
+
+
+
+                    count++;
                 }
 
             }
