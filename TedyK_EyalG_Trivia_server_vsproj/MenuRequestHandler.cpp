@@ -252,11 +252,10 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 {
     JsonResponsePacketSerializer seri;
     JsonResponsePacketDeserializer desi;
-    
     // ***Process the info***
     // deserialize the info into a create Room request
     CreateRoomRequest request = desi.desirializeCreateRoomRequest(info.buffer);
-
+    
 
     // ***Start making the response***
     JoinRoomResponse response;
@@ -281,8 +280,8 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
         if (this->m_handlerFactory.getRoomManagaer().getRooms().size() != 0)
         {
             //get the id of the last room and add one
-            auto it = this->m_handlerFactory.getRoomManagaer().getRooms().rbegin();
-            id = it->id;
+            std::vector<RoomData> rooms = this->m_handlerFactory.getRoomManagaer().getRooms();
+            id = rooms.back().id;
             id++;
         }
 
