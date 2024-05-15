@@ -97,7 +97,7 @@ namespace TriviaClient
 
                     // *** end design here ***
                     
-                    grid.Children.Add(buttons[count]);
+                    stackPanel.Children.Add(buttons[count]);
 
 
                     count++;

@@ -8,11 +8,11 @@
       d:DesignHeight="700" d:DesignWidth="650"
       Title="JoinRoom">
 
-    <Grid x:Name="grid">
+    <Grid>
         <TextBlock Text="Rooms" Width="360" Height="80" Foreground="White" Margin="145,55,145,565" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
 
         <ScrollViewer Width="400" Height="390" Margin="125,140,125,170" Background="#060606" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
+            <StackPanel x:Name="stackPanel">
                 <!-- Here are the room buttons,
                 this button isn't supposed to be here 
                 since it's a template for how the buttons should look-->
