@@ -44,5 +44,20 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 
 RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo info)
 {
-	return RequestResult();
+    JsonResponsePacketSerializer seri;
+    GetRoomStateResponse response;
+    RequestResult result;
+
+    // get the room state
+    response.hasGameBegun = this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive;
+    response.answerTimeout = this->m_roomManager.getRoom(this->m_room.getData().id).getData().timePerQuestion;
+    response.questionCount = this->m_roomManager.getRoom(this->m_room.getData().id).getData().numOfQuestions;
+    response.players = this->m_roomManager.getRoom(this->m_room.getData().id).getAllUsers();
+    response.status = OK_RESPONSE;
+
+    // make a response and serialize it
+    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user);
+    result.buffer = seri.serializeResponse(response);
+
+    return result;
 }
