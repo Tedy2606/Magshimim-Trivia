@@ -46,9 +46,6 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
     result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user);
     result.buffer = seri.serializeResponse(response);
 
-    // delete the room
-    this->m_roomManager.deleteRoom(this->m_room.getData().id);
-
     return result;
 }
 
