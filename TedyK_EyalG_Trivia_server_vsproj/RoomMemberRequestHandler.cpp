@@ -30,7 +30,19 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 
 RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo info)
 {
-	return RequestResult();
+    JsonResponsePacketSerializer seri;
+    LeaveRoomResponse response;
+    RequestResult result;
+
+    // leave the room
+    this->m_roomManager.getRoom(this->m_room.getData().id).removeUser(this->m_user);
+
+    // make a response and serialize it
+    response.status = OK_RESPONSE;
+    result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+    result.buffer = seri.serializeResponse(response);
+
+    return result;
 }
 
 RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)

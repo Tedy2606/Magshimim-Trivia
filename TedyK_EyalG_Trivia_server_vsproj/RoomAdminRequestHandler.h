@@ -47,7 +47,7 @@ private:
 	RequestResult startGame(RequestInfo info);
 
 	/*
-	Leaves the room
+	Returns the state of the room
 	@param info - the info of the request
 	@return the result of the request
 	*/
