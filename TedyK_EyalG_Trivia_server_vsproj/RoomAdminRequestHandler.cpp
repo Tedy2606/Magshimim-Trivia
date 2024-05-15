@@ -40,6 +40,10 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 
     // close the room
     this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = CLOSED_ROOM;
+
+    // leave the room
+    this->m_roomManager.getRoom(this->m_room.getData().id).removeUser(this->m_user);
+    
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
