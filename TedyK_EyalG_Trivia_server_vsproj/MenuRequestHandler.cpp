@@ -269,7 +269,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
     RoomData data;
     data.name = request.roomName;
     data.numOfQuestions = request.questionCount;
-    data.isActive = false;
+    data.isActive = NOT_STARTED;
     data.timePerQuestion = request.answerTimeout;
     data.maxPlayers = request.maxUsers;
 

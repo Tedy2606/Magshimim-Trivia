@@ -34,7 +34,22 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 {
-	return RequestResult();
+    JsonResponsePacketSerializer seri;
+    CloseRoomResponse response;
+    RequestResult result;
+
+    // close the room
+    this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = CLOSED_ROOM;
+    response.status = OK_RESPONSE;
+
+    // make a response and serialize it
+    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user);
+    result.buffer = seri.serializeResponse(response);
+
+    // delete the room
+    this->m_roomManager.deleteRoom(this->m_room.getData().id);
+
+    return result;
 }
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)

@@ -3,6 +3,8 @@
 #include "RequestHandlerFactory.h"
 #include <mutex>
 
+#define NOT_STARTED 1;
+
 class RequestHandlerFactory;
 
 class MenuRequestHandler : public IRequestHandler

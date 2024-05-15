@@ -10,6 +10,9 @@
 
 #define OK_RESPONSE 1
 
+#define CLOSED_ROOM 0
+#define STARTED 2
+
 class RequestHandlerFactory;
 
 class RoomAdminRequestHandler : public IRequestHandler
