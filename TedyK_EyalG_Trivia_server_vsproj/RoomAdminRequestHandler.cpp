@@ -43,7 +43,7 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user);
+    result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
     result.buffer = seri.serializeResponse(response);
 
     return result;
@@ -51,7 +51,19 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 {
-	return RequestResult();
+    JsonResponsePacketSerializer seri;
+    StartGameResponse response;
+    RequestResult result;
+
+    // start the game
+    this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = STARTED;
+    response.status = OK_RESPONSE;
+
+    // make a response and serialize it
+    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user); // v4.0.0 CHANGE TO createGameRequestHandler
+    result.buffer = seri.serializeResponse(response);
+
+    return result;
 }
 
 RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo info)
