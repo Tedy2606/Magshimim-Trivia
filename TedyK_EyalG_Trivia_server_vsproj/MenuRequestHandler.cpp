@@ -3,16 +3,16 @@
 #include "JsonResponsePacketSerializer.h"
 #include "JsonResponsePacketDeserializer.h"
 
-#define LOGOUT_MSG_REQ 111
+#define LOGOUT_MSG_REQ 104
 
-#define JOIN_ROOM_MSG_REQ 112
-#define CREATE_ROOM_MSG_REQ 113
-#define GET_STATS_MSG_REQ 114
-#define GET_HIGH_SCORE_MSG_REQ 115
+#define JOIN_ROOM_MSG_REQ 105
+#define CREATE_ROOM_MSG_REQ 106
+#define GET_STATS_MSG_REQ 107
+#define GET_HIGH_SCORE_MSG_REQ 110
 
 
-#define GET_PLAYERS_IN_ROOM_MSG_REQ 116
-#define GET_ROOMS_MSG_REQ 117
+#define GET_PLAYERS_IN_ROOM_MSG_REQ 111
+#define GET_ROOMS_MSG_REQ 112
 
 
 #define OK_RESPONSE 1
@@ -114,7 +114,7 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 
     // if GetRooms succeeded make an ok response
 
-    response.rooms = this->m_handlerFactory.getRoomManagaer().getRooms(); // GetRooms
+    response.rooms = this->m_handlerFactory.getRoomManager().getRooms(); // GetRooms
 
     response.status = OK_RESPONSE;
     result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
@@ -139,7 +139,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 
     // if get Players In Room succeeded make an ok response
 
-    response.players = this->m_handlerFactory.getRoomManagaer().getRoom(request.roomID).getAllUsers(); // get Players In Room
+    response.players = this->m_handlerFactory.getRoomManager().getRoom(request.roomID).getAllUsers(); // get Players In Room
     result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
     result.buffer = seri.serializeResponse(response);
     //no need to check for errors since the are no possible errors
@@ -229,7 +229,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
     // if join room succeeded make an ok response
     try
     {
-        this->m_handlerFactory.getRoomManagaer().getRoom(request.roomID).addUser(this->m_user.GetUserName()); // join room
+        this->m_handlerFactory.getRoomManager().getRoom(request.roomID).addUser(this->m_user.GetUserName()); // join room
 
         response.status = OK_RESPONSE;
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
@@ -269,7 +269,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
     RoomData data;
     data.name = request.roomName;
     data.numOfQuestions = request.questionCount;
-    data.isActive = false;
+    data.isActive = NOT_STARTED;
     data.timePerQuestion = request.answerTimeout;
     data.maxPlayers = request.maxUsers;
 
@@ -280,15 +280,15 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
     {
         int id = 0;
         // if there are no rooms then id is 0
-        if (this->m_handlerFactory.getRoomManagaer().getRooms().size() != 0)
+        if (this->m_handlerFactory.getRoomManager().getRooms().size() != 0)
         {
             //get the id of the last room and add one
-            auto it = this->m_handlerFactory.getRoomManagaer().getRooms().rbegin();
+            auto it = this->m_handlerFactory.getRoomManager().getRooms().rbegin();
             id = it->id;
             id++;
         }
 
-        this->m_handlerFactory.getRoomManagaer().createRoom(this->m_user, data); // create Room
+        this->m_handlerFactory.getRoomManager().createRoom(this->m_user, data); // create Room
 
         response.status = OK_RESPONSE;
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
