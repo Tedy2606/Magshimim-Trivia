@@ -4,24 +4,20 @@
 #include "JsonResponsePacketDeserializer.h"
 
 #define LOGOUT_MSG_REQ 104
-
 #define JOIN_ROOM_MSG_REQ 105
 #define CREATE_ROOM_MSG_REQ 106
 #define GET_STATS_MSG_REQ 107
 #define GET_HIGH_SCORE_MSG_REQ 110
-
-
 #define GET_PLAYERS_IN_ROOM_MSG_REQ 111
 #define GET_ROOMS_MSG_REQ 112
-
-
 #define OK_RESPONSE 1
 
 MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handlerFactory, LoggedUser user)
     : m_handlerFactory(handlerFactory), m_user(user)
 {
 }
-bool MenuRequestHandler::isRequestRelevant(RequestInfo info)
+
+bool MenuRequestHandler::isRequestRelevant(const RequestInfo& info) const
 {
     return info.id == LOGOUT_MSG_REQ ||
         info.id == JOIN_ROOM_MSG_REQ ||
@@ -32,11 +28,11 @@ bool MenuRequestHandler::isRequestRelevant(RequestInfo info)
         info.id == GET_ROOMS_MSG_REQ;
 }
 
-RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
+RequestResult MenuRequestHandler::handleRequest(const RequestInfo& info)
 {
     RequestResult result;
 
-	// create a lock guard
+    // create a lock guard
     std::lock_guard<std::mutex> lock(this->m_menuMutex);
 
     switch (info.id)
@@ -44,7 +40,6 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
     case LOGOUT_MSG_REQ:
         result = signout(info);
         break;
-
     case JOIN_ROOM_MSG_REQ:
         result = getRooms(info);
         break;
@@ -63,17 +58,14 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
     case GET_ROOMS_MSG_REQ:
         result = createRoom(info);
         break;
-
     }
 
     return result;
 }
 
-
-RequestResult MenuRequestHandler::signout(RequestInfo info)
+RequestResult MenuRequestHandler::signout(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
-
 
     // ***Start making the response***
     LogoutResponse response;
@@ -87,43 +79,41 @@ RequestResult MenuRequestHandler::signout(RequestInfo info)
         response.status = OK_RESPONSE;
         result.newHandler = this->m_handlerFactory.createLoginRequestHandler();
         result.buffer = seri.serializeResponse(response);
-
     }
     catch (const std::exception& err) // logout failed, make a bad response
     {
-        //make an error 
+        // make an error
         ErrorResponse error;
         error.err = err.what();
 
-        //return to the menu handler
+        // return to the menu handler
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-        //send the error
+        // send the error
         result.buffer = seri.serializeResponse(error);
     }
     return result;
 }
 
-RequestResult MenuRequestHandler::getRooms(RequestInfo info)
+RequestResult MenuRequestHandler::getRooms(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
-
 
     // ***Start making the response***
     GetRoomsResponse response;
     RequestResult result;
 
     // if GetRooms succeeded make an ok response
-
     response.rooms = this->m_handlerFactory.getRoomManager().getRooms(); // GetRooms
 
     response.status = OK_RESPONSE;
     result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
     result.buffer = seri.serializeResponse(response);
-    //no need to check for errors since the are no possible errors
-    //(assumiong that there being no rooms is not an error)
+    // no need to check for errors since there are no possible errors
+    // (assuming that there being no rooms is not an error)
     return result;
 }
-RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
+
+RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     JsonResponsePacketDeserializer desi;
@@ -132,22 +122,19 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
     // deserialize the info into a get Players In Room request
     GetPlayersInRoomRequest request = desi.desirializeGetPlayersInRoomRequest(info.buffer);
 
-
     // ***Start making the response***
     GetPlayersInRoomResponse response;
     RequestResult result;
 
     // if get Players In Room succeeded make an ok response
-
     response.players = this->m_handlerFactory.getRoomManager().getRoom(request.roomID).getAllUsers(); // get Players In Room
     result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
     result.buffer = seri.serializeResponse(response);
-    //no need to check for errors since the are no possible errors
+    // no need to check for errors since there are no possible errors
     return result;
 }
 
-//
-RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
+RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
 
@@ -163,23 +150,22 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
         response.status = OK_RESPONSE;
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
         result.buffer = seri.serializeResponse(response);
-
     }
     catch (const std::exception& err) // get stats failed, make a bad response
     {
-        //make an error 
+        // make an error
         ErrorResponse error;
         error.err = err.what();
 
-        //return to the menu handler
+        // return to the menu handler
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-        //send the error
+        // send the error
         result.buffer = seri.serializeResponse(error);
     }
     return result;
 }
 
-RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
+RequestResult MenuRequestHandler::getHighScore(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
 
@@ -195,24 +181,22 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
         response.status = OK_RESPONSE;
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
         result.buffer = seri.serializeResponse(response);
-
     }
     catch (const std::exception& err) // get high score failed, make a bad response
     {
-        //make an error 
+        // make an error
         ErrorResponse error;
         error.err = err.what();
 
-        //return to the menu handler
+        // return to the menu handler
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-        //send the error
+        // send the error
         result.buffer = seri.serializeResponse(error);
     }
     return result;
 }
 
-
-RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
+RequestResult MenuRequestHandler::joinRoom(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     JsonResponsePacketDeserializer desi;
@@ -220,7 +204,6 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
     // ***Process the info***
     // deserialize the info into a join room request
     JoinRoomRequest request = desi.desirializeJoinRoomRequest(info.buffer);
-
 
     // ***Start making the response***
     JoinRoomResponse response;
@@ -234,23 +217,22 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
         response.status = OK_RESPONSE;
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
         result.buffer = seri.serializeResponse(response);
-
     }
     catch (const std::exception& err) // join room failed, make a bad response
     {
-        //make an error 
+        // make an error
         ErrorResponse error;
         error.err = err.what();
 
-        //return to the menu handler
+        // return to the menu handler
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-        //send the error
+        // send the error
         result.buffer = seri.serializeResponse(error);
     }
     return result;
 }
 
-RequestResult MenuRequestHandler::createRoom(RequestInfo info)
+RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     JsonResponsePacketDeserializer desi;
@@ -259,21 +241,17 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
     // deserialize the info into a create Room request
     CreateRoomRequest request = desi.desirializeCreateRoomRequest(info.buffer);
 
-
     // ***Start making the response***
     JoinRoomResponse response;
     RequestResult result;
 
-
-    //make the data of the room
+    // make the data of the room
     RoomData data;
     data.name = request.roomName;
     data.numOfQuestions = request.questionCount;
     data.isActive = NOT_STARTED;
     data.timePerQuestion = request.answerTimeout;
     data.maxPlayers = request.maxUsers;
-
-
 
     // if create Room succeeded make an ok response
     try
@@ -282,7 +260,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
         // if there are no rooms then id is 0
         if (this->m_handlerFactory.getRoomManager().getRooms().size() != 0)
         {
-            //get the id of the last room and add one
+            // get the id of the last room and add one
             auto it = this->m_handlerFactory.getRoomManager().getRooms().rbegin();
             id = it->id;
             id++;
@@ -293,17 +271,16 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
         response.status = OK_RESPONSE;
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
         result.buffer = seri.serializeResponse(response);
-
     }
     catch (const std::exception& err) // create Room failed, make a bad response
     {
-        //make an error 
+        // make an error
         ErrorResponse error;
         error.err = err.what();
 
-        //return to the menu handler
+        // return to the menu handler
         result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-        //send the error
+        // send the error
         result.buffer = seri.serializeResponse(error);
     }
     return result;

@@ -5,14 +5,14 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory& handlerF
 {
 }
 
-bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo info)
+bool RoomAdminRequestHandler::isRequestRelevant(const RequestInfo& info) const
 {
 	return info.id == CLOSE_ROOM_REQ ||
 		info.id == START_GAME_REQ ||
 		info.id == GET_ROOM_STATS_REQ;
 }
 
-RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
+RequestResult RoomAdminRequestHandler::handleRequest(const RequestInfo& info)
 {
     RequestResult result;
 
@@ -32,14 +32,15 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
     return result;
 }
 
-RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
+RequestResult RoomAdminRequestHandler::closeRoom(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     CloseRoomResponse response;
     RequestResult result;
 
     // close the room
-    this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = CLOSED_ROOM;
+    // does not work
+    //this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = CLOSED_ROOM;
 
     // leave the room
     this->m_roomManager.getRoom(this->m_room.getData().id).removeUser(this->m_user);
@@ -53,24 +54,26 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
     return result;
 }
 
-RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
+RequestResult RoomAdminRequestHandler::startGame(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     StartGameResponse response;
     RequestResult result;
 
     // start the game
-    this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = STARTED;
+    // 
+    // does not work
+    //this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = STARTED;
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user); // v4.0.0 CHANGE TO createGameRequestHandler
+    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); // v4.0.0 CHANGE TO createGameRequestHandler
     result.buffer = seri.serializeResponse(response);
 
     return result;
 }
 
-RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo info)
+RequestResult RoomAdminRequestHandler::getRoomState(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     GetRoomStateResponse response;
@@ -84,7 +87,7 @@ RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo info)
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user);
+    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room);
     result.buffer = seri.serializeResponse(response);
 
     return result;

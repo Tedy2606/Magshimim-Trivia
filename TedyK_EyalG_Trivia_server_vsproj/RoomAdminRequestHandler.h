@@ -25,14 +25,14 @@ public:
 	* @param RequestInfo info - the info (mainly the id) of the request
 	* @return if the request matches or not
 	**/
-	virtual bool isRequestRelevant(RequestInfo info);
+	virtual bool isRequestRelevant(const RequestInfo& info) const override;
 
 	/***
 	* handles a room admin request from the user - desirialise, procces, return response
 	* @param RequestInfo info - the info (mainly the data) of the request
 	* @return the result (serialised response and new handler)
 	**/
-	virtual RequestResult handleRequest(RequestInfo info);
+	virtual RequestResult handleRequest(const RequestInfo& info) override;
 
 private:
 	/*
@@ -40,21 +40,21 @@ private:
 	@param info - the info of the request
 	@return the result of the request
 	*/
-	RequestResult closeRoom(RequestInfo info);
+	RequestResult closeRoom(const RequestInfo& info);
 
 	/*
 	starts the game
 	@param info - the info of the request
 	@return the result of the request
 	*/
-	RequestResult startGame(RequestInfo info);
+	RequestResult startGame(const RequestInfo& info);
 
 	/*
 	Returns the state of the room
 	@param info - the info of the request
 	@return the result of the request
 	*/
-	RequestResult getRoomState(RequestInfo info);
+	RequestResult getRoomState(const RequestInfo& info);
 
 	Room m_room;
 	LoggedUser m_user;

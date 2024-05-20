@@ -1,17 +1,17 @@
 #include "RoomMemberRequestHandler.h"
 
 RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handlerFactory, Room room, LoggedUser user)
-	: m_handlerFactory(handlerFactory), m_roomManager(handlerFactory.getRoomManager()), m_room(room), m_user(user)
+    : m_handlerFactory(handlerFactory), m_roomManager(handlerFactory.getRoomManager()), m_room(room), m_user(user)
 {
 }
 
-bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo info)
+bool RoomMemberRequestHandler::isRequestRelevant(const RequestInfo& info) const
 {
     return info.id == LEAVE_ROOM_REQ ||
         info.id == GET_ROOM_STATS_REQ;
 }
 
-RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
+RequestResult RoomMemberRequestHandler::handleRequest(const RequestInfo& info)
 {
     RequestResult result;
 
@@ -28,7 +28,7 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
     return result;
 }
 
-RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo info)
+RequestResult RoomMemberRequestHandler::leaveRoom(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     LeaveRoomResponse response;
@@ -45,7 +45,7 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo info)
     return result;
 }
 
-RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
+RequestResult RoomMemberRequestHandler::getRoomState(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     GetRoomStateResponse response;
@@ -59,7 +59,7 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user);
+    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room);
     result.buffer = seri.serializeResponse(response);
 
     return result;
