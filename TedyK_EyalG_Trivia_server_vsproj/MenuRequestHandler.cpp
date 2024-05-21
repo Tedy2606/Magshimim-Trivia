@@ -73,7 +73,7 @@ RequestResult MenuRequestHandler::signout(const RequestInfo& info)
     // if logout succeeded make an ok response
     try
     {
-        std::cout << "went in";
+        
         this->m_handlerFactory.getLoginManager().logout(this->m_user.GetUserName()); // logout
 
         response.status = OK_RESPONSE;
@@ -263,7 +263,7 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
         if (this->m_handlerFactory.getRoomManager().getRooms().size() != 0)
         {
             //get the id of the last room and add one
-            std::vector<RoomData> rooms = this->m_handlerFactory.getRoomManagaer().getRooms();
+            std::vector<RoomData> rooms = this->m_handlerFactory.getRoomManager().getRooms();
             id = rooms.back().id;
             id++;
         }
