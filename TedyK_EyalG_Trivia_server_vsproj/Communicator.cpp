@@ -133,9 +133,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		while (true)
 		{
 
-			// probably need to change the max len into a big num
-			// cus my only idea right now is to get the longest possible msg and then 
-			// just cut the array on however we need 
+			
 			
 			//needs to be const unsinged char...
 			const char* client_response_header = getPartFromSocket(clientSocket, HEADER_SIZE, 0);
@@ -159,7 +157,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 				//handle requests 
 				RequestResult res = this->m_clients[clientSocket]->handleRequest(info);
 				response = res.buffer;
-
+				
 				// switch to new handle
 				delete this->m_clients[clientSocket];
 				this->m_clients[clientSocket] = res.newHandler;

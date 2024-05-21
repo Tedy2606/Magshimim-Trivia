@@ -1,0 +1,38 @@
+﻿<Page x:Class="TriviaClient.JoinRoom"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TriviaClient"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="650"
+      Title="JoinRoom">
+
+    <Grid>
+        <TextBlock Text="Rooms" Width="360" Height="80" Foreground="White" Margin="145,55,145,565" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
+
+        <ScrollViewer Width="400" Height="390" Margin="125,140,125,170" Background="#060606" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="stackPanel">
+                <!-- Here are the room buttons,
+                this button isn't supposed to be here 
+                since it's a template for how the buttons should look-->
+                <Button x:Name="roomName" Content="roomName" Width = "360" Height = "60" Background="Orange" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,570,145,70" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+    </Grid>
+</Page>
