@@ -3,13 +3,13 @@
 #include "JsonResponsePacketSerializer.h"
 #include "JsonResponsePacketDeserializer.h"
 
-#define LOGOUT_MSG_REQ 104
-#define JOIN_ROOM_MSG_REQ 105
-#define CREATE_ROOM_MSG_REQ 106
-#define GET_STATS_MSG_REQ 107
-#define GET_HIGH_SCORE_MSG_REQ 110
-#define GET_PLAYERS_IN_ROOM_MSG_REQ 111
-#define GET_ROOMS_MSG_REQ 112
+#define LOGOUT_MSG_REQ 111
+#define JOIN_ROOM_MSG_REQ 112
+#define CREATE_ROOM_MSG_REQ 113
+#define GET_STATS_MSG_REQ 114
+#define GET_HIGH_SCORE_MSG_REQ 115
+#define GET_PLAYERS_IN_ROOM_MSG_REQ 116
+#define GET_ROOMS_MSG_REQ 117
 #define OK_RESPONSE 1
 
 MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handlerFactory, LoggedUser user)
@@ -41,10 +41,10 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo& info)
         result = signout(info);
         break;
     case JOIN_ROOM_MSG_REQ:
-        result = getRooms(info);
+        result = joinRoom(info);
         break;
     case CREATE_ROOM_MSG_REQ:
-        result = getPlayersInRoom(info);
+        result = createRoom(info);
         break;
     case GET_STATS_MSG_REQ:
         result = getPersonalStats(info);
@@ -53,10 +53,10 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo& info)
         result = getHighScore(info);
         break;
     case GET_PLAYERS_IN_ROOM_MSG_REQ:
-        result = joinRoom(info);
+        result = getPlayersInRoom(info);
         break;
     case GET_ROOMS_MSG_REQ:
-        result = createRoom(info);
+        result = getRooms(info);
         break;
     }
 
@@ -74,6 +74,7 @@ RequestResult MenuRequestHandler::signout(const RequestInfo& info)
     // if logout succeeded make an ok response
     try
     {
+        std::cout << "went in";
         this->m_handlerFactory.getLoginManager().logout(this->m_user.GetUserName()); // logout
 
         response.status = OK_RESPONSE;
