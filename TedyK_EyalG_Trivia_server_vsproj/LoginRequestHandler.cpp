@@ -14,12 +14,12 @@ LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory)
 {
 }
 
-bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
+bool LoginRequestHandler::isRequestRelevant(const RequestInfo& info) const
 {
     return info.id == LOGIN_REQ || info.id == SIGNUP_REQ;
 }
 
-RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
+RequestResult LoginRequestHandler::handleRequest(const RequestInfo& info)
 {
     RequestResult result;
 
@@ -40,7 +40,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
     return result;
 }
 
-RequestResult LoginRequestHandler::login(RequestInfo info)
+RequestResult LoginRequestHandler::login(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     JsonResponsePacketDeserializer desi;
@@ -48,7 +48,6 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
     // ***Process the info***
     // deserialize the info into a login request
     LoginRequest request = desi.desirializeLoginRequest(info.buffer);
-
 
     // ***Start making the response***
     LoginResponse response;
@@ -66,19 +65,19 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
     }
     catch (const std::exception& err) // login failed, make a bad response
     {
-        //make an error 
+        // make an error 
         ErrorResponse error;
         error.err = err.what();
 
-        //return to the login handler
+        // return to the login handler
         result.newHandler = this->m_handlerFactory.createLoginRequestHandler();
-        //send the error
+        // send the error
         result.buffer = seri.serializeResponse(error);
     }
     return result;
 }
 
-RequestResult LoginRequestHandler::signup(RequestInfo info)
+RequestResult LoginRequestHandler::signup(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     JsonResponsePacketDeserializer desi;
@@ -86,7 +85,6 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
     // ***Process the info***
     // deserialize the info into a login request
     SignupRequest request = desi.desirializeSignupRequest(info.buffer);
-
 
     // ***Start making the response***
     SignupResponse response;
@@ -104,13 +102,13 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
     }
     catch (const std::exception& err) // signup failed, make a bad response
     {
-        //make an error 
+        // make an error 
         ErrorResponse error;
         error.err = err.what();
 
-        //return to the login handler
+        // return to the login handler
         result.newHandler = this->m_handlerFactory.createLoginRequestHandler();
-        //send the error
+        // send the error
         result.buffer = seri.serializeResponse(error);
     }
 

@@ -16,10 +16,13 @@
 #define GET_PLAYERS_IN_ROOM_MSG_REQ 116
 #define GET_ROOMS_MSG_REQ 117
 
-
+#define CLOSE_ROOM_REQ 113
+#define START_GAME_REQ 114
+#define GET_ROOM_STATS_REQ 115
+#define LEAVE_ROOM_REQ 116
 
 #define LENGHT_IN_BYTES 4
-buffer JsonResponsePacketSerializer::serializeResponseWithJson(json data, int code)
+buffer JsonResponsePacketSerializer::serializeResponseWithJson(const json& data, int code)
 {
     //make the buffer
     std::vector<unsigned char> buf;
@@ -34,7 +37,7 @@ buffer JsonResponsePacketSerializer::serializeResponseWithJson(json data, int co
     memcpy(msg_len_as_bytes, (char*)&len, LENGHT_IN_BYTES);
 
 
-    //probably not the best way to do this but it can be improved after we know it works
+    
     for (unsigned char c : msg_len_as_bytes)
     {
         buf.push_back(c);
@@ -48,92 +51,83 @@ buffer JsonResponsePacketSerializer::serializeResponseWithJson(json data, int co
     return buf;
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
+buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& response)
 {
-    //make the data json 
     json data = {
-  {"message", response.err},
+        {"message", response.err}
     };
-    
+
     return serializeResponseWithJson(data, ERROR_MSG_CODE);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(LoginResponse response)
+buffer JsonResponsePacketSerializer::serializeResponse(const LoginResponse& response)
 {
-    //make the data json 
     json data = {
-  {"status", response.status},
+        {"status", response.status}
     };
-    
+
     return serializeResponseWithJson(data, LOGIN_MSG_CODE);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(SignupResponse response)
+buffer JsonResponsePacketSerializer::serializeResponse(const SignupResponse& response)
 {
     json data = {
-  {"status", response.status},
+        {"status", response.status}
     };
 
     return serializeResponseWithJson(data, SIGNUP_MSG_CODE);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(LogoutResponse response)
+buffer JsonResponsePacketSerializer::serializeResponse(const LogoutResponse& response)
 {
-
     json data = {
-  {"status", response.status},
+        {"status", response.status}
     };
     return serializeResponseWithJson(data, LOGOUT_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
+buffer JsonResponsePacketSerializer::serializeResponse(const JoinRoomResponse& response)
 {
-
     json data = {
-  {"status", response.status},
+        {"status", response.status}
     };
     return serializeResponseWithJson(data, JOIN_ROOM_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse response)
+buffer JsonResponsePacketSerializer::serializeResponse(const CreateRoomResponse& response)
 {
-
     json data = {
-  {"status", response.status},
+        {"status", response.status}
     };
     return serializeResponseWithJson(data, CREATE_ROOM_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse response)
+buffer JsonResponsePacketSerializer::serializeResponse(const GetPersonalStatsResponse& response)
 {
-
     json data = {
-  {"status", response.status}, {"statistics", response.statistics}
+        {"status", response.status}, {"statistics", response.statistics}
     };
     return serializeResponseWithJson(data, GET_STATS_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse response)
+buffer JsonResponsePacketSerializer::serializeResponse(const GetHighScoreResponse& response)
 {
-
     json data = {
-  {"status", response.status},  {"statistics", response.statistics}
+        {"status", response.status},  {"statistics", response.statistics}
     };
     return serializeResponseWithJson(data, GET_HIGH_SCORE_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse response)
+buffer JsonResponsePacketSerializer::serializeResponse(const GetPlayersInRoomResponse& response)
 {
-
     json data = {
-  {"players", response.players},
+        {"players", response.players}
     };
     return serializeResponseWithJson(data, GET_PLAYERS_IN_ROOM_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response)
+buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomsResponse& response)
 {
-    //turn the struct into a string 
     string rooms = "";
     for (int i = 0; i < response.rooms.size(); i++)
     {
@@ -144,7 +138,41 @@ buffer JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response
         }
     }
     json data = {
-  {"status", response.status},  {"rooms", rooms}
+        {"status", response.status},  {"rooms", rooms}
     };
     return serializeResponseWithJson(data, GET_ROOMS_MSG_REQ);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(const CloseRoomResponse& response)
+{
+    json data = {
+        {"status", response.status}
+    };
+    return serializeResponseWithJson(data, CLOSE_ROOM_REQ);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(const StartGameResponse& response)
+{
+    json data = {
+        {"status", response.status}
+    };
+    return serializeResponseWithJson(data, START_GAME_REQ);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomStateResponse& response)
+{
+    json data = {
+        {"status", response.status},  {"answerTimeout", response.answerTimeout},
+        {"hasGameBegun", response.hasGameBegun}, {"players", response.players},
+        {"questionCount", response.questionCount}
+    };
+    return serializeResponseWithJson(data, GET_ROOM_STATS_REQ);
+}
+
+buffer JsonResponsePacketSerializer::serializeResponse(const LeaveRoomResponse& response)
+{
+    json data = {
+        {"status", response.status}
+    };
+    return serializeResponseWithJson(data, LEAVE_ROOM_REQ);
 }
