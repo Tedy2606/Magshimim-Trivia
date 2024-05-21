@@ -34,7 +34,6 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo& info)
 
     // create a lock guard
     std::lock_guard<std::mutex> lock(this->m_menuMutex);
-
     switch (info.id)
     {
     case LOGOUT_MSG_REQ:
@@ -205,6 +204,7 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo& info)
     // ***Process the info***
     // deserialize the info into a join room request
     JoinRoomRequest request = desi.desirializeJoinRoomRequest(info.buffer);
+    
 
     // ***Start making the response***
     JoinRoomResponse response;
@@ -237,16 +237,17 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
 {
     JsonResponsePacketSerializer seri;
     JsonResponsePacketDeserializer desi;
-
     // ***Process the info***
     // deserialize the info into a create Room request
     CreateRoomRequest request = desi.desirializeCreateRoomRequest(info.buffer);
+    
 
     // ***Start making the response***
     JoinRoomResponse response;
     RequestResult result;
+    
 
-    // make the data of the room
+    //make the data of the room
     RoomData data;
     data.name = request.roomName;
     data.numOfQuestions = request.questionCount;
@@ -261,9 +262,9 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
         // if there are no rooms then id is 0
         if (this->m_handlerFactory.getRoomManager().getRooms().size() != 0)
         {
-            // get the id of the last room and add one
-            auto it = this->m_handlerFactory.getRoomManager().getRooms().rbegin();
-            id = it->id;
+            //get the id of the last room and add one
+            std::vector<RoomData> rooms = this->m_handlerFactory.getRoomManagaer().getRooms();
+            id = rooms.back().id;
             id++;
         }
 
