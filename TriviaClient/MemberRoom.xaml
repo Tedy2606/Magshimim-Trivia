@@ -20,7 +20,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Button x:Name="leaveRoom" Content="Leave Room" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,560,145,80" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="leaveRoom" Content="Leave Room" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,560,145,80" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="leaveRoom_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

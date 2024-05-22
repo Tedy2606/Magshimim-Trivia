@@ -30,5 +30,10 @@ namespace TriviaClient
 
             this.roomName.Text = roomName;
         }
+
+        private void leaveRoom_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

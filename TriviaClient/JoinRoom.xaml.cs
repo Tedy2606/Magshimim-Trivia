@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -87,62 +88,48 @@ namespace TriviaClient
             }
             else
             {
+                Regex regex = new Regex(@"\b\w+:\d+\b");
+                
                 //get the button name - id string 
                 string rooms = jsonObject.Value<string>("rooms");
-                int count = rooms.Count(c => c == ':'); // find out how many rooms are there
-                Button[] buttons = new Button[count];
-                count = 0;
-                for (int i = 0; i < rooms.Length; i++)
+                
+
+                foreach (Match match in regex.Matches(rooms))
                 {
+                    // get the name and id of the room
+                    string[] parsedMatch = match.Value.Split(':');
+                    string name = parsedMatch[0];
+                    string id = parsedMatch[1];
 
-                    if (i == 0 || rooms[i].Equals(","))
+                    // Create the button of the room
+                    Button button = new Button
                     {
-                        int stopNameIndex = rooms.IndexOf(':', i);
-                        string name = rooms.Substring(i, stopNameIndex - i); // Extract the substring
-                        int stopIndex = rooms.IndexOf(',', i);
-                        string id;
-                        if (stopIndex == -1) // if there is no , (ie last id)
-                        {
-                            id = rooms.Substring(stopNameIndex + 1);
-                        }
-                        else
-                        {
-                            id = rooms.Substring(stopNameIndex + 1, stopIndex - i); // Extract the substring
-                        }
-                        int result = int.Parse(id);
+                        Name = name,
+                        Tag = id,
+
+                        // Design
+                        Content = name,
+                        Width = 360,
+                        Height = 60,
+                        Background = Brushes.Orange,
+                        FontSize = 36,
+                        FontFamily = new FontFamily("Arial"),
+                        FontWeight = FontWeights.Bold
+                    };
+
+                    button.Click += button_click;
+
+                    // Create a border with rounded corners
+                    Border border = new Border();
+                    border.CornerRadius = new CornerRadius(10);
+                    //border.Child = buttons[count];
+
+                    //// add it to the button
+                    //buttons[count].Content = border;
 
 
-                        buttons[count] = new Button
-                        {
-                            Name = name,
-                            Tag = result,
-
-                            // Design
-                            Content = name,
-                            Width = 360,
-                            Height = 60,
-                            Background = Brushes.Orange,
-                            FontSize = 36,
-                            FontFamily = new FontFamily("Arial"),
-                            FontWeight = FontWeights.Bold
-                        };
-
-                        buttons[count].Click += button_click;
-
-                        // Create a border with rounded corners
-                        Border border = new Border();
-                        border.CornerRadius = new CornerRadius(10);
-                        //border.Child = buttons[count];
-
-                        //// add it to the button
-                        //buttons[count].Content = border;
-
-
-                        // *** end design here ***
-                        stackPanel.Children.Add(buttons[count]);
-                        count++;
-                    }
-
+                    // *** end design here ***
+                    stackPanel.Children.Add(button);
                 }
             }
         }
