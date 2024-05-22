@@ -15,7 +15,7 @@ void Room::addUser(LoggedUser user)
 {
 	if (this->m_metadata.maxPlayers == this->m_users.size())
 	{
-		throw std::runtime_error("error in signup, user already exists");
+		throw std::runtime_error("error in add user, max user limit reached");
 	}
 	this->m_users.push_back(user);
 }

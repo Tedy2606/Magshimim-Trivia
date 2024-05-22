@@ -36,10 +36,10 @@ namespace TriviaClient
             // Send a message to the server
             Button clickedButton = sender as Button;
             JObject message = new JObject();
-            message["roomID"] = clickedButton.Tag.ToString();
+            message["roomID"] = (int)clickedButton.Tag;
             string jsonString = message.ToString();
             byte code = 112;
-
+             
 
             Networker networker = new Networker();
             JObject jsonObject = networker.sendAndRecive(message, this._stream, code);
@@ -97,25 +97,25 @@ namespace TriviaClient
 
                     if (i == 0 || rooms[i].Equals(","))
                     {
-                        int stopIndex = rooms.IndexOf(':', i);
-                        string name = rooms.Substring(i, stopIndex - i - 1); // Extract the substring
-                        stopIndex = rooms.IndexOf(',', i);
+                        int stopNameIndex = rooms.IndexOf(':', i);
+                        string name = rooms.Substring(i, stopNameIndex - i); // Extract the substring
+                        int stopIndex = rooms.IndexOf(',', i);
                         string id;
                         if (stopIndex == -1) // if there is no , (ie last id)
                         {
-                            id = rooms.Substring(i + 1);
+                            id = rooms.Substring(stopNameIndex + 1);
                         }
                         else
                         {
-                            id = rooms.Substring(i + 1, stopIndex - i); // Extract the substring
+                            id = rooms.Substring(stopNameIndex + 1, stopIndex - i); // Extract the substring
                         }
-
+                        int result = int.Parse(id);
 
 
                         buttons[count] = new Button
                         {
                             Name = name,
-                            Tag = id,
+                            Tag = result,
 
                             // Design
                             Content = name,

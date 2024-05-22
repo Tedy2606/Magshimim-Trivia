@@ -34,6 +34,7 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo& info)
 
     // create a lock guard
     std::lock_guard<std::mutex> lock(this->m_menuMutex);
+    
     switch (info.id)
     {
     case LOGOUT_MSG_REQ:
@@ -267,12 +268,12 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
             id = rooms.back().id;
             id++;
         }
-
+        data.id = id;
         this->m_handlerFactory.getRoomManager().createRoom(this->m_user, data); // create Room
 
         response.status = OK_RESPONSE;
         result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_handlerFactory.getRoomManager().getRoom(id));
-
+        
         result.buffer = seri.serializeResponse(response);
     }
     catch (const std::exception& err) // create Room failed, make a bad response
