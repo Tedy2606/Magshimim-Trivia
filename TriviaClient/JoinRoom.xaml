@@ -17,15 +17,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,615,145,25" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-
-        <Button x:Name="refreshRooms" Content="Refresh Rooms" Width = "360" Height = "60" Background="Orange" Margin="145,540,145,100" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="refresh_Click">
+        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,570,145,70" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

@@ -16,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+
 
 namespace TriviaClient
 {
@@ -24,14 +26,31 @@ namespace TriviaClient
     /// </summary>
     public partial class JoinRoom : Page
     {
+        private DispatcherTimer _dispatcherTimer;
+
         private NetworkStream _stream;
         public JoinRoom(NetworkStream stream)
         {
+            
             this._stream = stream;
             InitializeComponent();
 
-            refresh();
+            // initialize the dispatcher timer
+            this._dispatcherTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(3)
+            };
+            this._dispatcherTimer.Tick += this.DispatcherTimer_Tick;
+
+            // start refreshing the rooms
+            this._dispatcherTimer.Start();
+            this.refresh();
         }
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            this.refresh();
+        }
+
         private void button_click(object sender, RoutedEventArgs e)
         {
             // Send a message to the server
@@ -47,6 +66,7 @@ namespace TriviaClient
 
             if (!jsonObject.ContainsKey("message"))
             {
+                this._dispatcherTimer.Stop();
                 NavigationService?.Navigate(new MemberRoom(this._stream, clickedButton.Content.ToString()));
             }
             else
@@ -54,17 +74,14 @@ namespace TriviaClient
                 MessageBox.Show($"Response from server: {jsonObject}");
             }
         }
+
         private void back_Click(object sender, RoutedEventArgs e)
         {
             if (NavigationService.CanGoBack)
             {
+                this._dispatcherTimer.Stop();
                 NavigationService?.GoBack();
             }
-        }
-
-        private void refresh_Click(object sender, RoutedEventArgs e)
-        {
-            refresh();
         }
 
         private void refresh()
