@@ -6,7 +6,7 @@ Room::Room(RoomData data)
 	this->m_users = std::vector<LoggedUser>();
 }
 
-RoomData Room::getData() const
+RoomData& Room::getData()
 {
 	return this->m_metadata;
 }
