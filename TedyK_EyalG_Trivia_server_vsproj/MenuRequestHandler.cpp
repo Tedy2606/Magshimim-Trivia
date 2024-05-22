@@ -216,7 +216,7 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo& info)
         this->m_handlerFactory.getRoomManager().getRoom(request.roomID).addUser(this->m_user.GetUserName()); // join room
 
         response.status = OK_RESPONSE;
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_handlerFactory.getRoomManager().getRoom(request.roomID));
         result.buffer = seri.serializeResponse(response);
     }
     catch (const std::exception& err) // join room failed, make a bad response
@@ -271,7 +271,8 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
         this->m_handlerFactory.getRoomManager().createRoom(this->m_user, data); // create Room
 
         response.status = OK_RESPONSE;
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_handlerFactory.getRoomManager().getRoom(id));
+
         result.buffer = seri.serializeResponse(response);
     }
     catch (const std::exception& err) // create Room failed, make a bad response
