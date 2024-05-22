@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +21,14 @@ namespace TriviaClient
     /// </summary>
     public partial class AdminRoom : Page
     {
-        public AdminRoom()
+        private NetworkStream _stream;
+        
+        public AdminRoom(NetworkStream stream, string roomName)
         {
+            this._stream = stream;
             InitializeComponent();
+
+            this.roomName.Text = roomName;
         }
     }
 }

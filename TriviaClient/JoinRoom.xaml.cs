@@ -46,8 +46,7 @@ namespace TriviaClient
 
             if (!jsonObject.ContainsKey("message"))
             {
-                //temp
-                NavigationService?.Navigate(new MemberRoom(this._stream));
+                NavigationService?.Navigate(new MemberRoom(this._stream, clickedButton.Content.ToString()));
             }
             else
             {
