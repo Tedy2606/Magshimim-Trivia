@@ -37,10 +37,10 @@ namespace TriviaClient
             // Send a message to the server
             Button clickedButton = sender as Button;
             JObject message = new JObject();
-            message["roomID"] = (int)clickedButton.Tag;
+            message["roomID"] = int.Parse(clickedButton.Tag.ToString());
             string jsonString = message.ToString();
             byte code = 112;
-             
+            
 
             Networker networker = new Networker();
             JObject jsonObject = networker.sendAndRecive(message, this._stream, code);
