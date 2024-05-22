@@ -47,7 +47,7 @@ namespace TriviaClient
             if (!jsonObject.ContainsKey("message"))
             {
                 //temp
-                NavigationService?.Navigate(new Login(this._stream));
+                NavigationService?.Navigate(new MemberRoom(this._stream));
             }
             else
             {
@@ -86,64 +86,65 @@ namespace TriviaClient
             {
                 MessageBox.Show($"Response from server: {jsonObject}");
             }
-
-            //get the button name - id string 
-            string rooms = jsonObject.Value<string>("rooms");
-            int count = rooms.Count(c => c == ':'); // find out how many rooms are there
-            Button[] buttons = new Button[count];
-            count = 0;
-            for (int i = 0; i < rooms.Length; i++)
+            else
             {
-
-                if (i == 0 || rooms[i].Equals(","))
+                //get the button name - id string 
+                string rooms = jsonObject.Value<string>("rooms");
+                int count = rooms.Count(c => c == ':'); // find out how many rooms are there
+                Button[] buttons = new Button[count];
+                count = 0;
+                for (int i = 0; i < rooms.Length; i++)
                 {
-                    int stopIndex = rooms.IndexOf(':', i);
-                    string name = rooms.Substring(i, stopIndex - i - 1); // Extract the substring
-                    stopIndex = rooms.IndexOf(',', i);
-                    string id;
-                    if (stopIndex == -1) // if there is no , (ie last id)
+
+                    if (i == 0 || rooms[i].Equals(","))
                     {
-                        id = rooms.Substring(i + 1);
+                        int stopIndex = rooms.IndexOf(':', i);
+                        string name = rooms.Substring(i, stopIndex - i - 1); // Extract the substring
+                        stopIndex = rooms.IndexOf(',', i);
+                        string id;
+                        if (stopIndex == -1) // if there is no , (ie last id)
+                        {
+                            id = rooms.Substring(i + 1);
+                        }
+                        else
+                        {
+                            id = rooms.Substring(i + 1, stopIndex - i); // Extract the substring
+                        }
+
+
+
+                        buttons[count] = new Button
+                        {
+                            Name = name,
+                            Tag = id,
+
+                            // Design
+                            Content = name,
+                            Width = 360,
+                            Height = 60,
+                            Background = Brushes.Orange,
+                            FontSize = 36,
+                            FontFamily = new FontFamily("Arial"),
+                            FontWeight = FontWeights.Bold
+                        };
+
+                        buttons[count].Click += button_click;
+
+                        // Create a border with rounded corners
+                        Border border = new Border();
+                        border.CornerRadius = new CornerRadius(10);
+                        //border.Child = buttons[count];
+
+                        //// add it to the button
+                        //buttons[count].Content = border;
+
+
+                        // *** end design here ***
+                        stackPanel.Children.Add(buttons[count]);
+                        count++;
                     }
-                    else
-                    {
-                        id = rooms.Substring(i + 1, stopIndex - i); // Extract the substring
-                    }
 
-
-
-                    buttons[count] = new Button();
-                    buttons[count].Name = name;
-                    buttons[count].Tag = id;
-                    buttons[count].Click += button_click;
-                    // *** design here ***
-
-                    // basic design
-                    buttons[count].Content = name;
-                    buttons[count].Width = 360;
-                    buttons[count].Height = 60;
-                    buttons[count].Background = Brushes.Orange;
-                    buttons[count].FontSize = 36;
-                    buttons[count].FontFamily = new FontFamily("Arial");
-                    buttons[count].FontWeight = FontWeights.Bold;
-
-                    // Create a border with rounded corners
-                    Border border = new Border();
-                    border.CornerRadius = new CornerRadius(10);
-                    //border.Child = buttons[count];
-
-                    //// add it to the button
-                    //buttons[count].Content = border;
-
-
-                    // *** end design here ***
-
-                    stackPanel.Children.Add(buttons[count]);
-
-
-                    count++;
                 }
-
             }
         }
     }
