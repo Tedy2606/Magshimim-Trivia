@@ -30,7 +30,7 @@ public:
 	* getter for the data of the room 
 	* @return roomData - the data of the room 
 	**/
-	RoomData getData() const;
+	RoomData& getData();
 	/***
 	* function adds a user to the room 
 	* @param LoggedUser user - the user to add to the room

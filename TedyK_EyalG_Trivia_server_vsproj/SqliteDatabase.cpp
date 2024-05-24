@@ -1,4 +1,11 @@
 #include "SqliteDatabase.h"
+#include <iostream>
+#include <vector>
+#include <list>
+#include <set>
+#include <string>
+#include <cstdlib>
+#include <io.h> // For _access function
 
 bool SqliteDatabase::open()
 {
@@ -72,7 +79,7 @@ bool SqliteDatabase::close()
     int res = sqlite3_close(this->_db);
     if (res != SQLITE_OK)
     {
-        std::cerr << "An error occured when trying to close the databse." << std::endl;
+        std::cerr << "An error occurred when trying to close the database." << std::endl;
         return false;
     }
 
@@ -80,7 +87,7 @@ bool SqliteDatabase::close()
     return true;
 }
 
-bool SqliteDatabase::doesUserExist(std::string username)
+bool SqliteDatabase::doesUserExist(const std::string& username)
 {
     bool doesUserExist = false;
     auto callback = [](void* data, int argc, char** argv, char** azColName)
@@ -96,7 +103,7 @@ bool SqliteDatabase::doesUserExist(std::string username)
     return doesUserExist;
 }
 
-bool SqliteDatabase::doesPasswordMatch(std::string username, std::string password)
+bool SqliteDatabase::doesPasswordMatch(const std::string& username, const std::string& password)
 {
     bool doesPasswordMatch = false;
     auto callback = [](void* data, int argc, char** argv, char** azColName)
@@ -112,7 +119,7 @@ bool SqliteDatabase::doesPasswordMatch(std::string username, std::string passwor
     return doesPasswordMatch;
 }
 
-bool SqliteDatabase::addNewUser(std::string username, std::string password, std::string email)
+bool SqliteDatabase::addNewUser(const std::string& username, const std::string& password, const std::string& email)
 {
     if (this->doesUserExist(username))
     {
@@ -145,7 +152,7 @@ std::list<Question> SqliteDatabase::getQuestions(int questionsNum)
                 {
                     question = std::string(argv[i]);
                 }
-                // count how many times the current colum appears (if 1 it is the colum, if 0 it is not the colum (there are no other options))
+                // count how many times the current column appears (if 1 it is the column, if 0 it is not the column (there are no other options))
                 else if (std::set<std::string>{"correctAnswer", "wrongAnswer1", "wrongAnswer2", "wrongAnswer3"}.count(std::string(azColName[i])))
                 {
                     possibleAnswers.push_back(std::string(argv[i]));
@@ -163,7 +170,7 @@ std::list<Question> SqliteDatabase::getQuestions(int questionsNum)
     return questions;
 }
 
-float SqliteDatabase::getPlayerScore(std::string username)
+float SqliteDatabase::getPlayerScore(const std::string& username)
 {
     float score = 0;
     auto callback = [](void* data, int argc, char** argv, char** azColName)
@@ -179,7 +186,7 @@ float SqliteDatabase::getPlayerScore(std::string username)
     return score;
 }
 
-int SqliteDatabase::getNumOfPlayerGames(std::string username)
+int SqliteDatabase::getNumOfPlayerGames(const std::string& username)
 {
     int playerGames = 0;
     auto callback = [](void* data, int argc, char** argv, char** azColName)
@@ -195,7 +202,7 @@ int SqliteDatabase::getNumOfPlayerGames(std::string username)
     return playerGames;
 }
 
-int SqliteDatabase::getNumOfTotalAnswers(std::string username)
+int SqliteDatabase::getNumOfTotalAnswers(const std::string& username)
 {
     int totalAnswers = 0;
     auto callback = [](void* data, int argc, char** argv, char** azColName)
@@ -211,7 +218,7 @@ int SqliteDatabase::getNumOfTotalAnswers(std::string username)
     return totalAnswers;
 }
 
-int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
+int SqliteDatabase::getNumOfCorrectAnswers(const std::string& username)
 {
     int correctAnswers = 0;
     auto callback = [](void* data, int argc, char** argv, char** azColName)
@@ -227,7 +234,7 @@ int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
     return correctAnswers;
 }
 
-float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
+float SqliteDatabase::getPlayerAverageAnswerTime(const std::string& username)
 {
     int totalAnswerTime = 0;
     auto callback = [](void* data, int argc, char** argv, char** azColName)

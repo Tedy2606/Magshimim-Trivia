@@ -23,9 +23,14 @@ void LoginManager::signup(string name, string password, string mail)
 
 void LoginManager::login(string name, string password)
 {
-	if (this->m_database->doesPasswordMatch(name, password))
+	if (this->isLogged(name))
+	{
+		throw std::runtime_error("error in login, user is already logged in");
+	}
+	else if (this->m_database->doesPasswordMatch(name, password))
 	{
 		LoggedUser user(name);
+
 		// add the user to the logged ones 
 		this->m_loggedUsers.push_back(user);
 	}
@@ -57,4 +62,18 @@ void LoginManager::logout(string name)
 	{
 		throw std::runtime_error("error loggin out, user is not logged in");
 	}
+}
+
+const bool LoginManager::isLogged(const std::string& username) const
+{
+	LoggedUser user(username);
+	for (size_t i = 0; i < this->m_loggedUsers.size(); i++)
+	{
+		if (username == this->m_loggedUsers[i].GetUserName())
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
