@@ -27,8 +27,8 @@ namespace TriviaClient
     public partial class JoinRoom : Page
     {
         private DispatcherTimer _dispatcherTimer;
-
         private NetworkStream _stream;
+
         public JoinRoom(NetworkStream stream)
         {
             
@@ -46,6 +46,7 @@ namespace TriviaClient
             this._dispatcherTimer.Start();
             this.refresh();
         }
+
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             this.refresh();

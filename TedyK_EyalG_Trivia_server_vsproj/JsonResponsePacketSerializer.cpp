@@ -1,25 +1,5 @@
 #include "JsonResponsePacketSerializer.h"
-#define ERROR_MSG_CODE 103
-#define SIGNUP_MSG_CODE 102
-#define LOGIN_MSG_CODE 101
-
-
-
-#define LOGOUT_MSG_REQ 111
-
-#define JOIN_ROOM_MSG_REQ 112
-#define CREATE_ROOM_MSG_REQ 113
-#define GET_STATS_MSG_REQ 114
-#define GET_HIGH_SCORE_MSG_REQ 115
-
-
-#define GET_PLAYERS_IN_ROOM_MSG_REQ 116
-#define GET_ROOMS_MSG_REQ 117
-
-#define CLOSE_ROOM_REQ 113
-#define START_GAME_REQ 114
-#define GET_ROOM_STATS_REQ 115
-#define LEAVE_ROOM_REQ 116
+#include "Codes.h"
 
 #define LENGHT_IN_BYTES 4
 buffer JsonResponsePacketSerializer::serializeResponseWithJson(const json& data, int code)
@@ -57,7 +37,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& resp
         {"message", response.err}
     };
 
-    return serializeResponseWithJson(data, ERROR_MSG_CODE);
+    return serializeResponseWithJson(data, ERROR_RESPONSE);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(const LoginResponse& response)
@@ -66,7 +46,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const LoginResponse& resp
         {"status", response.status}
     };
 
-    return serializeResponseWithJson(data, LOGIN_MSG_CODE);
+    return serializeResponseWithJson(data, LOGIN_REQ);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(const SignupResponse& response)
@@ -75,7 +55,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const SignupResponse& res
         {"status", response.status}
     };
 
-    return serializeResponseWithJson(data, SIGNUP_MSG_CODE);
+    return serializeResponseWithJson(data, SIGNUP_REQ);
 }
 
 buffer JsonResponsePacketSerializer::serializeResponse(const LogoutResponse& response)
@@ -161,9 +141,19 @@ buffer JsonResponsePacketSerializer::serializeResponse(const StartGameResponse& 
 
 buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomStateResponse& response)
 {
+    string players = "";
+    for (int i = 0; i < response.players.size(); i++)
+    {
+        players += response.players[i];
+        if (i != response.players.size() - 1)
+        {
+            players += ",";
+        }
+    }
+
     json data = {
         {"status", response.status},  {"answerTimeout", response.answerTimeout},
-        {"hasGameBegun", response.hasGameBegun}, {"players", response.players},
+        {"hasGameBegun", response.hasGameBegun}, {"players", players},
         {"questionCount", response.questionCount}
     };
     return serializeResponseWithJson(data, GET_ROOM_STATS_REQ);

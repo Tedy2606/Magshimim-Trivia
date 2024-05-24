@@ -1,13 +1,7 @@
 #include "LoginRequestHandler.h"
 #include "JsonResponsePacketSerializer.h"
 #include "JsonResponsePacketDeserializer.h"
-
-#define LOGIN_REQ 101
-#define SIGNUP_REQ 102
-
-#define BAD_RESPONSE 2
-#define OK_RESPONSE 1
-#define ERROR_RESPONSE 0
+#include "Codes.h"
 
 LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory)
     : m_handlerFactory(handlerFactory)
