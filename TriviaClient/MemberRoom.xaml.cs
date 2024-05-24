@@ -72,6 +72,7 @@ namespace TriviaClient
             {
                 this._dispatcherTimer.Stop();
                 NavigationService?.GoBack();
+                NavigationService?.GoBack();
             }
             else
             {
