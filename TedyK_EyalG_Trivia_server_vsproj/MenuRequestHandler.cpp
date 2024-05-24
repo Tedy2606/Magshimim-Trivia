@@ -2,15 +2,7 @@
 #include "RequestHandlerFactory.h"
 #include "JsonResponsePacketSerializer.h"
 #include "JsonResponsePacketDeserializer.h"
-
-#define LOGOUT_MSG_REQ 111
-#define JOIN_ROOM_MSG_REQ 112
-#define CREATE_ROOM_MSG_REQ 113
-#define GET_STATS_MSG_REQ 114
-#define GET_HIGH_SCORE_MSG_REQ 115
-#define GET_PLAYERS_IN_ROOM_MSG_REQ 116
-#define GET_ROOMS_MSG_REQ 117
-#define OK_RESPONSE 1
+#include "Codes.h"
 
 MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handlerFactory, LoggedUser user)
     : m_handlerFactory(handlerFactory), m_user(user)
@@ -34,6 +26,7 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo& info)
 
     // create a lock guard
     std::lock_guard<std::mutex> lock(this->m_menuMutex);
+    
     switch (info.id)
     {
     case LOGOUT_MSG_REQ:
@@ -216,7 +209,7 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo& info)
         this->m_handlerFactory.getRoomManager().getRoom(request.roomID).addUser(this->m_user.GetUserName()); // join room
 
         response.status = OK_RESPONSE;
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_handlerFactory.getRoomManager().getRoom(request.roomID));
         result.buffer = seri.serializeResponse(response);
     }
     catch (const std::exception& err) // join room failed, make a bad response
@@ -243,7 +236,7 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
     
 
     // ***Start making the response***
-    JoinRoomResponse response;
+    CreateRoomResponse response;
     RequestResult result;
     
 
@@ -267,11 +260,12 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
             id = rooms.back().id;
             id++;
         }
-
+        data.id = id;
         this->m_handlerFactory.getRoomManager().createRoom(this->m_user, data); // create Room
 
         response.status = OK_RESPONSE;
-        result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+        result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_handlerFactory.getRoomManager().getRoom(id));
+        
         result.buffer = seri.serializeResponse(response);
     }
     catch (const std::exception& err) // create Room failed, make a bad response

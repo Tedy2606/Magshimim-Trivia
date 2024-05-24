@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Codes.h" />
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="IDataBase.h" />
     <ClInclude Include="IRequestHandler.h" />

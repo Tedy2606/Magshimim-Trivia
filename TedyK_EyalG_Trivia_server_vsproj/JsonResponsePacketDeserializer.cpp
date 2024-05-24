@@ -24,7 +24,6 @@ JoinRoomRequest JsonResponsePacketDeserializer::desirializeJoinRoomRequest(std::
     //make the request
     JoinRoomRequest request;
     request.roomID = data_as_json["roomID"];
-
     return request;
 }
 

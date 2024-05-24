@@ -23,7 +23,11 @@ void LoginManager::signup(string name, string password, string mail)
 
 void LoginManager::login(string name, string password)
 {
-	if (this->m_database->doesPasswordMatch(name, password) && !this->isLogged(name))
+	if (this->isLogged(name))
+	{
+		throw std::runtime_error("error in login, user is already logged in");
+	}
+	else if (this->m_database->doesPasswordMatch(name, password))
 	{
 		LoggedUser user(name);
 

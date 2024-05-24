@@ -20,7 +20,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Button x:Name="startGame" Content="Start Game" Width = "360" Height = "60" Background="Orange" Margin="145,530,145,110" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button Content="Start Game" Width = "360" Height = "60" Background="Orange" Margin="145,530,145,110" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="startGame_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -28,7 +28,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="closeRoom" Content="Close Room" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,610,145,30" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button Content="Close Room" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,610,145,30" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="closeRoom_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

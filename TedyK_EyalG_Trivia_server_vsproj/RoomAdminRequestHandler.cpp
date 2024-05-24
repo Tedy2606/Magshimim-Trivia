@@ -39,8 +39,7 @@ RequestResult RoomAdminRequestHandler::closeRoom(const RequestInfo& info)
     RequestResult result;
 
     // close the room
-    // does not work
-    //this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = CLOSED_ROOM;
+    this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = CLOSED_ROOM;
 
     // leave the room
     this->m_roomManager.getRoom(this->m_room.getData().id).removeUser(this->m_user);
@@ -61,13 +60,11 @@ RequestResult RoomAdminRequestHandler::startGame(const RequestInfo& info)
     RequestResult result;
 
     // start the game
-    // 
-    // does not work
-    //this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = STARTED;
+    this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = STARTED;
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); // v4.0.0 CHANGE TO createGameRequestHandler
+    result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room); // v4.0.0 CHANGE TO createGameRequestHandler
     result.buffer = seri.serializeResponse(response);
 
     return result;
@@ -87,7 +84,7 @@ RequestResult RoomAdminRequestHandler::getRoomState(const RequestInfo& info)
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room);
+    result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room);
     result.buffer = seri.serializeResponse(response);
 
     return result;

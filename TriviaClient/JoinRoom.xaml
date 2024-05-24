@@ -13,17 +13,7 @@
 
         <ScrollViewer Width="400" Height="390" Margin="125,140,125,170" Background="#060606" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="stackPanel">
-                <!-- Here are the room buttons,
-                this button isn't supposed to be here 
-                since it's a template for how the buttons should look-->
-                <Button x:Name="roomName" Content="roomName" Width = "360" Height = "60" Background="Orange" FontSize="36" FontFamily="Arial" FontWeight="Bold">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                
+
             </StackPanel>
         </ScrollViewer>
 
