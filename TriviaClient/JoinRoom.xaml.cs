@@ -106,48 +106,51 @@ namespace TriviaClient
             }
             else
             {
-                Regex regex = new Regex(@"\b\w+:\d+\b");
+                Regex regex = new Regex(@"\b\w+:\d+:\d+\b");
                 
-                //get the button name - id string 
+                // get the button name:id:isActive string
                 string rooms = jsonObject.Value<string>("rooms");
-                
 
                 foreach (Match match in regex.Matches(rooms))
                 {
-                    // get the name and id of the room
+                    // get the name, id and isActive of the room
                     string[] parsedMatch = match.Value.Split(':');
                     string name = parsedMatch[0];
                     string id = parsedMatch[1];
+                    int isActive = int.Parse(parsedMatch[2]);
 
-                    // Create the button of the room
-                    Button button = new Button
+                    if (isActive == 1) // room is open for new players
                     {
-                        Name = name,
-                        Tag = id,
+                        // Create the button of the room
+                        Button button = new Button
+                        {
+                            Name = name,
+                            Tag = id,
 
-                        // Design
-                        Content = name,
-                        Width = 360,
-                        Height = 60,
-                        Background = Brushes.Orange,
-                        FontSize = 36,
-                        FontFamily = new FontFamily("Arial"),
-                        FontWeight = FontWeights.Bold
-                    };
+                            // Design
+                            Content = name,
+                            Width = 360,
+                            Height = 60,
+                            Background = Brushes.Orange,
+                            FontSize = 36,
+                            FontFamily = new FontFamily("Arial"),
+                            FontWeight = FontWeights.Bold
+                        };
 
-                    button.Click += button_click;
+                        button.Click += button_click;
 
-                    // Create a border with rounded corners
-                    Border border = new Border();
-                    border.CornerRadius = new CornerRadius(10);
-                    //border.Child = buttons[count];
+                        // Create a border with rounded corners
+                        Border border = new Border();
+                        border.CornerRadius = new CornerRadius(10);
+                        //border.Child = buttons[count];
 
-                    //// add it to the button
-                    //buttons[count].Content = border;
+                        //// add it to the button
+                        //buttons[count].Content = border;
 
 
-                    // *** end design here ***
-                    stackPanel.Children.Add(button);
+                        // *** end design here ***
+                        stackPanel.Children.Add(button);
+                    }
                 }
             }
         }

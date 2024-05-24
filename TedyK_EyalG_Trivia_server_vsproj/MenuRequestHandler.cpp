@@ -236,7 +236,7 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
     
 
     // ***Start making the response***
-    JoinRoomResponse response;
+    CreateRoomResponse response;
     RequestResult result;
     
 

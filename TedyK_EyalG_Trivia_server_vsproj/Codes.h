@@ -1,18 +1,18 @@
 #pragma once
 
 // ********* responses *********
-// status
+// *** status ***
 #define ERROR_RESPONSE 0
 #define OK_RESPONSE 1
 #define BAD_RESPONSE 2
 
 
 // ********* requests *********
-// login handler
+// *** login handler ***
 #define LOGIN_REQ 101
 #define SIGNUP_REQ 102
 
-// menu hanlder
+// *** menu hanlder ***
 #define LOGOUT_MSG_REQ 111
 #define JOIN_ROOM_MSG_REQ 112
 #define CREATE_ROOM_MSG_REQ 113
@@ -21,8 +21,10 @@
 #define GET_PLAYERS_IN_ROOM_MSG_REQ 116
 #define GET_ROOMS_MSG_REQ 117
 
-// room member handler
+// *** room handlers ***
 #define GET_ROOM_STATS_REQ 120
+
+// room member handler
 #define LEAVE_ROOM_REQ 121
 
 // room admin handler

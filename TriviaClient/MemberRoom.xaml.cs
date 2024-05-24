@@ -54,8 +54,12 @@ namespace TriviaClient
 
         private void leaveRoom_Click(object sender, RoutedEventArgs e)
         {
+            leaveRoom();
+        }
+
+        private void leaveRoom()
+        {
             // Send a message to the server
-            Button clickedButton = sender as Button;
             JObject message = new JObject();
             string jsonString = message.ToString();
             byte code = 121;
@@ -74,6 +78,7 @@ namespace TriviaClient
                 MessageBox.Show($"Response from server: {jsonObject}");
             }
         }
+
         private void refresh()
         {
             // clear the buttons when refreshing
@@ -95,9 +100,21 @@ namespace TriviaClient
             }
             else
             {
+                // get the room activity status
+                int hasGameBegun = jsonObject.Value<int>("hasGameBegun");
+
+                if (hasGameBegun == 0) // leave if room is closed
+                {
+                    leaveRoom();
+                }
+                else if (hasGameBegun == 2) // game has started
+                {
+                    // TODO: move to questions page
+                }
+
+                // get the room players
                 Regex regex = new Regex(@"\w+");
 
-                //get the button name - id string 
                 string players = jsonObject.Value<string>("players");
 
                 Boolean isAdmin = true;

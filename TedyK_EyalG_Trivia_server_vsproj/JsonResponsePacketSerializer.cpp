@@ -111,7 +111,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomsResponse& r
     string rooms = "";
     for (int i = 0; i < response.rooms.size(); i++)
     {
-        rooms += response.rooms[i].name + ":" + std::to_string(response.rooms[i].id);
+        rooms += response.rooms[i].name + ":" + std::to_string(response.rooms[i].id) + ":" + std::to_string(response.rooms[i].isActive);
         if (i != response.rooms.size() - 1)
         {
             rooms += ",";

@@ -64,7 +64,7 @@ RequestResult RoomAdminRequestHandler::startGame(const RequestInfo& info)
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); // v4.0.0 CHANGE TO createGameRequestHandler
+    result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room); // v4.0.0 CHANGE TO createGameRequestHandler
     result.buffer = seri.serializeResponse(response);
 
     return result;
@@ -84,7 +84,7 @@ RequestResult RoomAdminRequestHandler::getRoomState(const RequestInfo& info)
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room);
+    result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room);
     result.buffer = seri.serializeResponse(response);
 
     return result;
