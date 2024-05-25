@@ -164,3 +164,52 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const LeaveRoomResponse& 
     };
     return serializeResponseWithJson(data, LEAVE_ROOM_REQ);
 }
+
+Buffer JsonResponsePacketSerializer::serializeResponse(const GetGameResultsResponse& response)
+{
+    string results = "";
+    for (int i = 0; i < response.results.size(); i++)
+    {
+        results += response.results[i].username + ":" +
+            std::to_string(response.results[i].correctAnswerCount) + ":" +
+            std::to_string(response.results[i].wrongAnswerCount) + ":" +
+            std::to_string(response.results[i].averageAnswerTime);
+        if (i != response.results.size() - 1)
+        {
+            results += ",";
+        }
+    }
+
+    json data = {
+        {"status", response.status}, {"results", results}
+    };
+
+    return serializeResponseWithJson(data, GET_GAME_RESULT_REQ);
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(const SubmitAnswerResponse& response)
+{
+    json data = {
+        {"status", response.status}, {"correctAnswerID" ,response.correctAnswerID}
+    };
+
+    return serializeResponseWithJson(data, SUBMIT_ANSWER_REQ);
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(const GetQuestionResponse& response)
+{
+    json data = {
+        {"status", response.status}, {"question" ,response.question}, {"answers", response.answers}
+    };
+
+    return serializeResponseWithJson(data, GET_QUESTION_REQ);
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(const LeaveGameResponse& response)
+{
+    json data = {
+        {"status", response.status}
+    };
+
+    return serializeResponseWithJson(data, LEAVE_GAME_REQ);
+}

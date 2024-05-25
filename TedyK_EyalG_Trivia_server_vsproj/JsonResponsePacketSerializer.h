@@ -230,5 +230,31 @@ public:
 	**/
 	static Buffer serializeResponse(const LeaveRoomResponse& response);
 
+	/***
+	* serializes a get game results Response to an array of bytes
+	* @param response - the reponse the server wants to send back
+	* @return buffer - the array of bytes
+	**/
+	static Buffer serializeResponse(const GetGameResultsResponse& response);
 
+	/***
+	* serializes a submit answer Response to an array of bytes
+	* @param response - the reponse the server wants to send back
+	* @return buffer - the array of bytes
+	**/
+	static Buffer serializeResponse(const SubmitAnswerResponse& response);
+
+	/***
+	* serializes a get question Response to an array of bytes
+	* @param response - the reponse the server wants to send back
+	* @return buffer - the array of bytes
+	**/
+	static Buffer serializeResponse(const GetQuestionResponse& response);
+
+	/***
+	* serializes a leave game Response to an array of bytes
+	* @param response - the reponse the server wants to send back
+	* @return buffer - the array of bytes
+	**/
+	static Buffer serializeResponse(const LeaveGameResponse& response);
 };
