@@ -2,26 +2,25 @@
 
 Buffer JsonResponsePacketSerializer::serializeResponseWithJson(const json& data, int code)
 {
-    //make the buffer
-    std::vector<unsigned char> buf;
+    // make the buffer
+    Buffer buf;
+    string data_as_str = data.dump();
 
-    std::string data_as_str = data.dump();
+    // enter the msg code 
+    buf.push_back(code); 
 
-    buf.push_back(code); // enter the msg code 
+    // enter the message len (messege len is 4 bytes)
     int len = data_as_str.length();
-
-    //messege len is 4 byte 
     unsigned char msg_len_as_bytes[LENGHT_IN_BYTES];
+
     memcpy(msg_len_as_bytes, (char*)&len, LENGHT_IN_BYTES);
-
-
     
     for (unsigned char c : msg_len_as_bytes)
     {
         buf.push_back(c);
     }
 
-    //insert bytes into the vector
+    // enter the data bytes into the buffer
     for (char c : data_as_str) {
         buf.push_back(static_cast<unsigned char>(c));
     }
@@ -61,6 +60,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const LogoutResponse& res
     json data = {
         {"status", response.status}
     };
+
     return serializeResponseWithJson(data, LOGOUT_MSG_REQ);
 }
 
@@ -69,6 +69,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const JoinRoomResponse& r
     json data = {
         {"status", response.status}
     };
+
     return serializeResponseWithJson(data, JOIN_ROOM_MSG_REQ);
 }
 
@@ -77,6 +78,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const CreateRoomResponse&
     json data = {
         {"status", response.status}
     };
+
     return serializeResponseWithJson(data, CREATE_ROOM_MSG_REQ);
 }
 
@@ -85,6 +87,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetPersonalStatsRes
     json data = {
         {"status", response.status}, {"statistics", response.statistics}
     };
+
     return serializeResponseWithJson(data, GET_STATS_MSG_REQ);
 }
 
@@ -93,6 +96,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetHighScoreRespons
     json data = {
         {"status", response.status},  {"statistics", response.statistics}
     };
+
     return serializeResponseWithJson(data, GET_HIGH_SCORE_MSG_REQ);
 }
 
@@ -101,6 +105,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetPlayersInRoomRes
     json data = {
         {"players", response.players}
     };
+
     return serializeResponseWithJson(data, GET_PLAYERS_IN_ROOM_MSG_REQ);
 }
 
@@ -118,6 +123,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomsResponse& r
     json data = {
         {"status", response.status},  {"rooms", rooms}
     };
+
     return serializeResponseWithJson(data, GET_ROOMS_MSG_REQ);
 }
 
@@ -126,6 +132,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const CloseRoomResponse& 
     json data = {
         {"status", response.status}
     };
+
     return serializeResponseWithJson(data, CLOSE_ROOM_REQ);
 }
 
@@ -134,6 +141,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const StartGameResponse& 
     json data = {
         {"status", response.status}
     };
+
     return serializeResponseWithJson(data, START_GAME_REQ);
 }
 
@@ -154,6 +162,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomStateRespons
         {"hasGameBegun", response.hasGameBegun}, {"players", players},
         {"questionCount", response.questionCount}
     };
+
     return serializeResponseWithJson(data, GET_ROOM_STATS_REQ);
 }
 
@@ -162,6 +171,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const LeaveRoomResponse& 
     json data = {
         {"status", response.status}
     };
+
     return serializeResponseWithJson(data, LEAVE_ROOM_REQ);
 }
 
