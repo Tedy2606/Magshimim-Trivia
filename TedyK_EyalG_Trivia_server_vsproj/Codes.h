@@ -30,3 +30,9 @@
 // room admin handler
 #define CLOSE_ROOM_REQ 131
 #define START_GAME_REQ 132
+
+// *** game handlers ***
+#define LEAVE_GAME_REQ 141
+#define GET_QUESTION_REQ 142
+#define SUBMIT_ANSWER_REQ 143
+#define GET_GAME_RESULT_REQ 144
