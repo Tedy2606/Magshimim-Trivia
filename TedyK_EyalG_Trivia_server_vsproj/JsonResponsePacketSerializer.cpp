@@ -1,8 +1,6 @@
 #include "JsonResponsePacketSerializer.h"
-#include "Codes.h"
 
-#define LENGHT_IN_BYTES 4
-buffer JsonResponsePacketSerializer::serializeResponseWithJson(const json& data, int code)
+Buffer JsonResponsePacketSerializer::serializeResponseWithJson(const json& data, int code)
 {
     //make the buffer
     std::vector<unsigned char> buf;
@@ -31,7 +29,7 @@ buffer JsonResponsePacketSerializer::serializeResponseWithJson(const json& data,
     return buf;
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& response)
 {
     json data = {
         {"message", response.err}
@@ -40,7 +38,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& resp
     return serializeResponseWithJson(data, ERROR_RESPONSE);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const LoginResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const LoginResponse& response)
 {
     json data = {
         {"status", response.status}
@@ -49,7 +47,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const LoginResponse& resp
     return serializeResponseWithJson(data, LOGIN_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const SignupResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const SignupResponse& response)
 {
     json data = {
         {"status", response.status}
@@ -58,7 +56,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const SignupResponse& res
     return serializeResponseWithJson(data, SIGNUP_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const LogoutResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const LogoutResponse& response)
 {
     json data = {
         {"status", response.status}
@@ -66,7 +64,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const LogoutResponse& res
     return serializeResponseWithJson(data, LOGOUT_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const JoinRoomResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const JoinRoomResponse& response)
 {
     json data = {
         {"status", response.status}
@@ -74,7 +72,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const JoinRoomResponse& r
     return serializeResponseWithJson(data, JOIN_ROOM_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const CreateRoomResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const CreateRoomResponse& response)
 {
     json data = {
         {"status", response.status}
@@ -82,7 +80,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const CreateRoomResponse&
     return serializeResponseWithJson(data, CREATE_ROOM_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const GetPersonalStatsResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const GetPersonalStatsResponse& response)
 {
     json data = {
         {"status", response.status}, {"statistics", response.statistics}
@@ -90,7 +88,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const GetPersonalStatsRes
     return serializeResponseWithJson(data, GET_STATS_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const GetHighScoreResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const GetHighScoreResponse& response)
 {
     json data = {
         {"status", response.status},  {"statistics", response.statistics}
@@ -98,7 +96,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const GetHighScoreRespons
     return serializeResponseWithJson(data, GET_HIGH_SCORE_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const GetPlayersInRoomResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const GetPlayersInRoomResponse& response)
 {
     json data = {
         {"players", response.players}
@@ -106,7 +104,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const GetPlayersInRoomRes
     return serializeResponseWithJson(data, GET_PLAYERS_IN_ROOM_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomsResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomsResponse& response)
 {
     string rooms = "";
     for (int i = 0; i < response.rooms.size(); i++)
@@ -123,7 +121,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomsResponse& r
     return serializeResponseWithJson(data, GET_ROOMS_MSG_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const CloseRoomResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const CloseRoomResponse& response)
 {
     json data = {
         {"status", response.status}
@@ -131,7 +129,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const CloseRoomResponse& 
     return serializeResponseWithJson(data, CLOSE_ROOM_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const StartGameResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const StartGameResponse& response)
 {
     json data = {
         {"status", response.status}
@@ -139,7 +137,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const StartGameResponse& 
     return serializeResponseWithJson(data, START_GAME_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomStateResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomStateResponse& response)
 {
     string players = "";
     for (int i = 0; i < response.players.size(); i++)
@@ -159,7 +157,7 @@ buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomStateRespons
     return serializeResponseWithJson(data, GET_ROOM_STATS_REQ);
 }
 
-buffer JsonResponsePacketSerializer::serializeResponse(const LeaveRoomResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const LeaveRoomResponse& response)
 {
     json data = {
         {"status", response.status}
