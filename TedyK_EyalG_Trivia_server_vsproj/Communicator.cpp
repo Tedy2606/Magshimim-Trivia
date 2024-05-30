@@ -143,10 +143,10 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			std::string client_response(client_response_header, HEADER_SIZE);
 			client_response.append(client_response_data, data_len);
 			//puts the client response int a vector
-			buffer buf(client_response.begin(), client_response.end());
+			Buffer buf(client_response.begin(), client_response.end());
 			
 			//make the info of the request 
-			buffer response;
+			Buffer response;
 			RequestInfo info;
 			info.id = buf[0];
 			info.buffer = buf;
