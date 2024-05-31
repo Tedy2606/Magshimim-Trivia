@@ -20,17 +20,16 @@ public:
 	/**
 	* function to submit the answer of the user
 	*/
-	const void submitAnswer();
+	void submitAnswer();
 	/**
 	* funciton to remove the player from the vector of player in the game
 	*/
-	const void removePlayer();
+	void removePlayer();
 
 	/**
 	* function to get the questions for the user 
-	* 
 	*/
-	const void getQuestionForUser();
+	void getQuestionForUser(const LoggedUser& user);
 
 private:
 	int gameId;
