@@ -1,20 +1,30 @@
 #include "Game.h"
 
-Game::Game(int id, std::vector<Question> questions)
+Game::Game(int id, std::vector<Question> questions, std::map<LoggedUser, GameData> players)
 {
 	this->_gameId = id;
 	this->m_questions = questions;
+	this->m_players = players;
 }
 
-void Game::submitAnswer()
+void Game::submitAnswer(const LoggedUser& user, const int& answerId)
 {
-	//idk what to really add here
+	//figure out wtf do we do with avg time 
+
+	if (this->m_players[user].currentQuestion.getCorrectAnswerId() == answerId)
+	{
+		this->m_players[user].correctAnswerCount++;
+	}
+	else
+	{
+		this->m_players[user].wrongAnswerCount++;
+	}
+	getQuestionForUser(user);
 }
 
 void Game::removePlayer(const LoggedUser& user)
 {
 	this->m_players.erase(user);
-
 }
 
 void Game::getQuestionForUser(const LoggedUser& user)
@@ -32,3 +42,10 @@ void Game::getQuestionForUser(const LoggedUser& user)
 	}
 
 }
+
+std::map<LoggedUser, GameData> Game::getUsers()
+{
+	return this->m_players;
+}
+
+

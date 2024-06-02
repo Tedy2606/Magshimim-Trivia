@@ -28,7 +28,8 @@ public:
 	Game getRoom(const int& id);
 
 private:
-	void submitGameStatisticsToDB(GameData game);
+	//changed from game data to game cus submitiing only the statistics of one user is stupid
+	void submitGameStatisticsToDB(Game game);
 	IDataBase* m_database;
 	std::vector<Game> m_games;
 };

@@ -16,11 +16,11 @@ struct GameData
 class Game
 {
 public:
-	Game(int id, std::vector<Question> questions);
+	Game(int id, std::vector<Question> questions, std::map<LoggedUser, GameData> players);
 	/**
 	* function to submit the answer of the user
 	*/
-	void submitAnswer();
+	void submitAnswer(const LoggedUser& user, const int& answerId);
 	/**
 	* funciton to remove the player from the vector of player in the game
 	*/
@@ -31,6 +31,9 @@ public:
 	*/
 	void getQuestionForUser(const LoggedUser& user);
 
+
+	//helper func
+	std::map<LoggedUser, GameData> getUsers();
 private:
 	int _gameId;
 	std::map<LoggedUser, GameData> m_players;
