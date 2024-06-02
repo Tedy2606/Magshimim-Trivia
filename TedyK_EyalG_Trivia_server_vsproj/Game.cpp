@@ -1,5 +1,11 @@
 #include "Game.h"
 
+Game::Game(int id, std::vector<Question> questions)
+{
+	this->_gameId = id;
+	this->m_questions = questions;
+}
+
 void Game::submitAnswer()
 {
 	
