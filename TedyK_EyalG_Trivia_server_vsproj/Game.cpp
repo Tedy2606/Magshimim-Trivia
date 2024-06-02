@@ -5,7 +5,7 @@ void Game::submitAnswer()
 	
 }
 
-void Game::removePlayer()
+void Game::removePlayer(const LoggedUser& user)
 {
 	//remove a player from the player from the map 
 }
@@ -23,6 +23,5 @@ void Game::getQuestionForUser(const LoggedUser& user)
 
 		//throw exception that question wasnt found or smth 
 	}
-
 
 }
