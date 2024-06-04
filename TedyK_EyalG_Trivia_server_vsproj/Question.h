@@ -26,6 +26,10 @@ public:
 	*/
 	int getCorrectAnswerId() const;
 
+	bool operator==(const Question& other) const {
+		return this->m_possibleAnswers == other.m_possibleAnswers && this->m_question == other.m_question;
+	}
+
 private:
 	std::string m_question;
 	std::vector<std::string> m_possibleAnswers;
