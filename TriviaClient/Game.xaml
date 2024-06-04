@@ -28,7 +28,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="answer2" Content="change me" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="340,410,85,180" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button x:Name="answer2" Content="change me" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="340,410,85,180" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="answer2_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

@@ -208,8 +208,21 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const SubmitAnswerRespons
 
 Buffer JsonResponsePacketSerializer::serializeResponse(const GetQuestionResponse& response)
 {
+    //turn the answers into a string, id:answer, id:answer
+    std::ostringstream oss;
+    for (const auto& pair : response.answers) {
+        oss << pair.first << " : " << pair.second << ", ";
+    }
+    std::string result = oss.str();
+
+    // Remove the trailing comma and space, if present
+    if (!result.empty()) {
+        result.pop_back();
+        result.pop_back();
+    }
+
     json data = {
-        {"status", response.status}, {"question" ,response.question}, {"answers", response.answers}
+        {"status", response.status}, {"question" ,response.question}, {"answers", result}
     };
 
     return serializeResponseWithJson(data, GET_QUESTION_REQ);

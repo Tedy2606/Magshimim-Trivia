@@ -89,7 +89,7 @@ namespace TriviaClient
             if (!jsonObject.ContainsKey("message"))
             {
                 this._dispatcherTimer.Stop();
-                NavigationService?.Navigate(new Game());
+                NavigationService?.Navigate(new Game(this._stream));
             }
             else
             {

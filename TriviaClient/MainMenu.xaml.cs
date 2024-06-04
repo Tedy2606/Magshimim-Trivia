@@ -78,5 +78,7 @@ namespace TriviaClient
             // Close the main window (which effectively closes the application)
             mainWindow.Close();
         }
+
+
     }
 }

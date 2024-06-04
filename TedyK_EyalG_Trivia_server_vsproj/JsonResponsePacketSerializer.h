@@ -4,6 +4,7 @@
 #include "json.hpp"
 #include "Room.h"
 #include "Codes.h"
+#include <sstream>
 
 #define LENGHT_IN_BYTES 4
 
