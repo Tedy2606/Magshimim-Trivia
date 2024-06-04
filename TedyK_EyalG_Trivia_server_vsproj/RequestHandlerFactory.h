@@ -31,10 +31,12 @@ public:
 	IDataBase* getDatabase();
 	RoomManager& getRoomManager();
 	StatisticsManager& getStatisticsManager();
+	GameManager& getGameManager();
 
 private:
 	LoginManager m_loginManager;
 	IDataBase* m_database;
 	RoomManager m_roomManager;
 	StatisticsManager m_statisticsManager;
+	GameManager m_gameManager;
 };
