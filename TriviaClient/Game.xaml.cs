@@ -95,12 +95,15 @@ namespace TriviaClient
 
             if (!jsonObject.ContainsKey("message"))
             {
-                //get answer, if correct answer id trtue then answer is correct 
-                if (jsonObject.Value<int>(correctQuestion))
+                
+                if (jsonObject.Value<int>("isCorrect") == 1)
                 {
-                    
+                    //correct answer 
                 }
-
+                else
+                {
+                    //wrong answer
+                }
 
 
                 NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1));
