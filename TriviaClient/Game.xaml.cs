@@ -31,6 +31,11 @@ namespace TriviaClient
         private int _amountOfQuestions;
         private int _answerTime;
         private int _currQuestion;
+
+        public Game()
+        {
+        }
+
         public Game(NetworkStream stream, int amountOfQuestions, int answerTime, int currQuestion)
         {
             InitializeComponent();

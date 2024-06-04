@@ -23,8 +23,24 @@ namespace TriviaClient
         public MainWindow()
         {
             InitializeComponent();
-            //img.Source = new ImageSource("/images/title.jpg");
             frame.Navigate(new MainMenu());
+        }
+
+        public void SwitchThemes_Keyboard(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                if (Keyboard.IsKeyDown(Key.LeftShift) && Keyboard.IsKeyDown(Key.N))
+                {
+                    // Theme for adults (Ctrl + Shift + N)
+                    AppTheme.ChangeTheme(new Uri("Themes/Adult.xaml", UriKind.Relative));
+                }
+                else if (Keyboard.IsKeyDown(Key.R))
+                {
+                    // Theme for minors (Ctrl + R)
+                    AppTheme.ChangeTheme(new Uri("Themes/Minor.xaml", UriKind.Relative));
+                }
+            }
         }
     }
 }

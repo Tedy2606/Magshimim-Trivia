@@ -7,9 +7,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="650"
       Title="Signup">
-      <Page.Resources>
-          <ResourceDictionary Source="Themes/Adult.xaml"/>
-      </Page.Resources>
 
     <Grid>
         <TextBlock Text="Username" Width="172" Height="60" Foreground="{DynamicResource Text}" Margin="97,80,381,560" FontSize="38" FontWeight="DemiBold"/>
