@@ -54,7 +54,7 @@ RequestResult GameRequestHandler::getQuestion(const RequestInfo& info)
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;
-	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
 	result.buffer = seri.serializeResponse(response);
 
 	return result;
@@ -62,7 +62,23 @@ RequestResult GameRequestHandler::getQuestion(const RequestInfo& info)
 
 RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 {
-	return RequestResult();
+	JsonResponsePacketSerializer seri;
+	JsonResponsePacketDeserializer desi;
+	SubmitAnswerResponse response;
+	RequestResult result;
+
+	// desrielize the request
+	SubmitAnswerRequest request = desi.desirializeSubmitAnswerRequest(info.buffer);
+
+	// submit the answer in the request
+	this->m_game.submitAnswer(this->m_user, request.answerID);
+
+	// make a response and serialize it
+	response.status = OK_RESPONSE;
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
+	result.buffer = seri.serializeResponse(response);
+
+	return result;
 }
 
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
@@ -89,7 +105,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;
-	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
 	result.buffer = seri.serializeResponse(response);
 
 	return result;

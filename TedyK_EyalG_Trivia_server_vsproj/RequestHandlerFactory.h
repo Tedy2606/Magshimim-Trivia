@@ -22,9 +22,10 @@ public:
 
 	// create request handlers
 	LoginRequestHandler* createLoginRequestHandler();
-	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
-	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room room);
-	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room room);
+	MenuRequestHandler* createMenuRequestHandler(LoggedUser& user);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser& user, Room& room);
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser& user, Room& room);
+	GameRequestHandler* createGameRequestHandler(LoggedUser& user, Game& game);
 
 	// getters
 	LoginManager& getLoginManager();
