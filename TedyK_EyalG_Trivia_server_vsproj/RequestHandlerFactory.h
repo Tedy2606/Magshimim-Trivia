@@ -6,11 +6,14 @@
 #include "StatisticsManager.h"
 #include "RoomMemberRequestHandler.h"
 #include "RoomAdminRequestHandler.h"
+#include "GameManager.h"
+#include "GameRequestHandler.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomMemberRequestHandler;
 class RoomAdminRequestHandler;
+class GameRequestHandler;
 
 class RequestHandlerFactory
 {
