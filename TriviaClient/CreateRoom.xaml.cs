@@ -54,7 +54,7 @@ namespace TriviaClient
 
             if (!jsonObject.ContainsKey("message"))
             {
-                NavigationService?.Navigate(new AdminRoom(this._stream, roomName.Text));
+                NavigationService?.Navigate(new AdminRoom(this._stream, roomName.Text, (int)this.questionCount.Value, (int)this.answerTime.Value));
             }
             else
             {

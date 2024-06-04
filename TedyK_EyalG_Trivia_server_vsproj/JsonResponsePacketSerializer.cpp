@@ -200,7 +200,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetGameResultsRespo
 Buffer JsonResponsePacketSerializer::serializeResponse(const SubmitAnswerResponse& response)
 {
     json data = {
-        {"status", response.status}, {"correctAnswerID" ,response.correctAnswerID}
+        {"status", response.status}, {"isCorrect" ,response.isCorrect}
     };
 
     return serializeResponseWithJson(data, SUBMIT_ANSWER_REQ);
@@ -211,7 +211,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetQuestionResponse
     //turn the answers into a string, id:answer, id:answer
     std::ostringstream oss;
     for (const auto& pair : response.answers) {
-        oss << pair.first << " : " << pair.second << ", ";
+        oss << pair.first << ":" << pair.second << ",";
     }
     std::string result = oss.str();
 

@@ -104,7 +104,7 @@ struct GetQuestionResponse
 struct SubmitAnswerResponse
 {
 	unsigned int status;
-	unsigned int correctAnswerID;
+	unsigned int isCorrect;
 };
 
 struct PlayerResults

@@ -5,6 +5,9 @@
 
 using std::string;
 
+#define CORRECT 1
+#define INCORRECT 0
+
 struct GameData
 {
 	Question currentQuestion;
@@ -20,7 +23,7 @@ public:
 	/**
 	* function to submit the answer of the user
 	*/
-	void submitAnswer(const LoggedUser& user, const int& answerId);
+	int submitAnswer(const LoggedUser& user, const int& answerId);
 	/**
 	* funciton to remove the player from the vector of player in the game
 	*/

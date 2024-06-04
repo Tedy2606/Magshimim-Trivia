@@ -27,10 +27,20 @@ namespace TriviaClient
         private NetworkStream _stream;
         private Button[] buttonArr;
         private Random random;
-        public Game(NetworkStream stream)
+
+        private int _amountOfQuestions;
+        private int _answerTime;
+        private int _currQuestion;
+        public Game(NetworkStream stream, int amountOfQuestions, int answerTime, int currQuestion)
         {
             InitializeComponent();
             this._stream = stream;
+            this._currQuestion = currQuestion;
+            this._amountOfQuestions = amountOfQuestions;
+            this.questionsNum.Text = "Question" + currQuestion.ToString() + "out of" + amountOfQuestions.ToString();
+
+            this._answerTime = answerTime;
+
 
             JObject message = new JObject();
             string jsonString = message.ToString();
@@ -50,9 +60,16 @@ namespace TriviaClient
                 this.buttonArr[2] = this.answer3;
                 this.buttonArr[3] = this.answer4;
                 this.random = new Random();
-                int[] answers = { 0, 1, 2, 3 };
-                Shuffle(answers);
-                //this.buttonArr[answers[0]] = answer1
+                //shuffle the answers
+                int[] answer_places = { 0, 1, 2, 3 };
+                Shuffle(answer_places);
+                
+
+                string answer = jsonObject.Value<string>("answers");
+                //now make an array of the id, and an array of the answer, or an array of pairs
+                //this.buttonArr[answers[0]] = answer1...tag
+                //this.buttonArr[answers[1]] = answer2...tag
+
 
 
 
@@ -70,7 +87,7 @@ namespace TriviaClient
             byte code = 131;
             //add the answer id from the tag maybe
             // message["id"] = this.button.tag or smth like that
-
+            //also need to deal with the time stuff
 
 
             Networker networker = new Networker();
@@ -78,7 +95,15 @@ namespace TriviaClient
 
             if (!jsonObject.ContainsKey("message"))
             {
-                NavigationService?.Navigate(new Game(this._stream));
+                //get answer, if correct answer id trtue then answer is correct 
+                if (jsonObject.Value<int>(correctQuestion))
+                {
+                    
+                }
+
+
+
+                NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1));
             }
             else
             {

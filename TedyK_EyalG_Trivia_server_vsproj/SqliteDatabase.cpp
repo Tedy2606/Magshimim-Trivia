@@ -164,7 +164,7 @@ std::list<Question> SqliteDatabase::getQuestions(int questionsNum)
         };
 
     char* errMessage = nullptr;
-    int res = sqlite3_exec(this->_db, ("SELECT * FROM questions LIMIT " + std::to_string(questionsNum) + ";").c_str(), callback, &questions, &errMessage);
+    int res = sqlite3_exec(this->_db, ("SELECT * FROM questions ORDER BY RANDOM() LIMIT " + std::to_string(questionsNum) + ";").c_str(), callback, &questions, &errMessage);
     if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 
     return questions;

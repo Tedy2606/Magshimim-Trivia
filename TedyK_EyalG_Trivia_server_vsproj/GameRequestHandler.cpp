@@ -71,7 +71,7 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 	SubmitAnswerRequest request = desi.desirializeSubmitAnswerRequest(info.buffer);
 
 	// submit the answer in the request
-	this->m_game.submitAnswer(this->m_user, request.answerID);
+	response.isCorrect = this->m_game.submitAnswer(this->m_user, request.answerID);
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;

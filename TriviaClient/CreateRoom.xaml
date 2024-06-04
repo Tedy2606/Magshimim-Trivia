@@ -45,5 +45,6 @@
                 </Style>
             </Button.Resources>
         </Button>
+        <Slider x:Name="questionCount" Width="300" IsSnapToTickEnabled="True" Minimum="5" Maximum="60" TickFrequency="5" Margin="263,409,87,260"/>
     </Grid>
 </Page>
