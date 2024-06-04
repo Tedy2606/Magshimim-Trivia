@@ -8,8 +8,8 @@ GameManager::GameManager(IDataBase* database)
 Game GameManager::createGame(Room room)
 {
 	
-	//id is just the size of the vector for ease of use
-	int id = this->m_games.size() + 1;
+	//id is the same as its room id
+	int id = room.getData().id;
 	//get the questions
 	std::list<Question> questions = this->m_database->getQuestions(room.getData().numOfQuestions);
 	std::vector<Question> questionsVec(questions.begin(), questions.end());
@@ -21,7 +21,7 @@ Game GameManager::createGame(Room room)
 	{
 		LoggedUser user = LoggedUser(it);
 		GameData data;
-		data.avgAnswerTime = 0;
+		data.totalAnswerTime = 0;
 		data.correctAnswerCount = 0;
 		data.wrongAnswerCount = 0;
 		data.currentQuestion = questionsVec[0];

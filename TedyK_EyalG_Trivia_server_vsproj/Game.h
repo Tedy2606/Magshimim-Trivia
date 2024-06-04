@@ -10,7 +10,7 @@ struct GameData
 	Question currentQuestion;
 	unsigned int correctAnswerCount;
 	unsigned int wrongAnswerCount;
-	unsigned int avgAnswerTime;
+	unsigned int totalAnswerTime;
 };
 
 class Game
@@ -29,13 +29,17 @@ public:
 	/**
 	* function to get the questions for the user 
 	*/
-	void getQuestionForUser(const LoggedUser& user);
+	Question getQuestionForUser(const LoggedUser& user);
 
+	/*
+	getter of m_gameID field
+	*/
+	int getGameID() const;
 
 	//helper func
 	std::map<LoggedUser, GameData> getUsers();
 private:
-	int _gameId;
+	int m_gameID;
 	std::map<LoggedUser, GameData> m_players;
 	std::vector<Question> m_questions;
 };
