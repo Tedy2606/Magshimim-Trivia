@@ -10,7 +10,7 @@ struct GameData
 	Question currentQuestion;
 	unsigned int correctAnswerCount;
 	unsigned int wrongAnswerCount;
-	unsigned int avgAnswerTime;
+	unsigned int totalAnswerTime;
 };
 
 class Game
@@ -29,7 +29,7 @@ public:
 	/**
 	* function to get the questions for the user 
 	*/
-	void getQuestionForUser(const LoggedUser& user);
+	Question getQuestionForUser(const LoggedUser& user);
 
 	/*
 	getter of m_gameID field

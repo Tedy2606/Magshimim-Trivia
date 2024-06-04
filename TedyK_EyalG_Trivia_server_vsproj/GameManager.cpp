@@ -21,7 +21,7 @@ Game GameManager::createGame(Room room)
 	{
 		LoggedUser user = LoggedUser(it);
 		GameData data;
-		data.avgAnswerTime = 0;
+		data.totalAnswerTime = 0;
 		data.correctAnswerCount = 0;
 		data.wrongAnswerCount = 0;
 		data.currentQuestion = questionsVec[0];

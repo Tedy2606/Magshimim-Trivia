@@ -1,5 +1,7 @@
 #include "GameRequestHandler.h"
 
+#define ANSWERS_NUM 4
+
 GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, LoggedUser user)
 	: m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_game(game), m_user(user)
 {
@@ -38,7 +40,24 @@ RequestResult GameRequestHandler::handleRequest(const RequestInfo& info)
 
 RequestResult GameRequestHandler::getQuestion(const RequestInfo& info)
 {
-	return RequestResult();
+	JsonResponsePacketSerializer seri;
+	GetQuestionResponse response;
+	RequestResult result;
+
+	// get the question and the answers
+	response.question = this->m_game.getQuestionForUser(this->m_user).getQuestion();
+
+	for (int i = 0; i < ANSWERS_NUM; i++)
+	{
+		response.answers[i] = this->m_game.getQuestionForUser(this->m_user).getPossibleAnswers()[i];
+	}
+
+	// make a response and serialize it
+	response.status = OK_RESPONSE;
+	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+	result.buffer = seri.serializeResponse(response);
+
+	return result;
 }
 
 RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
@@ -48,7 +67,32 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 {
-	return RequestResult();
+	JsonResponsePacketSerializer seri;
+	GetGameResultsResponse response;
+	RequestResult result;
+	
+	// go over the users
+	for (auto& it : this->m_game.getUsers())
+	{
+		// get the current user's data
+		PlayerResults playerData;
+
+		playerData.username = it.first.GetUserName();
+		playerData.correctAnswerCount = it.second.correctAnswerCount;
+		playerData.wrongAnswerCount = it.second.wrongAnswerCount;
+
+		playerData.averageAnswerTime = (playerData.correctAnswerCount + playerData.wrongAnswerCount) / it.second.totalAnswerTime;
+
+		// push it to the response
+		response.results.push_back(playerData);
+	}
+
+	// make a response and serialize it
+	response.status = OK_RESPONSE;
+	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+	result.buffer = seri.serializeResponse(response);
+
+	return result;
 }
 
 RequestResult GameRequestHandler::leaveGame(const RequestInfo& info)
