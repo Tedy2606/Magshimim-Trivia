@@ -2,7 +2,7 @@
 
 Game::Game(int id, std::vector<Question> questions, std::map<LoggedUser, GameData> players)
 {
-	this->_gameId = id;
+	this->m_gameID = id;
 	this->m_questions = questions;
 	this->m_players = players;
 }
@@ -41,6 +41,11 @@ void Game::getQuestionForUser(const LoggedUser& user)
 		//throw exception that question wasnt found or he was on the last question 
 	}
 
+}
+
+int Game::getGameID() const
+{
+	return this->m_gameID;
 }
 
 std::map<LoggedUser, GameData> Game::getUsers()

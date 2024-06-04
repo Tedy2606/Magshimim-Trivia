@@ -53,5 +53,20 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 
 RequestResult GameRequestHandler::leaveGame(const RequestInfo& info)
 {
-	return RequestResult();
+	JsonResponsePacketSerializer seri;
+	LeaveGameResponse response;
+	RequestResult result;
+
+	// leave the game
+	this->m_game.removePlayer(this->m_user);
+
+	// leave the room
+	this->m_handlerFactory.getRoomManager().getRoom(this->m_game.getGameID()).removeUser(this->m_user);
+
+	// make a response and serialize it
+	response.status = OK_RESPONSE;
+	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+	result.buffer = seri.serializeResponse(response);
+
+	return result;
 }
