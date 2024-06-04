@@ -88,10 +88,8 @@ namespace TriviaClient
 
             if (!jsonObject.ContainsKey("message"))
             {
-                /*
                 this._dispatcherTimer.Stop();
-                NavigationService?.GoBack();
-                */
+                NavigationService?.Navigate(new Game());
             }
             else
             {

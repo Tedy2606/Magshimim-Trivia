@@ -106,11 +106,13 @@ namespace TriviaClient
 
                 if (hasGameBegun == 0) // leave if room is closed
                 {
+                    this._dispatcherTimer.Stop();
                     leaveRoom();
                 }
                 else if (hasGameBegun == 2) // game has started
                 {
-                    // TODO: move to questions page
+                    this._dispatcherTimer.Stop();
+                    NavigationService?.Navigate(new Game());
                 }
 
                 // get the room players
