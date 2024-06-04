@@ -7,11 +7,14 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="650"
       Title="Statistics">
+      <Page.Resources>
+          <ResourceDictionary Source="Themes/Adult.xaml"/>
+      </Page.Resources>
 
     <Grid>
-        <TextBlock Text="Statistics" Width="360" Height="80" Foreground="White" Margin="145,95,145,525" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
+        <TextBlock Text="Statistics" Width="360" Height="80" Foreground="{DynamicResource Text}" Margin="145,95,145,525" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
 
-        <Button x:Name="playerStatistics" Content="Player Statistics" Width = "360" Height = "60" Background="Orange" Margin="145,240,145,400" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="playerStatistics_Click">
+        <Button x:Name="playerStatistics" Content="Player Statistics" Width = "360" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="145,240,145,400" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="playerStatistics_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -19,7 +22,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="highScores" Content="High Scores" Width = "360" Height = "60" Background="Orange" Margin="145,340,145,300" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="highScores_Click">
+        <Button x:Name="highScores" Content="High Scores" Width = "360" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="145,340,145,300" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="highScores_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -27,7 +30,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,440,145,200" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
+        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="145,440,145,200" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

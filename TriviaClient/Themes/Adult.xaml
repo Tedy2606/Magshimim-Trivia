@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush Color="Black" x:Key="Background"/>
+    <SolidColorBrush Color="White" x:Key="Text"/>
+    <SolidColorBrush Color="Orange" x:Key="Highlight"/>
+    <SolidColorBrush Color="Black" x:Key="HighlightedText"/>
+    <SolidColorBrush Color="#222222" x:Key="Buttons"/>
+    <SolidColorBrush Color="#060606" x:Key="StackBackground"/>
+    <BitmapImage UriSource="../images/title.png" x:Key="Title"/>
+</ResourceDictionary>
