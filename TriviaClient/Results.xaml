@@ -7,24 +7,27 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="650"
       Title="Results">
+      <Page.Resources>
+          <ResourceDictionary Source="Themes/Adult.xaml"/>
+      </Page.Resources>
 
     <Grid>
-        <TextBlock Text="Top Players" Width="360" Height="80" Foreground="White" Margin="145,30,145,590" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
+        <TextBlock Text="Top Players" Width="360" Height="80" Foreground="{DynamicResource Text}" Margin="145,30,145,590" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
 
-        <ScrollViewer Width="400" Margin="125,115,125,250" Background="#060606" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Width="400" Margin="125,115,125,250" Background="{DynamicResource StackBackground}" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="stackPanel">
                 <!-- Here are the users text blocks in the room,
                 winner color = orange, loser color = white -->
-                <TextBlock x:Name="user" Text="user - 0pts" Width = "360" Height = "60" Foreground="Orange" FontSize="42" FontFamily="Arial" FontWeight="Bold" TextAlignment="Center"/>
+                <TextBlock x:Name="user" Text="user - 0pts" Width = "360" Height = "60" Foreground="{DynamicResource Highlight}" FontSize="42" FontFamily="Arial" FontWeight="Bold" TextAlignment="Center"/>
 
             </StackPanel>
         </ScrollViewer>
 
-        <TextBlock x:Name="correctAnswers" Text="Correct Answers: X" Foreground="White" Margin="110,470,110,170" FontSize="36" FontWeight="DemiBold" TextAlignment="Center"/>
+        <TextBlock x:Name="correctAnswers" Text="Correct Answers: X" Foreground="{DynamicResource Text}" Margin="110,470,110,170" FontSize="36" FontWeight="DemiBold" TextAlignment="Center"/>
 
-        <TextBlock x:Name="averageAnswerTime" Text="Average Answer Time: X" Foreground="White" Margin="110,535,110,105" FontSize="36" FontWeight="DemiBold" TextAlignment="Center"/>
+        <TextBlock x:Name="averageAnswerTime" Text="Average Answer Time: X" Foreground="{DynamicResource Text}" Margin="110,535,110,105" FontSize="36" FontWeight="DemiBold" TextAlignment="Center"/>
 
-        <Button Content="Back To Menu" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,600,145,40" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button Content="Back To Menu" Width = "360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="145,600,145,40" FontSize="36" FontFamily="Arial" FontWeight="Bold">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
