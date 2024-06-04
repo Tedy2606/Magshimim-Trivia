@@ -1,0 +1,52 @@
+﻿<Page x:Class="TriviaClient.Game"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TriviaClient"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="650"
+      Title="Game">
+
+    <Grid>
+        <TextBlock x:Name="questionsNum" Text="Question X out of Y" Foreground="White" Margin="160,17,160,643" FontSize="32" FontWeight="DemiBold" TextAlignment="Center"/>
+
+        <TextBlock x:Name="question" Text="change me" Foreground="Orange" Margin="50,60,50,400" FontSize="54" FontWeight="DemiBold" TextAlignment="Center" TextWrapping="WrapWithOverflow"/>
+        
+        <TextBlock x:Name="time" Text="Time Left: X" Foreground="White" Margin="85,319,340,341" FontSize="32" FontWeight="DemiBold" TextAlignment="Left"/>
+
+        <TextBlock x:Name="correct" Text="Correct Answers: X" Foreground="White" Margin="85,362,270,298" FontSize="32" FontWeight="DemiBold" TextAlignment="Left"/>
+
+        <Button x:Name="answer1" Content="change me" Background="#222222" Foreground="White" Margin="85,410,340,180" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button x:Name="answer2" Content="change me" Background="#222222" Foreground="White" Margin="340,410,85,180" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button x:Name="answer3" Content="change me" Background="#222222" Foreground="White" Margin="85,540,340,50" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button x:Name="answer4" Content="change me" Background="#222222" Foreground="White" Margin="340,540,85,50" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+    </Grid>
+</Page>
