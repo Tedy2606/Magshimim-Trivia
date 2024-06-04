@@ -7,11 +7,14 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="650"
       Title="Menu">
+      <Page.Resources>
+          <ResourceDictionary Source="Themes/Adult.xaml"/>
+      </Page.Resources>
 
     <Grid>
-        <TextBlock x:Name="username" Text="hi lina how are you" Width="360" Height="80" Foreground="White" Margin="145,40,145,580" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
+        <TextBlock x:Name="username" Text="hi lina how are you" Width="360" Height="80" Foreground="{DynamicResource Text}" Margin="145,40,145,580" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
 
-        <Button x:Name="createRoom" Content="Create Room" Width = "360" Height = "60" Background="Orange" Margin="145,160,145,480" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="createRoom_Click">
+        <Button x:Name="createRoom" Content="Create Room" Width = "360" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="145,160,145,480" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="createRoom_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -19,7 +22,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="joinRoom" Content="Join Room" Width = "360" Height = "60" Background="Orange" Margin="145,260,145,380" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="joinRoom_Click">
+        <Button x:Name="joinRoom" Content="Join Room" Width = "360" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="145,260,145,380" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="joinRoom_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -27,7 +30,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="statistics" Content="Statistics" Width = "360" Height = "60" Background="Orange" Margin="145,360,145,280" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="statistics_Click">
+        <Button x:Name="statistics" Content="Statistics" Width = "360" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="145,360,145,280" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="statistics_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -35,7 +38,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="logout" Content="Logout" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,460,145,180" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="logout_Click">
+        <Button x:Name="logout" Content="Logout" Width = "360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="145,460,145,180" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="logout_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -43,7 +46,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="exit" Content="Exit" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,560,145,80" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="exit_Click">
+        <Button x:Name="exit" Content="Exit" Width = "360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="145,560,145,80" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="exit_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

@@ -7,10 +7,13 @@
     mc:Ignorable="d" 
     d:DesignHeight="700" d:DesignWidth="650"
     Title="MainMenu">
+    <Page.Resources>
+        <ResourceDictionary Source="Themes/Adult.xaml"/>
+    </Page.Resources>
 
     <Grid>
 
-        <Button x:Name="login" Content="Login" Height = "60" Background="Orange" Margin="145,350,145,290" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="login_Click">
+        <Button x:Name="login" Content="Login" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="145,350,145,290" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="login_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -18,7 +21,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="signup" Content="Signup" Height = "60" Background="Orange" Margin="145,430,145,210" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="signup_Click">
+        <Button x:Name="signup" Content="Signup" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="145,430,145,210" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="signup_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -26,7 +29,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="exit" Content="Exit" Height = "60" Background="#222222" Foreground="White" Margin="145,510,145,130" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="exit_Click">
+        <Button x:Name="exit" Content="Exit" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="145,510,145,130" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="exit_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -34,7 +37,7 @@
             </Button.Resources>
         </Button>
 
-        <Image x:Name="img" Source="/images/title.png" Margin="75,65,75,425"/>
+        <Image x:Name="img" Source="{DynamicResource Title}" Margin="75,65,75,425"/>
         <Frame x:Name="frame" />
     </Grid>
 </Page>

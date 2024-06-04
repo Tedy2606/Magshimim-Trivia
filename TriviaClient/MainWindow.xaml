@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Height="800" Width="750"
         ResizeMode="NoResize"
-        Background="Black">
+        Background="{DynamicResource Background}">
+    <Window.Resources>
+        <ResourceDictionary Source="Themes/Adult.xaml"/>
+    </Window.Resources>
     
     <Grid>
         <Frame x:Name="frame" NavigationUIVisibility="Hidden"/>

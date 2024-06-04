@@ -7,17 +7,20 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="650"
       Title="JoinRoom">
+      <Page.Resources>
+          <ResourceDictionary Source="Themes/Adult.xaml"/>
+      </Page.Resources>
 
     <Grid>
-        <TextBlock Text="Rooms" Width="360" Height="80" Foreground="White" Margin="145,55,145,565" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
+        <TextBlock Text="Rooms" Width="360" Height="80" Foreground="{DynamicResource Text}" Margin="145,55,145,565" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
 
-        <ScrollViewer Width="400" Height="390" Margin="125,140,125,170" Background="#060606" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Width="400" Height="390" Margin="125,140,125,170" Background="{DynamicResource StackBackground}" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="stackPanel">
 
             </StackPanel>
         </ScrollViewer>
 
-        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="145,570,145,70" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
+        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="145,570,145,70" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

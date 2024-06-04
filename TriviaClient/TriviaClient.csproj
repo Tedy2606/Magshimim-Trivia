@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="fonts\password.ttf" />
     <None Remove="images\title.png" />
+    <None Remove="images\titleInvert.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +20,7 @@
   <ItemGroup>
     <Resource Include="fonts\password.ttf" />
     <Resource Include="images\title.png" />
+    <Resource Include="images\titleInvert.png" />
   </ItemGroup>
 
 </Project>
