@@ -1,6 +1,7 @@
 #include "GameRequestHandler.h"
 
 GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, LoggedUser user)
+	: m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_game(game), m_user(user)
 {
 }
 

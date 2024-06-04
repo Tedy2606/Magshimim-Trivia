@@ -1,7 +1,7 @@
 #include "RequestHandlerFactory.h"
 
 RequestHandlerFactory::RequestHandlerFactory(IDataBase* database)
-    : m_loginManager(database), m_statisticsManager(database), m_roomManager()
+    : m_loginManager(database), m_statisticsManager(database), m_roomManager(), m_gameManager(database)
 {
     this->m_database = database;
 }
@@ -44,4 +44,9 @@ RoomManager& RequestHandlerFactory::getRoomManager()
 StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 {
     return this->m_statisticsManager;
+}
+
+GameManager& RequestHandlerFactory::getGameManager()
+{
+    return this->m_gameManager;
 }
