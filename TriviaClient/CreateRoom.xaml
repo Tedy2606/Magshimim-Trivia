@@ -10,8 +10,8 @@
 
     <Grid>
 
-        <TextBlock Text="Room Name" Width="210" Height="60" Foreground="{DynamicResource Text}" Margin="47.5,84,392.5,556" FontSize="36" FontWeight="DemiBold"/>
-        <TextBox x:Name="roomName" Width ="360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="263,84,27,556" FontSize="38">
+        <TextBlock Text="Room Name" Width="210" Height="60" Foreground="{DynamicResource Text}" Margin="47,120,393,520" FontSize="36" FontWeight="DemiBold"/>
+        <TextBox x:Name="roomName" Width ="360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="263,120,27,520" FontSize="38">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -27,7 +27,11 @@
         <Slider x:Name="answerTime" Width="300" IsSnapToTickEnabled="True" Minimum="5" Maximum="60" TickFrequency="5" Margin="263,334,87,335"/>
         <TextBlock Text="{Binding Value, ElementName=answerTime, StringFormat=\{0:0\}s}" Foreground="{DynamicResource Text}" VerticalAlignment="Top" FontSize="36" FontFamily="Arial" FontWeight="DemiBold" Margin="611,324,-21,0" Height="41"/>
 
-        <Button x:Name="createRoom" Content="Create Room" Width = "360" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="145,465,145,175" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="createRoom_Click">
+        <TextBlock Text="Question Count" Foreground="{DynamicResource Text}" Margin="39,402,351,238" FontSize="36" FontWeight="DemiBold"/>
+        <Slider x:Name="questionCount" Width="300" IsSnapToTickEnabled="True" Minimum="1" Maximum="10" TickFrequency="1" Margin="263,425,87,244"/>
+        <TextBlock Text="{Binding Value, ElementName=questionCount, StringFormat=\{0:0\}}" Foreground="{DynamicResource Text}" VerticalAlignment="Top" FontSize="36" FontFamily="Arial" FontWeight="DemiBold" Margin="611,415,-21,0" Height="41"/>
+
+        <Button x:Name="createRoom" Content="Create Room" Width = "360" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="145,495,145,145" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="createRoom_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -35,13 +39,12 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="145,545,145,95" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
+        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="145,575,145,65" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Slider x:Name="questionCount" Width="300" IsSnapToTickEnabled="True" Minimum="5" Maximum="60" TickFrequency="5" Margin="263,409,87,260"/>
     </Grid>
 </Page>
