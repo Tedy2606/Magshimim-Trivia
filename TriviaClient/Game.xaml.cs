@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -32,18 +33,17 @@ namespace TriviaClient
         private int _amountOfQuestions;
         private int _answerTime;
         private int _currQuestion;
-
-        public Game()
-        {
-        }
-
-        public Game(NetworkStream stream, int amountOfQuestions, int answerTime, int currQuestion)
+        private int _correctAnswerCount;
+        public Game(NetworkStream stream, int amountOfQuestions, int answerTime, int currQuestion, int correctAnswerCount)
         {
             InitializeComponent();
             this._stream = stream;
             this._currQuestion = currQuestion;
             this._amountOfQuestions = amountOfQuestions;
             this.questionsNum.Text = "Question" + currQuestion.ToString() + "out of" + amountOfQuestions.ToString();
+
+            this._correctAnswerCount = correctAnswerCount;
+            this.correct.Text = "Correct Answers: " + correctAnswerCount.ToString();
 
             this._answerTime = answerTime;
 
@@ -90,38 +90,61 @@ namespace TriviaClient
             {
                 MessageBox.Show($"Response from server: {jsonObject}");
             }
+            
         }
-
-        private void answer2_Click(object sender, RoutedEventArgs e)
+        private void sendButtonAnswer(int answerId)
         {
             JObject message = new JObject();
             string jsonString = message.ToString();
             byte code = 131;
-            Button button = (Button) sender;
-
+            
 
             Networker networker = new Networker();
             JObject jsonObject = networker.sendAndRecive(message, this._stream, code);
 
             if (!jsonObject.ContainsKey("message"))
             {
-                
-                if (jsonObject.Value<int>("isCorrect") == int.Parse(button.Tag.ToString()))
+
+                if (jsonObject.Value<int>("isCorrect") == answerId)
                 {
                     //correct answer
+                    this._correctAnswerCount++;
+
                 }
                 else
                 {
                     //wrong answer
+
                 }
-
-
-                NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1));
+                NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1, this._correctAnswerCount));
             }
             else
             {
                 MessageBox.Show($"Response from server: {jsonObject}");
             }
+
+        }
+        private void answer2_Click(object sender, RoutedEventArgs e)
+        {
+            Button clickedButton = sender as Button;
+            sendButtonAnswer(int.Parse(clickedButton.Tag.ToString()));
+        }
+
+        private void answer1_Click(object sender, RoutedEventArgs e)
+        {
+            Button clickedButton = sender as Button;
+            sendButtonAnswer(int.Parse(clickedButton.Tag.ToString()));
+        }
+        private void answer3_Click(object sender, RoutedEventArgs e)
+        {
+            Button clickedButton = sender as Button;
+            sendButtonAnswer(int.Parse(clickedButton.Tag.ToString()));
+        }
+
+        private void answer4_Click(object sender, RoutedEventArgs e)
+        {
+            Button clickedButton = sender as Button;
+            sendButtonAnswer(int.Parse(clickedButton.Tag.ToString()));
         }
 
 
@@ -136,5 +159,7 @@ namespace TriviaClient
                 array[j] = temp;
             }
         }
+
+
     }
 }
