@@ -40,7 +40,7 @@ namespace TriviaClient
             this._stream = stream;
             this._currQuestion = currQuestion;
             this._amountOfQuestions = amountOfQuestions;
-            this.questionsNum.Text = "Question" + currQuestion.ToString() + "out of" + amountOfQuestions.ToString();
+            this.questionsNum.Text = "Question " + currQuestion.ToString() + " out of " + amountOfQuestions.ToString();
 
             this._correctAnswerCount = correctAnswerCount;
             this.correct.Text = "Correct Answers: " + correctAnswerCount.ToString();

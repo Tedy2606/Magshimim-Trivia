@@ -43,7 +43,7 @@ RequestResult GameRequestHandler::getQuestion(const RequestInfo& info)
 	JsonResponsePacketSerializer seri;
 	GetQuestionResponse response;
 	RequestResult result;
-
+	
 	// get the question and the answers
 	response.question = this->m_game.getQuestionForUser(this->m_user).getQuestion();
 	
