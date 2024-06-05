@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -66,18 +67,24 @@ namespace TriviaClient
                 this.buttonArr[3] = this.answer4;
                 this.random = new Random();
                 //shuffle the answers
-                int[] answer_places = { 0, 1, 2, 3 };
-                Shuffle(answer_places);
-                
+                int[] answerPlaces = { 0, 1, 2, 3 };
+                Shuffle(answerPlaces);
 
-                string answer = jsonObject.Value<string>("answers");
-                //now make an array of the id, and an array of the answer, or an array of pairs
-                //this.buttonArr[answers[0]] = answer1...tag
-                //this.buttonArr[answers[1]] = answer2...tag
+                // extract the answers
+                Regex regex = new Regex(@"\b\d+:\w+\b");
 
+                string answers = jsonObject.Value<string>("answers");
 
+                int i = 0;
+                foreach (Match match in regex.Matches(answers))
+                {
+                    string[] parsedMatch = match.Value.Split(':');
+                    int id = int.Parse(parsedMatch[0]);
+                    string answer = parsedMatch[1];
 
-
+                    this.buttonArr[answerPlaces[i]].Content = answer;
+                    this.buttonArr[answerPlaces[i]].Tag = id;
+                }
             }
             else
             {
@@ -90,9 +97,7 @@ namespace TriviaClient
             JObject message = new JObject();
             string jsonString = message.ToString();
             byte code = 131;
-            //add the answer id from the tag maybe
-            // message["id"] = this.button.tag or smth like that
-            //also need to deal with the time stuff
+            Button button = (Button) sender;
 
 
             Networker networker = new Networker();
@@ -101,9 +106,9 @@ namespace TriviaClient
             if (!jsonObject.ContainsKey("message"))
             {
                 
-                if (jsonObject.Value<int>("isCorrect") == 1)
+                if (jsonObject.Value<int>("isCorrect") == int.Parse(button.Tag.ToString()))
                 {
-                    //correct answer 
+                    //correct answer
                 }
                 else
                 {
@@ -131,8 +136,5 @@ namespace TriviaClient
                 array[j] = temp;
             }
         }
-
-
-
     }
 }
