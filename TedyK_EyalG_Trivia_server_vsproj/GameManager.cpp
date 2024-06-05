@@ -5,7 +5,7 @@ GameManager::GameManager(IDataBase* database)
 	this->m_database = database;
 }
 
-Game GameManager::createGame(Room room)
+void GameManager::createGame(Room room)
 {
 	
 	//id is the same as its room id
@@ -32,8 +32,6 @@ Game GameManager::createGame(Room room)
 
 	Game game(id, questionsVec, userData);
 	this->m_games.push_back(game);
-	return game;
-
 }
 
 void GameManager::deleteGame(const int& id)
@@ -42,7 +40,7 @@ void GameManager::deleteGame(const int& id)
 
 }
 
-Game GameManager::getRoom(const int& id)
+Game& GameManager::getRoom(const int& id)
 {
 	return this->m_games[id];
 }

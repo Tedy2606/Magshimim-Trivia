@@ -2,7 +2,7 @@
 
 #define ANSWERS_NUM 4
 
-GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, LoggedUser user)
+GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game game, LoggedUser user)
 	: m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_game(game), m_user(user)
 {
 }

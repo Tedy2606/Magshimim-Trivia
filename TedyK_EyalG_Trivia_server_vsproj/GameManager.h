@@ -13,9 +13,8 @@ public:
 
 	/**
 	* creates a game
-	* @return Game - the game created
 	*/
-	Game createGame(Room room);
+	void createGame(Room room);
 
 	/**
 	* deletes a game 
@@ -25,7 +24,7 @@ public:
 	* function to return a game based on its id 
 	* @return Game - the wanted game 
 	*/
-	Game getRoom(const int& id);
+	Game& getRoom(const int& id);
 
 private:
 	//changed from game data to game cus submitiing only the statistics of one user is stupid
