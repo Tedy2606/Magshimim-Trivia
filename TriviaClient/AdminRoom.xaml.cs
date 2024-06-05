@@ -143,7 +143,9 @@ namespace TriviaClient
                         Text = name,
                         Width = 360,
                         Height = 60,
-                        Foreground = isAdmin ? Brushes.Orange : Brushes.White,
+                        Foreground = isAdmin ?
+                            App.Current.Resources["Highlight"] as SolidColorBrush :
+                            App.Current.Resources["Text"] as SolidColorBrush,
                         FontSize = 42,
                         FontFamily = new FontFamily("Arial"),
                         FontWeight = FontWeights.Bold,

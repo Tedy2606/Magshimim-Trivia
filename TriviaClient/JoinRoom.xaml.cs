@@ -131,7 +131,8 @@ namespace TriviaClient
                             Content = name,
                             Width = 360,
                             Height = 60,
-                            Background = Brushes.Orange,
+                            Background = App.Current.Resources["Highlight"] as SolidColorBrush,
+                            Foreground = App.Current.Resources["HighlightedText"] as SolidColorBrush,
                             FontSize = 36,
                             FontFamily = new FontFamily("Arial"),
                             FontWeight = FontWeights.Bold
