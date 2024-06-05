@@ -30,7 +30,7 @@ Game GameManager::createGame(Room room)
 
 
 
-	Game game = Game(id, questionsVec, userData);
+	Game game(id, questionsVec, userData);
 	this->m_games.push_back(game);
 	return game;
 
