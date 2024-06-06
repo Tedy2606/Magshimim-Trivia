@@ -202,6 +202,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetGameResultsRespo
 
 Buffer JsonResponsePacketSerializer::serializeResponse(const SubmitAnswerResponse& response)
 {
+    
     json data = {
         {"status", response.status}, {"isCorrect" ,response.isCorrect}
     };

@@ -23,12 +23,19 @@ int Game::submitAnswer(const LoggedUser& user, const int& answerId)
 
     //find what question he is on right now, give him the next one 
     //does not work for some reason 
-    auto it = std::find(this->m_questions.begin(), this->m_questions.end(), this->m_players[user].currentQuestion);
-    if (it != this->m_questions.end() - 1 || it != this->m_questions.end())
-    {
-        this->m_players[user].currentQuestion = *(it++);
+    int index = -1;
+    for (size_t i = 0; i < this->m_questions.size(); ++i) {
+        if (this->m_questions[i] == this->m_players[user].currentQuestion) {
+            index = i;
+            break;
+        }
     }
 
+    // Check if the index is valid and update the current question
+    if (index != -1 && index < this->m_questions.size() - 1) {
+        this->m_players[user].currentQuestion = this->m_questions[index + 1];
+    }
+    
     return isCorrect;
 }
 
