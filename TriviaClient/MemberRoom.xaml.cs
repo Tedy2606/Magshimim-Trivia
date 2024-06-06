@@ -103,7 +103,8 @@ namespace TriviaClient
             {
                 // get the room activity status
                 int hasGameBegun = jsonObject.Value<int>("hasGameBegun");
-
+                int answer_time = jsonObject.Value<int>("answerTimeout");
+                int questionCount = jsonObject.Value<int>("questionCount");
                 if (hasGameBegun == 0) // leave if room is closed
                 {
                     this._dispatcherTimer.Stop();
@@ -112,7 +113,7 @@ namespace TriviaClient
                 else if (hasGameBegun == 2) // game has started
                 {
                     this._dispatcherTimer.Stop();
-                    // NavigationService?.Navigate(new Game());
+                    NavigationService?.Navigate(new Game(this._stream, questionCount, answer_time, 1, 0));
                 }
 
                 // get the room players
