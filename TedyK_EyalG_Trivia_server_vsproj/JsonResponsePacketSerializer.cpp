@@ -15,6 +15,9 @@ Buffer JsonResponsePacketSerializer::serializeResponseWithJson(const json& data,
 
     memcpy(msg_len_as_bytes, (char*)&len, LENGHT_IN_BYTES);
     
+    std::reverse(std::begin(msg_len_as_bytes), std::end(msg_len_as_bytes));
+
+
     for (unsigned char c : msg_len_as_bytes)
     {
         buf.push_back(c);

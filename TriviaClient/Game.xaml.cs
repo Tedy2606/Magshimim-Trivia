@@ -84,6 +84,7 @@ namespace TriviaClient
 
                     this.buttonArr[answerPlaces[i]].Content = answer;
                     this.buttonArr[answerPlaces[i]].Tag = id;
+                    i++;
                 }
             }
             else
@@ -109,11 +110,13 @@ namespace TriviaClient
                 {
                     //correct answer
                     this._correctAnswerCount++;
+                   
 
                 }
                 else
                 {
                     //wrong answer
+                    
 
                 }
                 NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1, this._correctAnswerCount));
