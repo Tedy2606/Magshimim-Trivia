@@ -39,7 +39,7 @@ namespace TriviaClient
 
             if (amountOfQuestions < currQuestion)
             {
-                //results screen
+                NavigationService?.Navigate(new Results());
             }
 
 
