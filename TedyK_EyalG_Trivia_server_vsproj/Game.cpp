@@ -22,6 +22,7 @@ int Game::submitAnswer(const LoggedUser& user, const int& answerId)
     }
 
     //find what question he is on right now, give him the next one 
+    //does not work for some reason 
     auto it = std::find(this->m_questions.begin(), this->m_questions.end(), this->m_players[user].currentQuestion);
     if (it != this->m_questions.end() - 1 || it != this->m_questions.end())
     {
@@ -38,6 +39,7 @@ void Game::removePlayer(const LoggedUser& user)
 
 Question Game::getQuestionForUser(const LoggedUser& user)
 {
+    
 	return this->m_players[user].currentQuestion;
 }
 
