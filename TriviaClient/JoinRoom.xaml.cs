@@ -106,7 +106,7 @@ namespace TriviaClient
             }
             else
             {
-                Regex regex = new Regex(@"\b\w+:\d+:\d+\b");
+                Regex regex = new Regex(@"\b[^:]+:\d+:\d+\b");
                 
                 // get the button name:id:isActive string
                 string rooms = jsonObject.Value<string>("rooms");
@@ -124,7 +124,6 @@ namespace TriviaClient
                         // Create the button of the room
                         Button button = new Button
                         {
-                            Name = name,
                             Tag = id,
 
                             // Design
