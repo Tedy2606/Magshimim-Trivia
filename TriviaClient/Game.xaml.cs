@@ -35,6 +35,7 @@ namespace TriviaClient
         private int _answerTime;
         private int _currQuestion;
         private int _correctAnswerCount;
+
         public Game(NetworkStream stream, int amountOfQuestions, int answerTime, int currQuestion, int correctAnswerCount)
         {
 
@@ -108,6 +109,7 @@ namespace TriviaClient
             }
             
         }
+
         private void sendButtonAnswer(int answerId)
         {
             JObject message = new JObject();
@@ -142,29 +144,12 @@ namespace TriviaClient
             }
 
         }
-        private void answer2_Click(object sender, RoutedEventArgs e)
-        {
-            Button clickedButton = sender as Button;
-            sendButtonAnswer(int.Parse(clickedButton.Tag.ToString()));
-        }
 
-        private void answer1_Click(object sender, RoutedEventArgs e)
+        private void answer_Click(object sender, RoutedEventArgs e)
         {
             Button clickedButton = sender as Button;
             sendButtonAnswer(int.Parse(clickedButton.Tag.ToString()));
         }
-        private void answer3_Click(object sender, RoutedEventArgs e)
-        {
-            Button clickedButton = sender as Button;
-            sendButtonAnswer(int.Parse(clickedButton.Tag.ToString()));
-        }
-
-        private void answer4_Click(object sender, RoutedEventArgs e)
-        {
-            Button clickedButton = sender as Button;
-            sendButtonAnswer(int.Parse(clickedButton.Tag.ToString()));
-        }
-
 
         //private funv to make 4 randomn numbers for the answers
         private void Shuffle(int[] array)

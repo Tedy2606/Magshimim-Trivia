@@ -17,7 +17,7 @@
 
         <TextBlock x:Name="correct" Text="Correct Answers: X" Foreground="{DynamicResource Text}" Margin="85,362,270,298" FontSize="32" FontWeight="DemiBold" TextAlignment="Left"/>
 
-        <Button x:Name="answer1" Height="110" Width="225" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,410,340,180" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="answer1_Click">
+        <Button x:Name="answer1" Height="110" Width="225" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,410,340,180" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="answer_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -26,7 +26,7 @@
             <TextBlock x:Name="answer1Text" Text="change me" Foreground="{DynamicResource Text}" FontSize="24" FontWeight="DemiBold" TextAlignment="Center" TextWrapping="WrapWithOverflow"/>
         </Button>
 
-        <Button x:Name="answer2" Height="110" Width="225" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="340,410,85,180" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="answer2_Click">
+        <Button x:Name="answer2" Height="110" Width="225" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="340,410,85,180" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="answer_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -35,7 +35,7 @@
             <TextBlock x:Name="answer2Text" Text="change me" Foreground="{DynamicResource Text}" FontSize="24" FontWeight="DemiBold" TextAlignment="Center" TextWrapping="WrapWithOverflow"/>
         </Button>
 
-        <Button x:Name="answer3" Height="110" Width="225" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,540,340,50" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="answer3_Click">
+        <Button x:Name="answer3" Height="110" Width="225" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,540,340,50" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="answer_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -44,7 +44,7 @@
             <TextBlock x:Name="answer3Text" Text="change me" Foreground="{DynamicResource Text}" FontSize="24" FontWeight="DemiBold" TextAlignment="Center" TextWrapping="WrapWithOverflow"/>
         </Button>
 
-        <Button x:Name="answer4" Height="110" Width="225" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="340,540,85,50" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="answer4_Click">
+        <Button x:Name="answer4" Height="110" Width="225" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="340,540,85,50" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="answer_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

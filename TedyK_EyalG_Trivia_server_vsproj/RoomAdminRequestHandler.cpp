@@ -64,9 +64,10 @@ RequestResult RoomAdminRequestHandler::startGame(const RequestInfo& info)
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    this->m_handlerFactory.getGameManager().createGame(this->m_room);
+    this->m_handlerFactory.getGameManager().createGame(this->m_roomManager.getRoom(this->m_room.getData().id));
     
-    result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_handlerFactory.getGameManager().getRoom(this->m_room.getData().id));
+    result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, 
+        this->m_handlerFactory.getGameManager().getRoom(this->m_room.getData().id));
     result.buffer = seri.serializeResponse(response);
 
     return result;

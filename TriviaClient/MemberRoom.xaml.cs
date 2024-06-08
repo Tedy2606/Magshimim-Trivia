@@ -105,6 +105,7 @@ namespace TriviaClient
                 int hasGameBegun = jsonObject.Value<int>("hasGameBegun");
                 int answer_time = jsonObject.Value<int>("answerTimeout");
                 int questionCount = jsonObject.Value<int>("questionCount");
+
                 if (hasGameBegun == 0) // leave if room is closed
                 {
                     this._dispatcherTimer.Stop();

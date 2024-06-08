@@ -10,6 +10,7 @@ void GameManager::createGame(Room room)
 	
 	//id is the same as its room id
 	int id = room.getData().id;
+
 	//get the questions
 	std::list<Question> questions = this->m_database->getQuestions(room.getData().numOfQuestions);
 	std::vector<Question> questionsVec(questions.begin(), questions.end());
@@ -27,8 +28,6 @@ void GameManager::createGame(Room room)
 		data.currentQuestion = questionsVec[0];
 		userData[user] = data;
 	}
-
-
 
 	Game game(id, questionsVec, userData);
 	this->m_games.push_back(game);
