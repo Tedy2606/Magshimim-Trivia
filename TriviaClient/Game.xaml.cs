@@ -28,6 +28,7 @@ namespace TriviaClient
     {
         private NetworkStream _stream;
         private Button[] buttonArr;
+        private TextBlock[] textArr;
         private Random random;
 
         private int _amountOfQuestions;
@@ -72,13 +73,20 @@ namespace TriviaClient
                 this.buttonArr[1] = this.answer2;
                 this.buttonArr[2] = this.answer3;
                 this.buttonArr[3] = this.answer4;
+
+                this.textArr = new TextBlock[4];
+                this.textArr[0] = this.answer1Text;
+                this.textArr[1] = this.answer2Text;
+                this.textArr[2] = this.answer3Text;
+                this.textArr[3] = this.answer4Text;
+
                 this.random = new Random();
                 //shuffle the answers
                 int[] answerPlaces = { 0, 1, 2, 3 };
                 Shuffle(answerPlaces);
 
                 // extract the answers
-                Regex regex = new Regex(@"\b\d+:\w+\b");
+                Regex regex = new Regex(@"\d+:[^,]+");
 
                 string answers = jsonObject.Value<string>("answers");
 
@@ -89,7 +97,7 @@ namespace TriviaClient
                     int id = int.Parse(parsedMatch[0]);
                     string answer = parsedMatch[1];
 
-                    this.buttonArr[answerPlaces[i]].Content = answer;
+                    this.textArr[answerPlaces[i]].Text = answer;
                     this.buttonArr[answerPlaces[i]].Tag = id;
                     i++;
                 }
