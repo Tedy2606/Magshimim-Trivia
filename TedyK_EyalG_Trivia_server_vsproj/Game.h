@@ -40,7 +40,7 @@ public:
 	int getGameID() const;
 
 	//helper func
-	std::map<LoggedUser, GameData> getUsers();
+	std::map<LoggedUser, GameData>& getUsers();
 private:
 	int m_gameID;
 	std::map<LoggedUser, GameData> m_players;

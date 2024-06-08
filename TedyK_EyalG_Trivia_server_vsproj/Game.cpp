@@ -55,7 +55,7 @@ int Game::getGameID() const
 	return this->m_gameID;
 }
 
-std::map<LoggedUser, GameData> Game::getUsers()
+std::map<LoggedUser, GameData>& Game::getUsers()
 {
 	return this->m_players;
 }

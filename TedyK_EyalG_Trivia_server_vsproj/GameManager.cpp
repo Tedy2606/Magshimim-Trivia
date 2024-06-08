@@ -36,13 +36,27 @@ void GameManager::createGame(Room room)
 
 void GameManager::deleteGame(const int& id)
 {
-	this->m_games.erase(this->m_games.begin() + id);
+	int i = 0;
+	for (auto& it : this->m_games)
+	{
+		if (it.getGameID() == id)
+		{
+			this->m_games.erase(this->m_games.begin() + i);
+		}
 
+		i++;
+	}
 }
 
 Game& GameManager::getRoom(const int& id)
 {
-	return this->m_games[id];
+	for (auto& it : this->m_games)
+	{
+		if (it.getGameID() == id)
+		{
+			return it;
+		}
+	}
 }
 
 void GameManager::submitGameStatisticsToDB(Game game)
