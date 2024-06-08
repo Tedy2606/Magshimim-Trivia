@@ -126,9 +126,20 @@ bool SqliteDatabase::addNewUser(const std::string& username, const std::string& 
         return false; // user with the username already exists
     }
 
+    // insert new user
     std::string sqlQuery = "INSERT INTO users (username, password, email) VALUES ('" + username + "', '" + password + "', '" + email + "');";
     char* errMessage = nullptr;
     int res = sqlite3_exec(this->_db, sqlQuery.c_str(), nullptr, nullptr, &errMessage);
+    if (res != SQLITE_OK)
+    {
+        std::cerr << errMessage << std::endl;
+        return false;
+    }
+
+    // insert clean statistics of the user
+    sqlQuery = "INSERT INTO statistics (score, games, totalAnswers, correctAnswers, totalAnswerTime, userID) VALUES (0, 0, 0, 0, 0, (SELECT id FROM users WHERE username='" + username + "'));";
+    errMessage = nullptr;
+    res = sqlite3_exec(this->_db, sqlQuery.c_str(), nullptr, nullptr, &errMessage);
     if (res != SQLITE_OK)
     {
         std::cerr << errMessage << std::endl;
@@ -236,6 +247,7 @@ int SqliteDatabase::getNumOfCorrectAnswers(const std::string& username)
 
 float SqliteDatabase::getPlayerAverageAnswerTime(const std::string& username)
 {
+    // find the total answer time
     int totalAnswerTime = 0;
     auto callback = [](void* data, int argc, char** argv, char** azColName)
         {
@@ -247,8 +259,16 @@ float SqliteDatabase::getPlayerAverageAnswerTime(const std::string& username)
     int res = sqlite3_exec(this->_db, ("SELECT totalAnswerTime FROM statistics WHERE userID=(SELECT id FROM users WHERE username='" + username + "');").c_str(), callback, &totalAnswerTime, &errMessage);
     if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 
+    // find the number of total answers
+    int totalAnswersNum = this->getNumOfTotalAnswers(username);
+
     // return the average answer time
-    return (float)totalAnswerTime / this->getNumOfTotalAnswers(username);
+    if (totalAnswersNum == 0) // extreme case
+    {
+        return 0;
+    }
+
+    return (float)totalAnswerTime / totalAnswersNum;
 }
 
 std::vector<std::string> SqliteDatabase::getHighScores()
