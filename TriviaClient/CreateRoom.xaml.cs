@@ -43,7 +43,7 @@ namespace TriviaClient
             JObject message = new JObject();
             message["maxUsers"] = (int)playerNum.Value;
             message["answerTimeout"] = (int)answerTime.Value;
-            message["questionCount"] = 10;
+            message["questionCount"] = (int)questionCount.Value;
             message["roomName"] = roomName.Text;
             string jsonString = message.ToString();
             byte code = 113;
