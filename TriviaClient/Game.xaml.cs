@@ -36,6 +36,13 @@ namespace TriviaClient
         private int _correctAnswerCount;
         public Game(NetworkStream stream, int amountOfQuestions, int answerTime, int currQuestion, int correctAnswerCount)
         {
+
+            if (amountOfQuestions < currQuestion)
+            {
+                NavigationService?.Navigate(new Results());
+            }
+
+
             InitializeComponent();
             this._stream = stream;
             this._currQuestion = currQuestion;
@@ -97,8 +104,8 @@ namespace TriviaClient
         {
             JObject message = new JObject();
             string jsonString = message.ToString();
-            byte code = 131;
-            
+            byte code = 143;
+            message["answerID"] = answerId;
 
             Networker networker = new Networker();
             JObject jsonObject = networker.sendAndRecive(message, this._stream, code);
@@ -106,7 +113,7 @@ namespace TriviaClient
             if (!jsonObject.ContainsKey("message"))
             {
 
-                if (jsonObject.Value<int>("isCorrect") == answerId)
+                if (jsonObject.Value<int>("isCorrect") == 1)
                 {
                     //correct answer
                     this._correctAnswerCount++;
