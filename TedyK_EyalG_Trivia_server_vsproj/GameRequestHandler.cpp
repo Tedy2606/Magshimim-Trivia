@@ -2,6 +2,10 @@
 
 #define ANSWERS_NUM 4
 
+
+std::mutex mtx;
+std::condition_variable cv;
+
 GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game game, LoggedUser user)
 	: m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_game(game), m_user(user)
 {
@@ -83,6 +87,19 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 {
+	//replace true with an if statment that checks if the all of the users 
+	int users = this->m_game.getUsers().size();
+	if (true)
+	{
+		cv.notify_all();
+	}
+	else
+	{
+		std::unique_lock<std::mutex> lock(mtx);
+		cv.wait(lock, [users] {return true; });
+
+	}
+	
 	JsonResponsePacketSerializer seri;
 	GetGameResultsResponse response;
 	RequestResult result;

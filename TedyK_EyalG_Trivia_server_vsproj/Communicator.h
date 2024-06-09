@@ -11,6 +11,8 @@
 #include <sstream>
 #include <map>
 #include "IRequestHandler.h"
+
+extern int usersDone;
 class Communicator
 {
 public:

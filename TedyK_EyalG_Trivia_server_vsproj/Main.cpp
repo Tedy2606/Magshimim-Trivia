@@ -6,7 +6,7 @@ int main()
 {
 	try
 	{
-
+		
 		WSAInitializer wsaInit;
 		Server& server = Server::getInstance();
 		//run the server

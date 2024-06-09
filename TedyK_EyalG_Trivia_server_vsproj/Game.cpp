@@ -10,7 +10,7 @@ int Game::submitAnswer(const LoggedUser& user, const int& answerId)
 {
     //figure out wtf do we do with avg time 
     int isCorrect = INCORRECT;
-
+    
     if (this->m_players[user].currentQuestion.getCorrectAnswerId() == answerId)
     {
         this->m_players[user].correctAnswerCount++;
@@ -35,6 +35,7 @@ int Game::submitAnswer(const LoggedUser& user, const int& answerId)
     if (index != -1 && index < this->m_questions.size() - 1) {
         this->m_players[user].currentQuestion = this->m_questions[index + 1];
     }
+
     
     return isCorrect;
 }

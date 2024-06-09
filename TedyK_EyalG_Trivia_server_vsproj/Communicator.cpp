@@ -14,7 +14,6 @@
 using std::cout;
 using std::endl;
 
-
 Communicator* Communicator::m_instance = nullptr; // Definition of the static member variable
 Communicator::Communicator(RequestHandlerFactory& handlerFactory)
 	: m_handlerFactory(handlerFactory)
