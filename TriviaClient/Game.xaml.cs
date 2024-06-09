@@ -41,7 +41,7 @@ namespace TriviaClient
 
             if (amountOfQuestions < currQuestion)
             {
-                NavigationService?.Navigate(new Results());
+                NavigationService?.Navigate(new Results(stream));
             }
 
 
@@ -136,6 +136,7 @@ namespace TriviaClient
                     
 
                 }
+
                 NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1, this._correctAnswerCount));
             }
             else
