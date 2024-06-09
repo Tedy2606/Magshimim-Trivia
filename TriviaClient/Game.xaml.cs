@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace TriviaClient
 {
@@ -27,6 +29,7 @@ namespace TriviaClient
     public partial class Game : Page
     {
         private NetworkStream _stream;
+        
         private Button[] buttonArr;
         private TextBlock[] textArr;
         private Random random;
@@ -35,7 +38,8 @@ namespace TriviaClient
         private int _answerTime;
         private int _currQuestion;
         private int _correctAnswerCount;
-
+        private int _timeLeft;
+        private bool _tickCancallationFlag;
         public Game(NetworkStream stream, int amountOfQuestions, int answerTime, int currQuestion, int correctAnswerCount)
         {
 
@@ -46,6 +50,12 @@ namespace TriviaClient
 
 
             InitializeComponent();
+
+            this._tickCancallationFlag = true;
+            Thread timeThread = new Thread(new ThreadStart(timeTick));
+            timeThread.Start();
+
+
             this._stream = stream;
             this._currQuestion = currQuestion;
             this._amountOfQuestions = amountOfQuestions;
@@ -109,7 +119,30 @@ namespace TriviaClient
             }
             
         }
+        private void timeTick()
+        {
+            int time = this._answerTime;
+            while (this._tickCancallationFlag)
+            {
+                this.Dispatcher.Invoke(() => {
+                    this.time.Text = "Time Left: " + time.ToString();
+                });
+                time--;
 
+                //because dispatcher takes a while (probably) if time will reset at 0
+                //it will go over to the next question at 2 (in the ui) so we use -2
+                if (time == -2)
+                {
+                    
+                    this.Dispatcher.Invoke(() => {
+                        // answer id 5 does not exist, whcih means the answer will always be wrong
+                        this.sendButtonAnswer(5);
+                    });
+                }
+                Thread.Sleep(1000);
+            }
+
+        }
         private void sendButtonAnswer(int answerId)
         {
             JObject message = new JObject();
@@ -136,7 +169,7 @@ namespace TriviaClient
                     
 
                 }
-
+                this._tickCancallationFlag = false;
                 NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1, this._correctAnswerCount));
             }
             else
