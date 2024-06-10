@@ -45,6 +45,13 @@ public:
 	// getter for m_questions
 	std::vector<Question>& getQuestions();
 
+	/*
+	Calculates the score of the user
+	@param data - the data of the game
+	@return the score of the game
+	*/
+	static float calculateScore(GameData data);
+
 private:
 	int m_gameID;
 	std::map<LoggedUser, GameData> m_players;

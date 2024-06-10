@@ -66,4 +66,9 @@ std::vector<Question>& Game::getQuestions()
     return this->m_questions;
 }
 
+float Game::calculateScore(GameData data)
+{
+    int averageAnswerTime = data.totalAnswerTime ? (data.correctAnswerCount + data.wrongAnswerCount) / data.totalAnswerTime : 0;
 
+    return averageAnswerTime ? data.correctAnswerCount / averageAnswerTime : 0;
+}

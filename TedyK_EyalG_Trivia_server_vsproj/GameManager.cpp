@@ -60,12 +60,14 @@ Game& GameManager::getRoom(const int& id)
 
 void GameManager::submitGameStatisticsToDB(Game game)
 {
-	
-	auto users = game.getUsers();
-	for (auto it : users)
+	auto& users = game.getUsers();
+	for (auto& it : users)
 	{
-		//submit the statistics with the db, first make the function in the database for it to work
-
+		//submit the statistics with the db
+		this->m_database->insertStatistics(it.first.GetUserName(),		// username
+			it.second.correctAnswerCount,								// correct answers
+			it.second.wrongAnswerCount + it.second.correctAnswerCount,	// total answers
+			it.second.totalAnswerTime,									// total time
+			Game::calculateScore(it.second));							// score
 	}
-
 }

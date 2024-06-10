@@ -299,3 +299,16 @@ std::vector<std::string> SqliteDatabase::getHighScores()
 
     return highScores;
 }
+
+void SqliteDatabase::insertStatistics(const std::string& username, const int& correctAnswers, const int& totalAnswers, const int& totalAnswerTime, const float& score)
+{
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("UPDATE statistics SET "
+        "score = score + " + std::to_string(score) + ", "
+        "games = games + 1, "
+        "totalAnswers = totalAnswers + " + std::to_string(totalAnswers) + ", "
+        "correctAnswers = correctAnswers + " + std::to_string(correctAnswers) + ", "
+        "totalAnswerTime = totalAnswerTime + " + std::to_string(totalAnswerTime) + ", "
+        "WHERE userID = (SLECET id FROM users WHERE username='" + username + "');").c_str(), NULL, NULL, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+}
