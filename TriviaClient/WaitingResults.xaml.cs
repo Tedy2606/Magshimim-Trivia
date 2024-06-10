@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -23,10 +24,27 @@ namespace TriviaClient
     {
         private NetworkStream _stream;
 
-        public WaitingResults(NetworkStream stream)
+        public WaitingResults(NetworkStream stream, int correctCount, int totalTime)
         {
             InitializeComponent();
             this._stream = stream;
+            JObject message = new JObject();
+            string jsonString = message.ToString();
+            byte code = 144;
+
+
+            Networker networker = new Networker();
+            JObject jsonObject = networker.sendAndRecive(message, this._stream, code);
+
+            if (!jsonObject.ContainsKey("message"))
+            {
+                NavigationService?.Navigate(new Results(this._stream, jsonObject, correctCount,  totalTime));
+            }
+            else
+            {
+                MessageBox.Show($"Response from server: {jsonObject}");
+            }
+
         }
     }
 }

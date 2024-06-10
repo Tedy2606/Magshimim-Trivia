@@ -40,12 +40,17 @@ namespace TriviaClient
         private int _correctAnswerCount;
         private int _timeLeft;
         private bool _tickCancallationFlag;
-        public Game(NetworkStream stream, int amountOfQuestions, int answerTime, int currQuestion, int correctAnswerCount)
+        private int _totalAnswerTime;
+        
+
+
+        public Game(NetworkStream stream, int amountOfQuestions, int answerTime, int currQuestion, int correctAnswerCount, int totalTime)
         {
 
 
             InitializeComponent();
 
+            this._totalAnswerTime = totalTime;
 
             this._tickCancallationFlag = true;
             Thread timeThread = new Thread(new ThreadStart(timeTick));
@@ -117,17 +122,17 @@ namespace TriviaClient
         }
         private void timeTick()
         {
-            int time = this._answerTime;
+            this._timeLeft = this._answerTime;
             while (this._tickCancallationFlag)
             {
                 this.Dispatcher.Invoke(() => {
                     this.time.Text = "Time Left: " + time.ToString();
                 });
-                time--;
+                this._timeLeft--;
 
                 //because dispatcher takes a while (probably) if time will reset at 0
                 //it will go over to the next question at 2 (in the ui) so we use -2
-                if (time == -2)
+                if (this._timeLeft == -2)
                 {
                     
                     this.Dispatcher.Invoke(() => {
@@ -168,11 +173,11 @@ namespace TriviaClient
                 this._tickCancallationFlag = false;
                 if (this._amountOfQuestions == this._currQuestion)
                 {
-                    NavigationService?.Navigate(new WaitingResults(this._stream));
+                    NavigationService?.Navigate(new WaitingResults(this._stream, this._correctAnswerCount, this._to));
                 }
                 else
                 {
-                    NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1, this._correctAnswerCount));
+                    NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1, this._correctAnswerCount, this._totalAnswerTime + this._timeLeft));
 
                 }
                 

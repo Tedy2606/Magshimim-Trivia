@@ -114,7 +114,7 @@ namespace TriviaClient
                 else if (hasGameBegun == 2) // game has started
                 {
                     this._dispatcherTimer.Stop();
-                    NavigationService?.Navigate(new Game(this._stream, questionCount, answer_time, 1, 0));
+                    NavigationService?.Navigate(new Game(this._stream, questionCount, answer_time, 1, 0, 0));
                 }
 
                 // get the room players

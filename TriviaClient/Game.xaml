@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:TriviaClient"
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="650"
-      Title="Game"
-      KeepAlive="True">
+      Title="Game">
 
     <Grid>
         <TextBlock x:Name="questionsNum" Text="Question X out of Y" Foreground="{DynamicResource Text}" Margin="160,17,160,643" FontSize="32" FontWeight="DemiBold" TextAlignment="Center"/>
