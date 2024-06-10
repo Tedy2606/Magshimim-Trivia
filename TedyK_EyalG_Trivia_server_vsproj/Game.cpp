@@ -61,4 +61,9 @@ std::map<LoggedUser, GameData>& Game::getUsers()
 	return this->m_players;
 }
 
+std::vector<Question>& Game::getQuestions()
+{
+    return this->m_questions;
+}
+
 

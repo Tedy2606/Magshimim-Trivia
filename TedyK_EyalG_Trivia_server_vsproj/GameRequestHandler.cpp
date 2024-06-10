@@ -87,8 +87,22 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 {
+	std::map<LoggedUser, GameData>& users = this->m_gameManager.getRoom(this->m_game.getGameID()).getUsers();
+
+	// check if there is a user who hasn't answered all of the questions
+	bool isAllFinished = true;
+	for (auto& it : users)
+	{
+		// check if total answers of current user is equal to the number of questions in the game
+		if (it.second.correctAnswerCount + it.second.wrongAnswerCount < this->m_game.getQuestions().size())
+		{
+			isAllFinished = false;
+			break;
+		}
+	}
+
 	//replace true with an if statment that checks if the all of the users 
-	int users = this->m_game.getUsers().size();
+	int usersNum = users.size();
 	if (true)
 	{
 		cv.notify_all();
@@ -96,7 +110,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 	else
 	{
 		std::unique_lock<std::mutex> lock(mtx);
-		cv.wait(lock, [users] {return true; });
+		cv.wait(lock, [usersNum] {return true; });
 
 	}
 	
@@ -114,7 +128,14 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 		playerData.correctAnswerCount = it.second.correctAnswerCount;
 		playerData.wrongAnswerCount = it.second.wrongAnswerCount;
 
-		playerData.averageAnswerTime = (playerData.correctAnswerCount + playerData.wrongAnswerCount) / it.second.totalAnswerTime;
+		if (it.second.totalAnswerTime)
+		{
+			playerData.averageAnswerTime = (playerData.correctAnswerCount + playerData.wrongAnswerCount) / it.second.totalAnswerTime;
+		}
+		else
+		{
+			playerData.averageAnswerTime = 0;
+		}
 
 		// push it to the response
 		response.results.push_back(playerData);

@@ -39,8 +39,12 @@ public:
 	*/
 	int getGameID() const;
 
-	//helper func
+	// getter for m_players
 	std::map<LoggedUser, GameData>& getUsers();
+
+	// getter for m_questions
+	std::vector<Question>& getQuestions();
+
 private:
 	int m_gameID;
 	std::map<LoggedUser, GameData> m_players;
