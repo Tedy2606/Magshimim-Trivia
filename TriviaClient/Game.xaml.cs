@@ -171,9 +171,15 @@ namespace TriviaClient
 
                 }
                 this._tickCancallationFlag = false;
+                if (answerId == 5)
+                {
+                    this._timeLeft += this._answerTime;
+                }
+
+
                 if (this._amountOfQuestions == this._currQuestion)
                 {
-                    NavigationService?.Navigate(new WaitingResults(this._stream, this._correctAnswerCount, this._to));
+                    NavigationService?.Navigate(new WaitingResults(this._stream, this._correctAnswerCount, this._totalAnswerTime + this._timeLeft));
                 }
                 else
                 {
