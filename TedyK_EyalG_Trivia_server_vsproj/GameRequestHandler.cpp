@@ -6,8 +6,8 @@
 std::mutex mtx;
 std::condition_variable cv;
 
-GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game game, LoggedUser user)
-	: m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_game(game), m_user(user)
+GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, int gameID, LoggedUser user)
+	: m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_gameID(gameID), m_user(user)
 {
 }
 
@@ -49,16 +49,16 @@ RequestResult GameRequestHandler::getQuestion(const RequestInfo& info)
 	RequestResult result;
 	
 	// get the question and the answers
-	response.question = this->m_game.getQuestionForUser(this->m_user).getQuestion();
+	response.question = this->m_gameManager.getRoom(this->m_gameID).getQuestionForUser(this->m_user).getQuestion();
 	
 	for (int i = 0; i < ANSWERS_NUM; i++)
 	{
-		response.answers[i] = this->m_game.getQuestionForUser(this->m_user).getPossibleAnswers()[i];
+		response.answers[i] = this->m_gameManager.getRoom(this->m_gameID).getQuestionForUser(this->m_user).getPossibleAnswers()[i];
 	}
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_gameID);
 	result.buffer = seri.serializeResponse(response);
 
 	return result;
@@ -75,11 +75,11 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 	SubmitAnswerRequest request = desi.desirializeSubmitAnswerRequest(info.buffer);
 
 	// submit the answer in the request
-	response.isCorrect = this->m_game.submitAnswer(this->m_user, request.answerID);
+	response.isCorrect = this->m_gameManager.getRoom(this->m_gameID).submitAnswer(this->m_user, request.answerID);
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_gameID);
 	result.buffer = seri.serializeResponse(response);
 
 	return result;
@@ -87,14 +87,14 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 {
-	std::map<LoggedUser, GameData>& users = this->m_gameManager.getRoom(this->m_game.getGameID()).getUsers();
+	std::map<LoggedUser, GameData>& users = this->m_gameManager.getRoom(this->m_gameID).getUsers();
 
 	// check if there is a user who hasn't answered all of the questions
 	bool isAllFinished = true;
 	for (auto& it : users)
 	{
 		// check if total answers of current user is equal to the number of questions in the game
-		if (it.second.correctAnswerCount + it.second.wrongAnswerCount < this->m_game.getQuestions().size())
+		if (it.second.correctAnswerCount + it.second.wrongAnswerCount < this->m_gameManager.getRoom(this->m_gameID).getQuestions().size())
 		{
 			isAllFinished = false;
 			break;
@@ -119,7 +119,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 	RequestResult result;
 	
 	// go over the users
-	for (auto& it : this->m_game.getUsers())
+	for (auto& it : users)
 	{
 		// get the current user's data
 		PlayerResults playerData;
@@ -143,7 +143,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_gameID);
 	result.buffer = seri.serializeResponse(response);
 
 	return result;
@@ -156,10 +156,10 @@ RequestResult GameRequestHandler::leaveGame(const RequestInfo& info)
 	RequestResult result;
 
 	// leave the game
-	this->m_game.removePlayer(this->m_user);
+	this->m_gameManager.getRoom(this->m_gameID).removePlayer(this->m_user);
 
 	// leave the room
-	this->m_handlerFactory.getRoomManager().getRoom(this->m_game.getGameID()).removeUser(this->m_user);
+	this->m_handlerFactory.getRoomManager().getRoom(this->m_gameID).removeUser(this->m_user);
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;

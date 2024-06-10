@@ -10,7 +10,7 @@ class RequestHandlerFactory;
 class GameRequestHandler : public IRequestHandler
 {
 public:
-    GameRequestHandler(RequestHandlerFactory& handlerFactory, Game game, LoggedUser user);
+    GameRequestHandler(RequestHandlerFactory& handlerFactory, int gameID, LoggedUser user);
 
     /***
     * function checks if a request is relevant
@@ -55,7 +55,7 @@ private:
     */
     RequestResult leaveGame(const RequestInfo& info);
 
-    Game m_game;
+    int m_gameID;
     LoggedUser m_user;
     GameManager& m_gameManager;
     RequestHandlerFactory& m_handlerFactory;

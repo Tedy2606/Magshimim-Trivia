@@ -62,7 +62,7 @@ RequestResult RoomMemberRequestHandler::getRoomState(const RequestInfo& info)
     if (response.hasGameBegun == STARTED) // game started --> create game handle
     {
         result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, 
-            this->m_handlerFactory.getGameManager().getRoom(this->m_room.getData().id));
+            this->m_room.getData().id);
     }
     else // game hasn't started --> create room member handle
     {

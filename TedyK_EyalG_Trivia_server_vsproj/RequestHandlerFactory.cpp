@@ -26,9 +26,9 @@ RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(Lo
     return new RoomAdminRequestHandler(*this, room, user);
 }
 
-GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser& user, Game game)
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser& user, int gameID)
 {
-    return new GameRequestHandler(*this, game, user);
+    return new GameRequestHandler(*this, gameID, user);
 }
 
 LoginManager& RequestHandlerFactory::getLoginManager()
