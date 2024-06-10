@@ -101,17 +101,16 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 		}
 	}
 
-	//replace true with an if statment that checks if the all of the users 
+	//replace true with an if statment that checks if the all of the users are done 
 	int usersNum = users.size();
-	if (true)
+	if (isAllFinished)
 	{
 		cv.notify_all();
 	}
 	else
 	{
 		std::unique_lock<std::mutex> lock(mtx);
-		cv.wait(lock, [usersNum] {return true; });
-
+		cv.wait(lock, [isAllFinished] {return isAllFinished; });
 	}
 	
 	JsonResponsePacketSerializer seri;

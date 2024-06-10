@@ -43,13 +43,9 @@ namespace TriviaClient
         public Game(NetworkStream stream, int amountOfQuestions, int answerTime, int currQuestion, int correctAnswerCount)
         {
 
-            if (amountOfQuestions < currQuestion)
-            {
-                NavigationService?.Navigate(new Results(stream));
-            }
-
 
             InitializeComponent();
+
 
             this._tickCancallationFlag = true;
             Thread timeThread = new Thread(new ThreadStart(timeTick));
@@ -66,7 +62,7 @@ namespace TriviaClient
 
             this._answerTime = answerTime;
 
-
+            
             JObject message = new JObject();
             string jsonString = message.ToString();
             byte code = 142;
@@ -170,7 +166,16 @@ namespace TriviaClient
 
                 }
                 this._tickCancallationFlag = false;
-                NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1, this._correctAnswerCount));
+                if (this._amountOfQuestions == this._currQuestion)
+                {
+                    NavigationService?.Navigate(new WaitingResults(this._stream));
+                }
+                else
+                {
+                    NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1, this._correctAnswerCount));
+
+                }
+                
             }
             else
             {

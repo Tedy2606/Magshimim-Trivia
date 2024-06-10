@@ -26,7 +26,6 @@ namespace TriviaClient
         public WaitingResults(NetworkStream stream)
         {
             InitializeComponent();
-
             this._stream = stream;
         }
     }
