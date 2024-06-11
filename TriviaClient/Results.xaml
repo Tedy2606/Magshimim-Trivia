@@ -24,7 +24,7 @@
 
         <TextBlock x:Name="averageAnswerTime" Text="Average Answer Time: " Foreground="{DynamicResource Text}" Margin="110,561,110,79" FontSize="36" FontWeight="DemiBold" TextAlignment="Center"/>
 
-        <Button Content="Back To Menu" Width = "360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="145,600,145,40" FontSize="36" FontFamily="Arial" FontWeight="Bold">
+        <Button Content="Back To Menu" Width = "360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="145,600,145,40" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="backToMenu_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

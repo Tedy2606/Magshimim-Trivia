@@ -126,9 +126,10 @@ namespace TriviaClient
             while (this._tickCancallationFlag)
             {
                 this.Dispatcher.Invoke(() => {
-                    this.time.Text = "Time Left: " + time.ToString();
+                    this.time.Text = "Time Left: " + this._timeLeft.ToString();
                 });
                 this._timeLeft--;
+                this._totalAnswerTime++;
 
                 //because dispatcher takes a while (probably) if time will reset at 0
                 //it will go over to the next question at 2 (in the ui) so we use -2
@@ -179,11 +180,11 @@ namespace TriviaClient
 
                 if (this._amountOfQuestions == this._currQuestion)
                 {
-                    NavigationService?.Navigate(new Results(this._stream, this._correctAnswerCount, this._totalAnswerTime + this._timeLeft));
+                    NavigationService?.Navigate(new Results(this._stream, this._amountOfQuestions, this._correctAnswerCount, this._totalAnswerTime));
                 }
                 else
                 {
-                    NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1, this._correctAnswerCount, this._totalAnswerTime + this._timeLeft));
+                    NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, this._currQuestion + 1, this._correctAnswerCount, this._totalAnswerTime));
 
                 }
                 

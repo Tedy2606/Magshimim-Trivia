@@ -126,15 +126,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 		playerData.username = it.first.GetUserName();
 		playerData.correctAnswerCount = it.second.correctAnswerCount;
 		playerData.wrongAnswerCount = it.second.wrongAnswerCount;
-
-		if (it.second.totalAnswerTime)
-		{
-			playerData.averageAnswerTime = (playerData.correctAnswerCount + playerData.wrongAnswerCount) / it.second.totalAnswerTime;
-		}
-		else
-		{
-			playerData.averageAnswerTime = 0;
-		}
+		playerData.totalAnswerTime = it.second.totalAnswerTime;
 
 		// push it to the response
 		response.results.push_back(playerData);
@@ -142,7 +134,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_gameID);
+	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 	result.buffer = seri.serializeResponse(response);
 
 	return result;

@@ -183,10 +183,18 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetGameResultsRespo
     string results = "";
     for (int i = 0; i < response.results.size(); i++)
     {
-        results += response.results[i].username + ":" +
-            std::to_string(response.results[i].correctAnswerCount) + ":" +
-            std::to_string(response.results[i].wrongAnswerCount) + ":" +
-            std::to_string(response.results[i].averageAnswerTime);
+        // move the data to a game data struct
+        GameData data;
+        data.totalAnswerTime = response.results[i].totalAnswerTime;
+        data.correctAnswerCount = response.results[i].correctAnswerCount;
+        data.wrongAnswerCount = response.results[i].wrongAnswerCount;
+
+        // calculate the score
+        float score = Game::calculateScore(data);
+
+        // turn the score to a string
+        results += response.results[i].username + ":" + std::to_string(score);
+
         if (i != response.results.size() - 1)
         {
             results += ",";

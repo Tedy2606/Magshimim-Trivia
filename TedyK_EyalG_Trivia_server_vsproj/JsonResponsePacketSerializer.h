@@ -3,6 +3,7 @@
 #include <string>
 #include "json.hpp"
 #include "Room.h"
+#include "Game.h"
 #include "Codes.h"
 #include <sstream>
 
@@ -112,7 +113,7 @@ struct PlayerResults
 	string username;
 	unsigned int correctAnswerCount;
 	unsigned int wrongAnswerCount;
-	unsigned int averageAnswerTime;
+	unsigned int totalAnswerTime;
 };
 
 struct GetGameResultsResponse
