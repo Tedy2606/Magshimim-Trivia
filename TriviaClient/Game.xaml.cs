@@ -179,7 +179,7 @@ namespace TriviaClient
 
                 if (this._amountOfQuestions == this._currQuestion)
                 {
-                    NavigationService?.Navigate(new WaitingResults(this._stream, this._correctAnswerCount, this._totalAnswerTime + this._timeLeft));
+                    NavigationService?.Navigate(new Results(this._stream, this._correctAnswerCount, this._totalAnswerTime + this._timeLeft));
                 }
                 else
                 {

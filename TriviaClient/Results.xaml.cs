@@ -25,18 +25,31 @@ namespace TriviaClient
     {
         private NetworkStream _stream;
 
-        public Results(NetworkStream stream, JObject results, int correctCount, int totalAnswerTime)
+        public Results(NetworkStream stream, int correctCount, int totalAnswerTime)
         {
             InitializeComponent();
 
             this._stream = stream;
-            this.correctAnswers.Text = correctCount.ToString();
+            this.correctAnswers.Text += correctCount.ToString();
 
             //replace thiw with acg once we start actually looking at what is in the results
-            this.averageAnswerTime.Text = totalAnswerTime.ToString();
+            this.averageAnswerTime.Text += totalAnswerTime.ToString() + "s";
 
             //open results and calculate points ( finish the db function to submit data)
+            JObject message = new JObject();
+            byte code = 144;
 
+            Networker networker = new Networker();
+            JObject jsonObject = networker.sendAndRecive(message, this._stream, code);
+
+            if (!jsonObject.ContainsKey("message"))
+            {
+                
+            }
+            else
+            {
+                MessageBox.Show($"Response from server: {jsonObject}");
+            }
 
         }
     }
