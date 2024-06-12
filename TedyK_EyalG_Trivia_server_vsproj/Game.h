@@ -2,6 +2,8 @@
 #include "Question.h"
 #include "LoggedUser.h"
 #include "map"
+#include <chrono>
+#include <iostream>
 
 using std::string;
 
@@ -20,6 +22,7 @@ class Game
 {
 public:
 	Game(int id, std::vector<Question> questions, std::map<LoggedUser, GameData> players);
+
 	/**
 	* function to submit the answer of the user
 	*/
@@ -56,6 +59,5 @@ private:
 	int m_gameID;
 	std::map<LoggedUser, GameData> m_players;
 	std::vector<Question> m_questions;
+	std::chrono::steady_clock::time_point m_start;
 };
-
-

@@ -4,6 +4,7 @@ Game::Game(int id, std::vector<Question> questions, std::map<LoggedUser, GameDat
 	m_questions(questions), m_players(players)
 {
 	this->m_gameID = id;
+    this->m_start = std::chrono::high_resolution_clock::now(); // find moment of creation of game
 }
 
 int Game::submitAnswer(const LoggedUser& user, const int& answerId)
@@ -35,7 +36,11 @@ int Game::submitAnswer(const LoggedUser& user, const int& answerId)
     if (index != -1 && index < this->m_questions.size() - 1) {
         this->m_players[user].currentQuestion = this->m_questions[index + 1];
     }
-
+    else // stop the time for the current player
+    {
+        this->m_players[user].totalAnswerTime = std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::high_resolution_clock::now() - this->m_start).count() ;
+    }
     
     return isCorrect;
 }
@@ -68,7 +73,7 @@ std::vector<Question>& Game::getQuestions()
 
 float Game::calculateScore(GameData data)
 {
-    int averageAnswerTime = (data.correctAnswerCount + data.wrongAnswerCount) ? data.totalAnswerTime / (data.correctAnswerCount + data.wrongAnswerCount) : 0;
+    float averageAnswerTime = (data.correctAnswerCount + data.wrongAnswerCount) ? (float)data.totalAnswerTime / (data.correctAnswerCount + data.wrongAnswerCount) : 0;
 
-    return averageAnswerTime ? data.correctAnswerCount / averageAnswerTime : 0;
+    return averageAnswerTime ? data.correctAnswerCount * 10 / averageAnswerTime : 0;
 }
