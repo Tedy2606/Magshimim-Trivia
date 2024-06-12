@@ -55,11 +55,19 @@ namespace TriviaClient
 
                 string results = jsonObject.Value<string>("results");
 
-                Boolean isWinner = true;
+                // get the scores and sort them
+                SortedDictionary<float, string> users = new SortedDictionary<float, string>();
                 foreach (Match match in regex.Matches(results))
                 {
                     string[] parsedMatch = match.Value.Split(':');
-                    string score = parsedMatch[0] + " - " + parsedMatch[1].Remove(parsedMatch[1].Length - 4) + "pts";
+                    users[float.Parse(parsedMatch[1].Remove(parsedMatch[1].Length - 4))] = parsedMatch[0]; // get the current user
+                }
+
+                // show the scores on the scoreboard
+                Boolean isWinner = true;
+                foreach (KeyValuePair<float, string> pair in users.Reverse())
+                {
+                    string score = pair.Value + " - " + pair.Key.ToString() + "pts";
 
                     // Create the button of the room
                     TextBlock player = new TextBlock
