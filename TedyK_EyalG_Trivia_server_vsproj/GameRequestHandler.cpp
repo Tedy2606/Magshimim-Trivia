@@ -2,7 +2,7 @@
 
 #define ANSWERS_NUM 4
 
-
+bool isAllFinished = false;
 std::mutex mtx;
 std::condition_variable cv;
 
@@ -88,29 +88,37 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 {
 	std::map<LoggedUser, GameData>& users = this->m_gameManager.getRoom(this->m_gameID).getUsers();
-
-	// check if there is a user who hasn't answered all of the questions
-	bool isAllFinished = true;
-	for (auto& it : users)
 	{
-		// check if total answers of current user is equal to the number of questions in the game
-		if (it.second.correctAnswerCount + it.second.wrongAnswerCount < this->m_gameManager.getRoom(this->m_gameID).getQuestions().size())
-		{
-			isAllFinished = false;
-			break;
-		}
-	}
-
-	//replace true with an if statment that checks if the all of the users are done 
-	int usersNum = users.size();
-	if (isAllFinished)
-	{
-		cv.notify_all();
-	}
-	else
-	{
+		isAllFinished = true;
+		// check if there is a user who hasn't answered all of the questions
 		std::unique_lock<std::mutex> lock(mtx);
-		cv.wait(lock, [isAllFinished] {return isAllFinished; });
+		for (auto& it : users)
+		{
+			// check if total answers of current user is equal to the number of questions in the game
+			if (it.second.correctAnswerCount + it.second.wrongAnswerCount < this->m_gameManager.getRoom(this->m_gameID).getQuestions().size())
+			{
+				isAllFinished = false;
+				break;
+			}
+		}
+
+
+
+		if (isAllFinished)
+		{
+			cv.notify_all();
+		}
+		else
+		{
+
+			cv.wait(lock, [] {return isAllFinished; });
+			int done = 1;
+		}
+
+
+
+
+
 	}
 	
 	JsonResponsePacketSerializer seri;
