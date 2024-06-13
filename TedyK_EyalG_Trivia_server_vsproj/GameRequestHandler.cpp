@@ -87,6 +87,7 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 {
+	bool isLastPlayer = false;
 	std::map<LoggedUser, GameData>& users = this->m_gameManager.getRoom(this->m_gameID).getUsers();
 	{
 		isAllFinished = true;
@@ -105,11 +106,11 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 		if (isAllFinished)
 		{
 			cv.notify_all();
+			isLastPlayer = true;
 		}
 		else
 		{
 			cv.wait(lock, [] {return isAllFinished; });
-			int done = 1;
 		}
 	}
 	
@@ -136,6 +137,11 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 	response.status = OK_RESPONSE;
 	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 	result.buffer = seri.serializeResponse(response);
+
+	if (isLastPlayer)
+	{
+		this->m_gameManager.deleteGame(this->m_gameID);
+	}
 
 	return result;
 }
