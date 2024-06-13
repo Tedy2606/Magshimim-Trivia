@@ -102,23 +102,15 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 			}
 		}
 
-
-
 		if (isAllFinished)
 		{
 			cv.notify_all();
 		}
 		else
 		{
-
 			cv.wait(lock, [] {return isAllFinished; });
 			int done = 1;
 		}
-
-
-
-
-
 	}
 	
 	JsonResponsePacketSerializer seri;

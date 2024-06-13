@@ -308,7 +308,7 @@ void SqliteDatabase::insertStatistics(const std::string& username, const int& co
         "games = games + 1, "
         "totalAnswers = totalAnswers + " + std::to_string(totalAnswers) + ", "
         "correctAnswers = correctAnswers + " + std::to_string(correctAnswers) + ", "
-        "totalAnswerTime = totalAnswerTime + " + std::to_string(totalAnswerTime) + ", "
-        "WHERE userID = (SLECET id FROM users WHERE username='" + username + "');").c_str(), NULL, NULL, &errMessage);
+        "totalAnswerTime = totalAnswerTime + " + std::to_string(totalAnswerTime) + " "
+        "WHERE userID = (SELECT id FROM users WHERE username='" + username + "');").c_str(), NULL, NULL, &errMessage);
     if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 }

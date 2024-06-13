@@ -40,9 +40,10 @@ void GameManager::deleteGame(const int& id)
 	{
 		if (it.getGameID() == id)
 		{
+			this->submitGameStatisticsToDB(it);
+
 			this->m_games.erase(this->m_games.begin() + i);
 		}
-
 		i++;
 	}
 }
