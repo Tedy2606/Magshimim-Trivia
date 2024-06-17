@@ -69,6 +69,13 @@ private:
 	**/
 	char *getPartFromSocket(SOCKET sc, int bytesNum, int flags);
 
+	/*
+	Method to handle a request
+	@param clientSocket - the socket of the request
+	@param info - the info of the request
+	@return a buffer which contains the response of the request
+	*/
+	Buffer requestHandler(SOCKET clientSocket, RequestInfo info);
 
 	/***
 	* sends a packet to the client 
