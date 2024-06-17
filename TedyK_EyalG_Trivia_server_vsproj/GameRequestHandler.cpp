@@ -158,6 +158,36 @@ RequestResult GameRequestHandler::leaveGame(const RequestInfo& info)
 	// leave the room
 	this->m_handlerFactory.getRoomManager().getRoom(this->m_gameID).removeUser(this->m_user);
 
+	// notify the users who are waiting for the results if this is the last user
+	bool isLastPlayer = false;
+	std::map<LoggedUser, GameData>& users = this->m_gameManager.getRoom(this->m_gameID).getUsers();
+	{
+		isAllFinished = true;
+		// check if there is a user who hasn't answered all of the questions
+		std::unique_lock<std::mutex> lock(mtx);
+		for (auto& it : users)
+		{
+			// check if total answers of current user is equal to the number of questions in the game
+			if (it.second.correctAnswerCount + it.second.wrongAnswerCount < this->m_gameManager.getRoom(this->m_gameID).getQuestions().size())
+			{
+				isAllFinished = false;
+				break;
+			}
+		}
+
+		if (isAllFinished)
+		{
+			cv.notify_all();
+			isLastPlayer = true;
+		}
+	}
+
+	// delete the game if its the last player
+	if (isLastPlayer)
+	{
+		this->m_gameManager.deleteGame(this->m_gameID);
+	}
+
 	// make a response and serialize it
 	response.status = OK_RESPONSE;
 	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
