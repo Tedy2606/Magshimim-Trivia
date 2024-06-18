@@ -11,7 +11,7 @@
     <Grid>
         <TextBlock Text="Question:" Width="360" Height="80" Foreground="{DynamicResource Text}" Margin="145,50,145,570" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
 
-        <TextBox x:Name="question" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,119,85,521" FontSize="38" KeyDown="ip_KeyDown">
+        <TextBox x:Name="question" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,119,85,521" FontSize="38">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -21,7 +21,7 @@
 
         <TextBlock Text="Answers:" Width="360" Height="80" Foreground="{DynamicResource Text}" Margin="145,195,145,425" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>
 
-        <TextBox x:Name="correctAnswer" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="85,264,85,376" FontSize="38" KeyDown="ip_KeyDown">
+        <TextBox x:Name="correctAnswer" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="85,264,85,376" FontSize="38">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -29,7 +29,7 @@
             </TextBox.Resources>
         </TextBox>
 
-        <TextBox x:Name="answer1" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,329,85,311" FontSize="38" KeyDown="ip_KeyDown">
+        <TextBox x:Name="answer1" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,329,85,311" FontSize="38">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -37,7 +37,7 @@
             </TextBox.Resources>
         </TextBox>
 
-        <TextBox x:Name="answer2" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,394,85,246" FontSize="38" KeyDown="ip_KeyDown">
+        <TextBox x:Name="answer2" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,394,85,246" FontSize="38">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -45,7 +45,7 @@
             </TextBox.Resources>
         </TextBox>
 
-        <TextBox x:Name="answer3" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,459,85,181" FontSize="38" KeyDown="ip_KeyDown">
+        <TextBox x:Name="answer3" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="85,459,85,181" FontSize="38">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
