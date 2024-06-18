@@ -159,6 +159,8 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	{
 		RequestInfo info;
 
+		std::cerr << e.what() << std::endl;
+
 		info.id = LEAVE_GAME_REQ;
 		this->requestHandler(clientSocket, info);
 
@@ -173,6 +175,8 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 
 		closesocket(clientSocket);
 	}
+
+	std::cout << "Connection with a client has been closed." << std::endl;
 
 	// delete login handler
 	delete this->m_clients[clientSocket];
