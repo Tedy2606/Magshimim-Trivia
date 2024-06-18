@@ -23,7 +23,7 @@ namespace TriviaClient
         public MainWindow()
         {
             InitializeComponent();
-            frame.Navigate(new MainMenu());
+            frame.Navigate(new ServerIP());
         }
 
         public void SwitchThemes_Keyboard(object sender, KeyEventArgs e)
