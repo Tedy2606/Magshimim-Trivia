@@ -23,4 +23,5 @@ public:
     virtual int getNumOfCorrectAnswers(const std::string& username) = 0;
     virtual float getPlayerAverageAnswerTime(const std::string& username) = 0;
     virtual std::vector<std::string> getHighScores() = 0;
+    virtual void insertStatistics(const std::string& username, const int& correctAnswers, const int& totalAnswers, const int& totalAnswerTime, const float& score) = 0;
 };

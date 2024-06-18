@@ -7,9 +7,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="650"
       Title="HighScores">
-      <Page.Resources>
-          <ResourceDictionary Source="Themes/Adult.xaml"/>
-      </Page.Resources>
 
     <Grid>
         <TextBlock Text="High Scores" Width="360" Height="80" Foreground="{DynamicResource Highlight}" Margin="145,39,145,581" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>

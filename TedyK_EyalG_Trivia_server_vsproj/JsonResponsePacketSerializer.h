@@ -3,7 +3,9 @@
 #include <string>
 #include "json.hpp"
 #include "Room.h"
+#include "Game.h"
 #include "Codes.h"
+#include <sstream>
 
 #define LENGHT_IN_BYTES 4
 
@@ -103,7 +105,7 @@ struct GetQuestionResponse
 struct SubmitAnswerResponse
 {
 	unsigned int status;
-	unsigned int correctAnswerID;
+	unsigned int isCorrect;
 };
 
 struct PlayerResults
@@ -111,7 +113,7 @@ struct PlayerResults
 	string username;
 	unsigned int correctAnswerCount;
 	unsigned int wrongAnswerCount;
-	unsigned int averageAnswerTime;
+	unsigned int totalAnswerTime;
 };
 
 struct GetGameResultsResponse

@@ -21,9 +21,6 @@ namespace TriviaClient
             //reverse to reverse the endian orientation 
             data_len_bytes = data_len_bytes.Reverse().ToArray();
 
-
-
-
             var messageBytes = Encoding.UTF8.GetBytes(jsonString);
 
             byte[] message_and_len = data_len_bytes.Concat(messageBytes).ToArray();
@@ -32,16 +29,13 @@ namespace TriviaClient
 
             stream.Write(full_msg_byte, 0, full_msg_byte.Length);
 
-
             // Receive response from the server
             byte[] len_buffer = new byte[5];
             int len_bytesRead = stream.Read(len_buffer, 0, len_buffer.Length);
-            //guess whos fucking back
+
             int data_len = (len_buffer[1] << 24) | (len_buffer[2] << 16) | (len_buffer[3] << 8) | len_buffer[4];
 
             byte[] buffer = new byte[data_len];
-
-
 
             //read from stream 
             int bytesRead = stream.Read(buffer, 0, buffer.Length);
@@ -52,9 +46,5 @@ namespace TriviaClient
 
             return jsonObject;
         }
-
-
-
-
     }
 }

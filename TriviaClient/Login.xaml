@@ -7,9 +7,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="650"
       Title="Login">
-      <Page.Resources>
-          <ResourceDictionary Source="Themes/Adult.xaml"/>
-      </Page.Resources>
 
     <Grid>
         <TextBlock Text="Username" Width ="175" Height="60" Foreground="{DynamicResource Text}" Margin="60,160,415,480" FontSize="38" FontWeight="DemiBold"/>

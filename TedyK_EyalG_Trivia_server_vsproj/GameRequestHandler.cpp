@@ -2,8 +2,12 @@
 
 #define ANSWERS_NUM 4
 
-GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, LoggedUser user)
-	: m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_game(game), m_user(user)
+bool isAllFinished = false;
+std::mutex mtx;
+std::condition_variable cv;
+
+GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, int gameID, LoggedUser user)
+	: m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_gameID(gameID), m_user(user)
 {
 }
 
@@ -43,18 +47,18 @@ RequestResult GameRequestHandler::getQuestion(const RequestInfo& info)
 	JsonResponsePacketSerializer seri;
 	GetQuestionResponse response;
 	RequestResult result;
-
+	
 	// get the question and the answers
-	response.question = this->m_game.getQuestionForUser(this->m_user).getQuestion();
-
+	response.question = this->m_gameManager.getRoom(this->m_gameID).getQuestionForUser(this->m_user).getQuestion();
+	
 	for (int i = 0; i < ANSWERS_NUM; i++)
 	{
-		response.answers[i] = this->m_game.getQuestionForUser(this->m_user).getPossibleAnswers()[i];
+		response.answers[i] = this->m_gameManager.getRoom(this->m_gameID).getQuestionForUser(this->m_user).getPossibleAnswers()[i];
 	}
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_gameID);
 	result.buffer = seri.serializeResponse(response);
 
 	return result;
@@ -71,11 +75,11 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 	SubmitAnswerRequest request = desi.desirializeSubmitAnswerRequest(info.buffer);
 
 	// submit the answer in the request
-	this->m_game.submitAnswer(this->m_user, request.answerID);
+	response.isCorrect = this->m_gameManager.getRoom(this->m_gameID).submitAnswer(this->m_user, request.answerID);
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_gameID);
 	result.buffer = seri.serializeResponse(response);
 
 	return result;
@@ -83,12 +87,39 @@ RequestResult GameRequestHandler::submitAnswer(const RequestInfo& info)
 
 RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 {
+	bool isLastPlayer = false;
+	std::map<LoggedUser, GameData>& users = this->m_gameManager.getRoom(this->m_gameID).getUsers();
+	{
+		isAllFinished = true;
+		// check if there is a user who hasn't answered all of the questions
+		std::unique_lock<std::mutex> lock(mtx);
+		for (auto& it : users)
+		{
+			// check if total answers of current user is equal to the number of questions in the game
+			if (it.second.correctAnswerCount + it.second.wrongAnswerCount < this->m_gameManager.getRoom(this->m_gameID).getQuestions().size())
+			{
+				isAllFinished = false;
+				break;
+			}
+		}
+
+		if (isAllFinished)
+		{
+			cv.notify_all();
+			isLastPlayer = true;
+		}
+		else
+		{
+			cv.wait(lock, [] {return isAllFinished; });
+		}
+	}
+	
 	JsonResponsePacketSerializer seri;
 	GetGameResultsResponse response;
 	RequestResult result;
 	
 	// go over the users
-	for (auto& it : this->m_game.getUsers())
+	for (auto& it : users)
 	{
 		// get the current user's data
 		PlayerResults playerData;
@@ -96,8 +127,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 		playerData.username = it.first.GetUserName();
 		playerData.correctAnswerCount = it.second.correctAnswerCount;
 		playerData.wrongAnswerCount = it.second.wrongAnswerCount;
-
-		playerData.averageAnswerTime = (playerData.correctAnswerCount + playerData.wrongAnswerCount) / it.second.totalAnswerTime;
+		playerData.totalAnswerTime = it.second.totalAnswerTime;
 
 		// push it to the response
 		response.results.push_back(playerData);
@@ -105,8 +135,13 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
+	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 	result.buffer = seri.serializeResponse(response);
+
+	if (isLastPlayer)
+	{
+		this->m_gameManager.deleteGame(this->m_gameID);
+	}
 
 	return result;
 }
@@ -118,10 +153,40 @@ RequestResult GameRequestHandler::leaveGame(const RequestInfo& info)
 	RequestResult result;
 
 	// leave the game
-	this->m_game.removePlayer(this->m_user);
+	this->m_gameManager.getRoom(this->m_gameID).removePlayer(this->m_user);
 
 	// leave the room
-	this->m_handlerFactory.getRoomManager().getRoom(this->m_game.getGameID()).removeUser(this->m_user);
+	this->m_handlerFactory.getRoomManager().getRoom(this->m_gameID).removeUser(this->m_user);
+
+	// notify the users who are waiting for the results if this is the last user
+	bool isLastPlayer = false;
+	std::map<LoggedUser, GameData>& users = this->m_gameManager.getRoom(this->m_gameID).getUsers();
+	{
+		isAllFinished = true;
+		// check if there is a user who hasn't answered all of the questions
+		std::unique_lock<std::mutex> lock(mtx);
+		for (auto& it : users)
+		{
+			// check if total answers of current user is equal to the number of questions in the game
+			if (it.second.correctAnswerCount + it.second.wrongAnswerCount < this->m_gameManager.getRoom(this->m_gameID).getQuestions().size())
+			{
+				isAllFinished = false;
+				break;
+			}
+		}
+
+		if (isAllFinished)
+		{
+			cv.notify_all();
+			isLastPlayer = true;
+		}
+	}
+
+	// delete the game if its the last player
+	if (isLastPlayer)
+	{
+		this->m_gameManager.deleteGame(this->m_gameID);
+	}
 
 	// make a response and serialize it
 	response.status = OK_RESPONSE;

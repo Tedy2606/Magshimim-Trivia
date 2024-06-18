@@ -5,6 +5,8 @@
 #include "JsonResponsePacketDeserializer.h"
 #include "Codes.h"
 
+#define STARTED 2
+
 class RequestHandlerFactory;
 
 class RoomMemberRequestHandler : public IRequestHandler

@@ -5,11 +5,12 @@ GameManager::GameManager(IDataBase* database)
 	this->m_database = database;
 }
 
-Game GameManager::createGame(Room room)
+void GameManager::createGame(Room room)
 {
 	
 	//id is the same as its room id
 	int id = room.getData().id;
+
 	//get the questions
 	std::list<Question> questions = this->m_database->getQuestions(room.getData().numOfQuestions);
 	std::vector<Question> questionsVec(questions.begin(), questions.end());
@@ -28,33 +29,46 @@ Game GameManager::createGame(Room room)
 		userData[user] = data;
 	}
 
-
-
-	Game game = Game(id, questionsVec, userData);
+	Game game(id, questionsVec, userData);
 	this->m_games.push_back(game);
-	return game;
-
 }
 
 void GameManager::deleteGame(const int& id)
 {
-	this->m_games.erase(this->m_games.begin() + id);
+	int i = 0;
+	for (auto& it : this->m_games)
+	{
+		if (it.getGameID() == id)
+		{
+			this->submitGameStatisticsToDB(it);
 
+			this->m_games.erase(this->m_games.begin() + i);
+		}
+		i++;
+	}
 }
 
-Game GameManager::getRoom(const int& id)
+Game& GameManager::getRoom(const int& id)
 {
-	return this->m_games[id];
+	for (auto& it : this->m_games)
+	{
+		if (it.getGameID() == id)
+		{
+			return it;
+		}
+	}
 }
 
 void GameManager::submitGameStatisticsToDB(Game game)
 {
-	
-	auto users = game.getUsers();
-	for (auto it : users)
+	auto& users = game.getUsers();
+	for (auto& it : users)
 	{
-		//submit the statistics with the db, first make the function in the database for it to work
-
+		//submit the statistics with the db
+		this->m_database->insertStatistics(it.first.GetUserName(),		// username
+			it.second.correctAnswerCount,								// correct answers
+			it.second.wrongAnswerCount + it.second.correctAnswerCount,	// total answers
+			it.second.totalAnswerTime,									// total time
+			Game::calculateScore(it.second));							// score
 	}
-
 }

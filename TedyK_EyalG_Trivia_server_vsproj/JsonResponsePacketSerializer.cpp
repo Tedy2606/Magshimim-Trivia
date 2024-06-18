@@ -15,6 +15,9 @@ Buffer JsonResponsePacketSerializer::serializeResponseWithJson(const json& data,
 
     memcpy(msg_len_as_bytes, (char*)&len, LENGHT_IN_BYTES);
     
+    std::reverse(std::begin(msg_len_as_bytes), std::end(msg_len_as_bytes));
+
+
     for (unsigned char c : msg_len_as_bytes)
     {
         buf.push_back(c);
@@ -180,10 +183,18 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetGameResultsRespo
     string results = "";
     for (int i = 0; i < response.results.size(); i++)
     {
-        results += response.results[i].username + ":" +
-            std::to_string(response.results[i].correctAnswerCount) + ":" +
-            std::to_string(response.results[i].wrongAnswerCount) + ":" +
-            std::to_string(response.results[i].averageAnswerTime);
+        // move the data to a game data struct
+        GameData data;
+        data.totalAnswerTime = response.results[i].totalAnswerTime;
+        data.correctAnswerCount = response.results[i].correctAnswerCount;
+        data.wrongAnswerCount = response.results[i].wrongAnswerCount;
+
+        // calculate the score
+        float score = Game::calculateScore(data);
+
+        // turn the score to a string
+        results += response.results[i].username + ":" + std::to_string(score);
+
         if (i != response.results.size() - 1)
         {
             results += ",";
@@ -199,8 +210,9 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetGameResultsRespo
 
 Buffer JsonResponsePacketSerializer::serializeResponse(const SubmitAnswerResponse& response)
 {
+    
     json data = {
-        {"status", response.status}, {"correctAnswerID" ,response.correctAnswerID}
+        {"status", response.status}, {"isCorrect" ,response.isCorrect}
     };
 
     return serializeResponseWithJson(data, SUBMIT_ANSWER_REQ);
@@ -208,8 +220,21 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const SubmitAnswerRespons
 
 Buffer JsonResponsePacketSerializer::serializeResponse(const GetQuestionResponse& response)
 {
+    //turn the answers into a string, id:answer, id:answer
+    std::ostringstream oss;
+    for (const auto& pair : response.answers) {
+        oss << pair.first << ":" << pair.second << ",";
+    }
+    std::string result = oss.str();
+
+    // Remove the trailing comma and space, if present
+    if (!result.empty()) {
+        result.pop_back();
+        result.pop_back();
+    }
+
     json data = {
-        {"status", response.status}, {"question" ,response.question}, {"answers", response.answers}
+        {"status", response.status}, {"question" ,response.question}, {"answers", result}
     };
 
     return serializeResponseWithJson(data, GET_QUESTION_REQ);

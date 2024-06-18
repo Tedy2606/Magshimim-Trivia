@@ -2,7 +2,9 @@
 #include "Game.h"
 #include "IDataBase.h"
 #include "RoomManager.h"
+
 using std::string;
+
 class GameManager
 {
 public:
@@ -13,23 +15,24 @@ public:
 
 	/**
 	* creates a game
-	* @return Game - the game created
 	*/
-	Game createGame(Room room);
+	void createGame(Room room);
 
 	/**
 	* deletes a game 
 	*/
 	void deleteGame(const int& id);
+
 	/**
 	* function to return a game based on its id 
 	* @return Game - the wanted game 
 	*/
-	Game getRoom(const int& id);
+	Game& getRoom(const int& id);
 
 private:
 	//changed from game data to game cus submitiing only the statistics of one user is stupid
 	void submitGameStatisticsToDB(Game game);
+
 	IDataBase* m_database;
 	std::vector<Game> m_games;
 };

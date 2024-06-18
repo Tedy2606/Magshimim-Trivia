@@ -7,11 +7,9 @@
         mc:Ignorable="d"
         Height="800" Width="750"
         ResizeMode="NoResize"
-        Background="{DynamicResource Background}">
-    <Window.Resources>
-        <ResourceDictionary Source="Themes/Adult.xaml"/>
-    </Window.Resources>
-    
+        Background="{DynamicResource Background}"
+        Keyboard.KeyDown="SwitchThemes_Keyboard">
+
     <Grid>
         <Frame x:Name="frame" NavigationUIVisibility="Hidden"/>
     </Grid>

@@ -7,9 +7,6 @@
     mc:Ignorable="d" 
     d:DesignHeight="700" d:DesignWidth="650"
     Title="MainMenu">
-    <Page.Resources>
-        <ResourceDictionary Source="Themes/Adult.xaml"/>
-    </Page.Resources>
 
     <Grid>
 

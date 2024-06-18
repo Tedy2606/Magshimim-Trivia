@@ -92,6 +92,16 @@ public:
     */
     virtual std::vector<std::string> getHighScores() override;
 
+    /*
+    Method updates the statistics of the input username
+    @param username - the user to update
+    @param correctAnswers - number of correct answers to add
+    @param totalAnswers - number of total answers to add
+    @param totalAnswerTime - number of total answer time to add
+    @param score - amout of score to add
+    */
+    virtual void insertStatistics(const std::string& username, const int& correctAnswers, const int& totalAnswers, const int& totalAnswerTime, const float& score) override;
+
 private:
     sqlite3* _db;
 };

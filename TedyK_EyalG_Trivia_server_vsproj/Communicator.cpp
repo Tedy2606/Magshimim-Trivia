@@ -14,7 +14,6 @@
 using std::cout;
 using std::endl;
 
-
 Communicator* Communicator::m_instance = nullptr; // Definition of the static member variable
 Communicator::Communicator(RequestHandlerFactory& handlerFactory)
 	: m_handlerFactory(handlerFactory)
@@ -123,18 +122,13 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
+	// set starting handler to login handler
 	this->m_clients[clientSocket] = new LoginRequestHandler(this->m_handlerFactory);
-	JsonResponsePacketSerializer seri;
-	JsonResponsePacketDeserializer desi;
-	//conitinue from here 
 
 	try
 	{
 		while (true)
 		{
-
-			
-			
 			//needs to be const unsinged char...
 			const char* client_response_header = getPartFromSocket(clientSocket, HEADER_SIZE, 0);
 			int data_len = (client_response_header[1] << 24) | (client_response_header[2] << 16) | (client_response_header[3] << 8) | client_response_header[4];
@@ -146,29 +140,13 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			Buffer buf(client_response.begin(), client_response.end());
 			
 			//make the info of the request 
-			Buffer response;
 			RequestInfo info;
 			info.id = buf[0];
 			info.buffer = buf;
 			info.recival_time = time(nullptr);
 			
-			if (this->m_clients[clientSocket]->isRequestRelevant(info))
-			{
-				//handle requests 
-				RequestResult res = this->m_clients[clientSocket]->handleRequest(info);
-				response = res.buffer;
-				
-				// switch to new handle
-				delete this->m_clients[clientSocket];
-				this->m_clients[clientSocket] = res.newHandler;
-			}
-			else
-			{
-				//handle erros 
-				ErrorResponse err;
-				err.err = "ERROR";
-				response = seri.serializeResponse(err);
-			}
+			// handle the response
+			Buffer response = this->requestHandler(clientSocket, info);
 
 			//convert the vector to an str to send it
 			std::string responseStr(response.begin(), response.end());
@@ -179,10 +157,25 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	}
 	catch (const std::exception& e)
 	{
+		RequestInfo info;
+
+		info.id = LEAVE_GAME_REQ;
+		this->requestHandler(clientSocket, info);
+
+		info.id = LEAVE_ROOM_REQ;
+		this->requestHandler(clientSocket, info);
+
+		info.id = CLOSE_ROOM_REQ;
+		this->requestHandler(clientSocket, info);
+
+		info.id = LOGOUT_MSG_REQ;
+		this->requestHandler(clientSocket, info);
+
 		closesocket(clientSocket);
 	}
 
-
+	// delete login handler
+	delete this->m_clients[clientSocket];
 }
 
 char* Communicator::getPartFromSocket(SOCKET sc, int bytesNum, int flags)
@@ -205,6 +198,34 @@ char* Communicator::getPartFromSocket(SOCKET sc, int bytesNum, int flags)
 	data[bytesNum] = 0;
 	return data;
 }
+
+Buffer Communicator::requestHandler(SOCKET clientSocket, RequestInfo info)
+{
+	JsonResponsePacketSerializer seri;
+
+	Buffer response;
+
+	if (this->m_clients[clientSocket]->isRequestRelevant(info))
+	{
+		//handle requests 
+		RequestResult res = this->m_clients[clientSocket]->handleRequest(info);
+		response = res.buffer;
+
+		// switch to new handle
+		delete this->m_clients[clientSocket];
+		this->m_clients[clientSocket] = res.newHandler;
+	}
+	else
+	{
+		//handle erros 
+		ErrorResponse err;
+		err.err = "ERROR";
+		response = seri.serializeResponse(err);
+	}
+
+	return response;
+}
+
 void Communicator::sendData(SOCKET sc, std::string message)
 {
 	const char* data = message.c_str();

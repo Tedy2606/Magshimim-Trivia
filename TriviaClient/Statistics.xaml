@@ -7,9 +7,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="650"
       Title="Statistics">
-      <Page.Resources>
-          <ResourceDictionary Source="Themes/Adult.xaml"/>
-      </Page.Resources>
 
     <Grid>
         <TextBlock Text="Statistics" Width="360" Height="80" Foreground="{DynamicResource Text}" Margin="145,95,145,525" FontSize="54" FontWeight="DemiBold" TextAlignment="Center"/>

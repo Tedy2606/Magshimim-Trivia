@@ -33,8 +33,6 @@ namespace TriviaClient
             string jsonString = message.ToString();
             byte code = 115;
 
-
-
             Networker networker = new Networker();
             JObject jsonObject = networker.sendAndRecive(message, this._stream, code);
             if (!jsonObject["statistics"].HasValues)
@@ -43,11 +41,11 @@ namespace TriviaClient
             }
             else if (!jsonObject.ContainsKey("message"))
             {
-                this.user1.Text = "user1 : " + jsonObject["statistics"][0];
-                this.user2.Text = "user2 : " + jsonObject["statistics"][1];
-                this.user3.Text = "user3 : " + jsonObject["statistics"][2];
-                this.user4.Text = "user4 : " + jsonObject["statistics"][3];
-                this.user5.Text = "user5 : " + jsonObject["statistics"][4];
+                this.user1.Text = jsonObject["statistics"][0].ToString();
+                this.user2.Text = jsonObject["statistics"][1].ToString();
+                this.user3.Text = jsonObject["statistics"][2].ToString();
+                this.user4.Text = jsonObject["statistics"][3].ToString();
+                this.user5.Text = jsonObject["statistics"][4].ToString();
             }
             else
             {
