@@ -31,14 +31,14 @@ namespace TriviaClient
     {
         private NetworkStream _stream;
 
-        public MainMenu()
+        public MainMenu(string ip)
         {
             //no defines 
             const int port = 56812;
 
             TcpClient client = new TcpClient();
             
-            IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+            IPAddress ipAddress = IPAddress.Parse(ip);
             try
             {
                  client.Connect(ipAddress, port); // connect to the server
