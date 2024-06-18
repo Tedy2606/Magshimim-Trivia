@@ -17,7 +17,8 @@ bool MenuRequestHandler::isRequestRelevant(const RequestInfo& info) const
         info.id == GET_STATS_MSG_REQ ||
         info.id == GET_HIGH_SCORE_MSG_REQ ||
         info.id == GET_PLAYERS_IN_ROOM_MSG_REQ ||
-        info.id == GET_ROOMS_MSG_REQ;
+        info.id == GET_ROOMS_MSG_REQ ||
+        info.id == ADD_QUESTION_REQ;
 }
 
 RequestResult MenuRequestHandler::handleRequest(const RequestInfo& info)
@@ -49,6 +50,9 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo& info)
         break;
     case GET_ROOMS_MSG_REQ:
         result = getRooms(info);
+        break;
+    case ADD_QUESTION_REQ:
+        result = addQuestion(info);
         break;
     }
 
@@ -279,5 +283,27 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
         // send the error
         result.buffer = seri.serializeResponse(error);
     }
+    return result;
+}
+
+RequestResult MenuRequestHandler::addQuestion(const RequestInfo& info)
+{
+    JsonResponsePacketSerializer seri;
+    JsonResponsePacketDeserializer desi;
+
+    AddQuestionRequest request = desi.desirializeAddQuestionRequest(info.buffer);
+
+    // ***Start making the response***
+    AddQuestionResponse response;
+    RequestResult result;
+
+    // insert the question to the database
+    this->m_handlerFactory.getDatabase()->insertQuestion(request.question,
+        request.correctAnswer, request.answer1, request.answer2, request.answer3);
+
+    response.status = OK_RESPONSE;
+    result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+    result.buffer = seri.serializeResponse(response);
+    
     return result;
 }

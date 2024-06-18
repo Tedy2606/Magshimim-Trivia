@@ -49,6 +49,15 @@ struct SubmitAnswerRequest
 	unsigned int answerID;
 };
 
+struct AddQuestionRequest
+{
+	string question;
+	string correctAnswer;
+	string answer1;
+	string answer2;
+	string answer3;
+};
+
 class JsonResponsePacketDeserializer
 {
 public:
@@ -96,6 +105,13 @@ public:
 	* @return signupRequest - the submit answer request
 	*/
 	SubmitAnswerRequest desirializeSubmitAnswerRequest(Buffer buffer);
+
+	/*
+	* desirializes an add question request from an array of bytes
+	* @params buffer - the array of bytes
+	* @return signupRequest - the add question request
+	*/
+	AddQuestionRequest desirializeAddQuestionRequest(Buffer buffer);
 
 private:
 

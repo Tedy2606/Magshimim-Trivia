@@ -66,6 +66,13 @@ private:
     */
     RequestResult createRoom(const RequestInfo& info);
 
+    /*
+    Method returns a response to the input add question info
+    @param info - the info of the request
+    @return the result (serialised response and new handler)
+    */
+    RequestResult addQuestion(const RequestInfo& info);
+
     RequestHandlerFactory& m_handlerFactory;
     LoggedUser m_user;
     std::mutex m_menuMutex;

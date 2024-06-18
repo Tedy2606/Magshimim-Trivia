@@ -309,6 +309,19 @@ void SqliteDatabase::insertStatistics(const std::string& username, const int& co
         "totalAnswers = totalAnswers + " + std::to_string(totalAnswers) + ", "
         "correctAnswers = correctAnswers + " + std::to_string(correctAnswers) + ", "
         "totalAnswerTime = totalAnswerTime + " + std::to_string(totalAnswerTime) + " "
-        "WHERE userID = (SELECT id FROM users WHERE username='" + username + "');").c_str(), NULL, NULL, &errMessage);
+        "WHERE userID = (SELECT id FROM users WHERE username='" + username + "');").c_str(), nullptr, nullptr, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+}
+
+void SqliteDatabase::insertQuestion(const std::string& question, const std::string& correctAnswer, const std::string& answer1, const std::string& answer2, const std::string& answer3)
+{
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("INSERT INTO questions(question, correctAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3) "
+        "VALUES('" +
+        question + "', '" +
+        correctAnswer + "', '" +
+        answer1 + "', '" +
+        answer2 + "', '" +
+        answer3 + "');").c_str(), nullptr, nullptr, &errMessage);
     if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 }

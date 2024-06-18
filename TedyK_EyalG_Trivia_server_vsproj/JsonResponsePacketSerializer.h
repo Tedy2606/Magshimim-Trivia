@@ -58,6 +58,11 @@ struct GetRoomsResponse
 	std::vector<RoomData> rooms;
 };
 
+struct AddQuestionResponse
+{
+	unsigned int status;
+};
+
 struct GetPlayersInRoomResponse
 {
 	std::vector<string> players;
@@ -259,4 +264,11 @@ public:
 	* @return buffer - the array of bytes
 	**/
 	static Buffer serializeResponse(const LeaveGameResponse& response);
+
+	/***
+	* serializes an add question Response to an array of bytes
+	* @param response - the reponse the server wants to send back
+	* @return buffer - the array of bytes
+	**/
+	static Buffer serializeResponse(const AddQuestionResponse& response);
 };

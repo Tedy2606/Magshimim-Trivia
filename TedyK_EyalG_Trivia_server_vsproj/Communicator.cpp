@@ -131,7 +131,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		{
 			//needs to be const unsinged char...
 			const char* client_response_header = getPartFromSocket(clientSocket, HEADER_SIZE, 0);
-			int data_len = (client_response_header[1] << 24) | (client_response_header[2] << 16) | (client_response_header[3] << 8) | client_response_header[4];
+			int data_len = ((unsigned char)client_response_header[1] << 24) | ((unsigned char)client_response_header[2] << 16) | ((unsigned char)client_response_header[3] << 8) | (unsigned char)client_response_header[4];
 			const char* client_response_data = getPartFromSocket(clientSocket, data_len, 0);
 			
 			std::string client_response(client_response_header, HEADER_SIZE);
@@ -152,12 +152,18 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			std::string responseStr(response.begin(), response.end());
 			
 			sendData(clientSocket, responseStr);
+
+			// free allocated data
+			delete client_response_header;
+			delete client_response_data;
 		}
 		
 	}
 	catch (const std::exception& e)
 	{
 		RequestInfo info;
+
+		std::cerr << e.what() << std::endl;
 
 		info.id = LEAVE_GAME_REQ;
 		this->requestHandler(clientSocket, info);
@@ -173,6 +179,8 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 
 		closesocket(clientSocket);
 	}
+
+	std::cout << "Connection with a client has been closed." << std::endl;
 
 	// delete login handler
 	delete this->m_clients[clientSocket];
