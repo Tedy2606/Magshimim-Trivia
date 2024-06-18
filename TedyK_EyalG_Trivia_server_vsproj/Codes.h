@@ -20,6 +20,7 @@
 #define GET_HIGH_SCORE_MSG_REQ 115
 #define GET_PLAYERS_IN_ROOM_MSG_REQ 116
 #define GET_ROOMS_MSG_REQ 117
+#define ADD_QUESTION_REQ 118
 
 // *** room handlers ***
 #define GET_ROOM_STATS_REQ 120
