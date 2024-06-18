@@ -75,6 +75,22 @@ SubmitAnswerRequest JsonResponsePacketDeserializer::desirializeSubmitAnswerReque
     return request;
 }
 
+AddQuestionRequest JsonResponsePacketDeserializer::desirializeAddQuestionRequest(Buffer buffer)
+{
+    //make the json
+    json data_as_json = bufferToJson(buffer);
+
+    // make the request
+    AddQuestionRequest request;
+    request.question = data_as_json["question"];
+    request.correctAnswer = data_as_json["correctAnswer"];
+    request.answer1 = data_as_json["answer1"];
+    request.answer2 = data_as_json["answer2"];
+    request.answer3 = data_as_json["answer3"];
+
+    return request;
+}
+
 json JsonResponsePacketDeserializer::bufferToJson(Buffer buffer)
 {
     //get the data as a string

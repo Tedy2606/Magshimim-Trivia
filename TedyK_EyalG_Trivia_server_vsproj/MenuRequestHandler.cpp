@@ -281,3 +281,20 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& info)
     }
     return result;
 }
+
+RequestResult MenuRequestHandler::addQuestion(const RequestInfo& info)
+{
+    JsonResponsePacketSerializer seri;
+    JsonResponsePacketDeserializer desi;
+
+    // ***Start making the response***
+    AddQuestionResponse response;
+    RequestResult result;
+
+
+    response.status = OK_RESPONSE;
+    result.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+    result.buffer = seri.serializeResponse(response);
+    
+    return result;
+}

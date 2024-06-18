@@ -248,3 +248,12 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const LeaveGameResponse& 
 
     return serializeResponseWithJson(data, LEAVE_GAME_REQ);
 }
+
+Buffer JsonResponsePacketSerializer::serializeResponse(const AddQuestionResponse& response)
+{
+    json data = {
+        {"status", response.status}
+    };
+
+    return serializeResponseWithJson(data, ADD_QUESTION_REQ);
+}
