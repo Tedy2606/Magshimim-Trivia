@@ -2,6 +2,7 @@
 #include <string>
 #include "LoggedUser.h"
 #include <vector>
+#include <stdexcept>
 using std::string;
 
 struct RoomData

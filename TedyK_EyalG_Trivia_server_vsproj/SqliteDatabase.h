@@ -3,6 +3,11 @@
 #include "IDataBase.h"
 #include <iostream>
 #include <set>
+#include <vector>
+#include <list>
+#include <string>
+#include <cstdlib>
+#include <io.h> // For _access function
 
 #define DATABASE_PATH "database.sqlite"
 

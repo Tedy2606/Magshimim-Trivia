@@ -3,6 +3,9 @@
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
 #include <mutex>
+#include "JsonResponsePacketSerializer.h"
+#include "JsonResponsePacketDeserializer.h"
+#include "Codes.h"
 
 #define NOT_STARTED 1
 

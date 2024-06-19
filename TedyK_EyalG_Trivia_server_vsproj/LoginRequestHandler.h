@@ -2,6 +2,9 @@
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
 #include <mutex>
+#include "JsonResponsePacketSerializer.h"
+#include "JsonResponsePacketDeserializer.h"
+#include "Codes.h"
 
 class RequestHandlerFactory;
 

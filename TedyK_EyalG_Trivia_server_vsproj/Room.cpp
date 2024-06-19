@@ -1,5 +1,5 @@
 #include "Room.h"
-#include <stdexcept>
+
 Room::Room(RoomData data)
 {
 	this->m_metadata = data;

@@ -1,16 +1,5 @@
 #include "Communicator.h"
-#include <exception>
-#include <iostream>
-#include <string>
-#include <thread>
-#include <sstream>
-#include <algorithm>
-#include "IRequestHandler.h"
-#include "JsonResponsePacketSerializer.h"
-#include "JsonResponsePacketDeserializer.h"
-#define HEADER_SIZE 5
-#define NAME_LEN_IN_BYTES 2
-#define PORT 56812
+
 using std::cout;
 using std::endl;
 

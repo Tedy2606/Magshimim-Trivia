@@ -1,11 +1,5 @@
 #include "SqliteDatabase.h"
-#include <iostream>
-#include <vector>
-#include <list>
-#include <set>
-#include <string>
-#include <cstdlib>
-#include <io.h> // For _access function
+
 
 bool SqliteDatabase::open()
 {

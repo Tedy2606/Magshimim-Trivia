@@ -11,6 +11,17 @@
 #include <sstream>
 #include <map>
 #include "IRequestHandler.h"
+#include <exception>
+#include <iostream>
+#include <thread>
+#include <algorithm>
+#include "JsonResponsePacketSerializer.h"
+#include "JsonResponsePacketDeserializer.h"
+
+
+#define HEADER_SIZE 5
+#define NAME_LEN_IN_BYTES 2
+#define PORT 56812
 
 extern int usersDone;
 class Communicator
