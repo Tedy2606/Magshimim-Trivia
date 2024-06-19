@@ -36,4 +36,3 @@ private:
 	IDataBase* m_database;
 	std::vector<Game> m_games;
 };
-

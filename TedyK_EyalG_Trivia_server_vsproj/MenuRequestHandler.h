@@ -1,5 +1,4 @@
 #pragma once
-
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
 #include <mutex>

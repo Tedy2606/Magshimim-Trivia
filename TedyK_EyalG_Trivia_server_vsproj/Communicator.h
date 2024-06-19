@@ -18,12 +18,15 @@
 #include "JsonResponsePacketSerializer.h"
 #include "JsonResponsePacketDeserializer.h"
 
-
 #define HEADER_SIZE 5
 #define NAME_LEN_IN_BYTES 2
 #define PORT 56812
 
+using std::cout;
+using std::endl;
+
 extern int usersDone;
+
 class Communicator
 {
 public:
@@ -100,4 +103,3 @@ private:
 	SOCKET m_serverSocket;
 	RequestHandlerFactory& m_handlerFactory;
 };
-

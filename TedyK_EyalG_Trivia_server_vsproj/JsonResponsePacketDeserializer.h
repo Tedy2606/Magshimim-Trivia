@@ -123,4 +123,3 @@ private:
 	json bufferToJson(Buffer buffer);
 
 };
-

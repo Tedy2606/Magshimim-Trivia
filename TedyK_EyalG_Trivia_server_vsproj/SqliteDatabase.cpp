@@ -1,6 +1,5 @@
 #include "SqliteDatabase.h"
 
-
 bool SqliteDatabase::open()
 {
     int file_exist = _access(DATABASE_PATH, 0);

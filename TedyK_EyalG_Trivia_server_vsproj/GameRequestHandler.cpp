@@ -1,7 +1,5 @@
 #include "GameRequestHandler.h"
 
-#define ANSWERS_NUM 4
-
 bool isAllFinished = false;
 std::mutex mtx;
 std::condition_variable cv;

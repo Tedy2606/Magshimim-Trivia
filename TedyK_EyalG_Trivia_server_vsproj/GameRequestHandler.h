@@ -5,6 +5,8 @@
 #include "JsonResponsePacketDeserializer.h"
 #include "Codes.h"
 
+#define ANSWERS_NUM 4
+
 class RequestHandlerFactory;
 
 class GameRequestHandler : public IRequestHandler
@@ -60,4 +62,3 @@ private:
     GameManager& m_gameManager;
     RequestHandlerFactory& m_handlerFactory;
 };
-

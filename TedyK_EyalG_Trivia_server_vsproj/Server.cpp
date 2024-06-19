@@ -1,6 +1,5 @@
 #include "Server.hpp"
 
-
 Server* Server::m_instance = nullptr;
 
 Server::Server()
