@@ -3,6 +3,7 @@
 #include "RequestHandlerFactory.h"
 #include "JsonResponsePacketSerializer.h"
 #include "JsonResponsePacketDeserializer.h"
+#include <thread>
 #include "Codes.h"
 
 #define CLOSED_ROOM 0
@@ -50,6 +51,8 @@ private:
 	@return the result of the request
 	*/
 	RequestResult getRoomState(const RequestInfo& info);
+
+	static void eraseRoom(RoomManager& roomManager, const int id);
 
 	Room m_room;
 	LoggedUser m_user;
