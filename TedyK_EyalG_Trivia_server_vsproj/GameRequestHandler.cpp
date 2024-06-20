@@ -139,6 +139,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& info)
 	if (isLastPlayer)
 	{
 		this->m_gameManager.deleteGame(this->m_gameID);
+		this->m_handlerFactory.getRoomManager().deleteRoom(this->m_gameID);
 	}
 
 	return result;
@@ -184,6 +185,7 @@ RequestResult GameRequestHandler::leaveGame(const RequestInfo& info)
 	if (isLastPlayer)
 	{
 		this->m_gameManager.deleteGame(this->m_gameID);
+		this->m_handlerFactory.getRoomManager().deleteRoom(this->m_gameID);
 	}
 
 	// make a response and serialize it
