@@ -2,11 +2,11 @@
 #include <iostream>
 #pragma comment (lib, "ws2_32.lib")
 #include "WSAInitializer.h"
+
 int main()
 {
 	try
 	{
-
 		WSAInitializer wsaInit;
 		Server& server = Server::getInstance();
 		//run the server
@@ -16,7 +16,6 @@ int main()
 	{
 		std::cout << "Error occured: " << e.what() << std::endl;
 	}
-	
-	
+
 	return 0;
 }

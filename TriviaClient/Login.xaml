@@ -8,10 +8,9 @@
       d:DesignHeight="700" d:DesignWidth="650"
       Title="Login">
 
-
     <Grid>
-        <TextBlock Text="Username" Width ="175" Height="60" Foreground="White" Margin="60,160,415,480" FontSize="38" FontWeight="DemiBold"/>
-        <TextBox x:Name="username" Width ="340" Height = "60" Background="#222222" Foreground="White" Margin="250,160,60,480" FontSize="38">
+        <TextBlock Text="Username" Width ="175" Height="60" Foreground="{DynamicResource Text}" Margin="60,160,415,480" FontSize="38" FontWeight="DemiBold"/>
+        <TextBox x:Name="username" Width ="340" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="250,160,60,480" FontSize="38">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -19,8 +18,8 @@
             </TextBox.Resources>
         </TextBox>
 
-        <TextBlock Text="Password" Width ="175" Height="60" Foreground="White" Margin="60,290,415,350" FontSize="38" FontWeight="DemiBold"/>
-        <TextBox x:Name="password" FontFamily="/fonts/#password" Width ="340" Height = "60" Background="#222222" Foreground="White" Margin="250,290,60,350" FontSize="38">
+        <TextBlock Text="Password" Width ="175" Height="60" Foreground="{DynamicResource Text}" Margin="60,290,415,350" FontSize="38" FontWeight="DemiBold"/>
+        <TextBox x:Name="password" FontFamily="/fonts/#password" Width ="340" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="250,290,60,350" FontSize="38">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10" />
@@ -28,7 +27,7 @@
             </TextBox.Resources>
         </TextBox>
 
-        <Button x:Name="login" Content="Login" Width = "360" Height = "60" Background="Orange" Margin="95,370,95,150" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="login_Click">
+        <Button x:Name="login" Content="Login" Width = "360" Height = "60" Background="{DynamicResource Highlight}" Foreground="{DynamicResource HighlightedText}" Margin="95,370,95,150" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="login_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -36,7 +35,7 @@
             </Button.Resources>
         </Button>
 
-        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="#222222" Foreground="White" Margin="95,450,95,70" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
+        <Button x:Name="back" Content="Back" Width = "360" Height = "60" Background="{DynamicResource Buttons}" Foreground="{DynamicResource Text}" Margin="95,450,95,70" FontSize="36" FontFamily="Arial" FontWeight="Bold" Click="back_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

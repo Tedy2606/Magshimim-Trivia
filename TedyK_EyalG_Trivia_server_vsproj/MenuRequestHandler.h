@@ -1,8 +1,10 @@
 #pragma once
-
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
 #include <mutex>
+#include "JsonResponsePacketSerializer.h"
+#include "JsonResponsePacketDeserializer.h"
+#include "Codes.h"
 
 #define NOT_STARTED 1
 
@@ -65,6 +67,13 @@ private:
     @return the result (serialised response and new handler)
     */
     RequestResult createRoom(const RequestInfo& info);
+
+    /*
+    Method returns a response to the input add question info
+    @param info - the info of the request
+    @return the result (serialised response and new handler)
+    */
+    RequestResult addQuestion(const RequestInfo& info);
 
     RequestHandlerFactory& m_handlerFactory;
     LoggedUser m_user;

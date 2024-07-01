@@ -1,7 +1,9 @@
 #pragma once
 #include "Room.h"
 #include <map>
+
 using std::string;
+
 class RoomManager
 {
 public:
@@ -45,4 +47,3 @@ public:
 private:
 	std::map<int, Room> m_rooms;
 };
-

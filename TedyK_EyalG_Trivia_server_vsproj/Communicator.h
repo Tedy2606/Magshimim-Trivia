@@ -11,6 +11,22 @@
 #include <sstream>
 #include <map>
 #include "IRequestHandler.h"
+#include <exception>
+#include <iostream>
+#include <thread>
+#include <algorithm>
+#include "JsonResponsePacketSerializer.h"
+#include "JsonResponsePacketDeserializer.h"
+
+#define HEADER_SIZE 5
+#define NAME_LEN_IN_BYTES 2
+#define PORT 56812
+
+using std::cout;
+using std::endl;
+
+extern int usersDone;
+
 class Communicator
 {
 public:
@@ -67,6 +83,13 @@ private:
 	**/
 	char *getPartFromSocket(SOCKET sc, int bytesNum, int flags);
 
+	/*
+	Method to handle a request
+	@param clientSocket - the socket of the request
+	@param info - the info of the request
+	@return a buffer which contains the response of the request
+	*/
+	Buffer requestHandler(SOCKET clientSocket, RequestInfo info);
 
 	/***
 	* sends a packet to the client 
@@ -80,4 +103,3 @@ private:
 	SOCKET m_serverSocket;
 	RequestHandlerFactory& m_handlerFactory;
 };
-

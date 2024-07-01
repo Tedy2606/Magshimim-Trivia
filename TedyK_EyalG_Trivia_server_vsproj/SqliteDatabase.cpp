@@ -1,11 +1,4 @@
 #include "SqliteDatabase.h"
-#include <iostream>
-#include <vector>
-#include <list>
-#include <set>
-#include <string>
-#include <cstdlib>
-#include <io.h> // For _access function
 
 bool SqliteDatabase::open()
 {
@@ -126,9 +119,20 @@ bool SqliteDatabase::addNewUser(const std::string& username, const std::string& 
         return false; // user with the username already exists
     }
 
+    // insert new user
     std::string sqlQuery = "INSERT INTO users (username, password, email) VALUES ('" + username + "', '" + password + "', '" + email + "');";
     char* errMessage = nullptr;
     int res = sqlite3_exec(this->_db, sqlQuery.c_str(), nullptr, nullptr, &errMessage);
+    if (res != SQLITE_OK)
+    {
+        std::cerr << errMessage << std::endl;
+        return false;
+    }
+
+    // insert clean statistics of the user
+    sqlQuery = "INSERT INTO statistics (score, games, totalAnswers, correctAnswers, totalAnswerTime, userID) VALUES (0, 0, 0, 0, 0, (SELECT id FROM users WHERE username='" + username + "'));";
+    errMessage = nullptr;
+    res = sqlite3_exec(this->_db, sqlQuery.c_str(), nullptr, nullptr, &errMessage);
     if (res != SQLITE_OK)
     {
         std::cerr << errMessage << std::endl;
@@ -164,7 +168,7 @@ std::list<Question> SqliteDatabase::getQuestions(int questionsNum)
         };
 
     char* errMessage = nullptr;
-    int res = sqlite3_exec(this->_db, ("SELECT * FROM questions LIMIT " + std::to_string(questionsNum) + ";").c_str(), callback, &questions, &errMessage);
+    int res = sqlite3_exec(this->_db, ("SELECT * FROM questions ORDER BY RANDOM() LIMIT " + std::to_string(questionsNum) + ";").c_str(), callback, &questions, &errMessage);
     if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 
     return questions;
@@ -236,6 +240,7 @@ int SqliteDatabase::getNumOfCorrectAnswers(const std::string& username)
 
 float SqliteDatabase::getPlayerAverageAnswerTime(const std::string& username)
 {
+    // find the total answer time
     int totalAnswerTime = 0;
     auto callback = [](void* data, int argc, char** argv, char** azColName)
         {
@@ -247,8 +252,16 @@ float SqliteDatabase::getPlayerAverageAnswerTime(const std::string& username)
     int res = sqlite3_exec(this->_db, ("SELECT totalAnswerTime FROM statistics WHERE userID=(SELECT id FROM users WHERE username='" + username + "');").c_str(), callback, &totalAnswerTime, &errMessage);
     if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 
+    // find the number of total answers
+    int totalAnswersNum = this->getNumOfTotalAnswers(username);
+
     // return the average answer time
-    return (float)totalAnswerTime / this->getNumOfTotalAnswers(username);
+    if (totalAnswersNum == 0) // extreme case
+    {
+        return 0;
+    }
+
+    return (float)totalAnswerTime / totalAnswersNum;
 }
 
 std::vector<std::string> SqliteDatabase::getHighScores()
@@ -278,4 +291,30 @@ std::vector<std::string> SqliteDatabase::getHighScores()
     if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 
     return highScores;
+}
+
+void SqliteDatabase::insertStatistics(const std::string& username, const int& correctAnswers, const int& totalAnswers, const int& totalAnswerTime, const float& score)
+{
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("UPDATE statistics SET "
+        "score = score + " + std::to_string(score) + ", "
+        "games = games + 1, "
+        "totalAnswers = totalAnswers + " + std::to_string(totalAnswers) + ", "
+        "correctAnswers = correctAnswers + " + std::to_string(correctAnswers) + ", "
+        "totalAnswerTime = totalAnswerTime + " + std::to_string(totalAnswerTime) + " "
+        "WHERE userID = (SELECT id FROM users WHERE username='" + username + "');").c_str(), nullptr, nullptr, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
+}
+
+void SqliteDatabase::insertQuestion(const std::string& question, const std::string& correctAnswer, const std::string& answer1, const std::string& answer2, const std::string& answer3)
+{
+    char* errMessage = nullptr;
+    int res = sqlite3_exec(this->_db, ("INSERT INTO questions(question, correctAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3) "
+        "VALUES('" +
+        question + "', '" +
+        correctAnswer + "', '" +
+        answer1 + "', '" +
+        answer2 + "', '" +
+        answer3 + "');").c_str(), nullptr, nullptr, &errMessage);
+    if (res != SQLITE_OK) std::cerr << errMessage << std::endl;
 }

@@ -26,11 +26,18 @@ namespace TriviaClient
     {
         private NetworkStream _stream;
         private DispatcherTimer _dispatcherTimer;
+        //the following two are purly to be passed down to game
+        private int _amountOfQuestions;
+        private int _answerTime;
 
-        public AdminRoom(NetworkStream stream, string roomName)
+        public AdminRoom(NetworkStream stream, string roomName, int amountOfQuestions, int answerTime)
         {
             this._stream = stream;
             InitializeComponent();
+            //just for the game itself
+            this._amountOfQuestions = amountOfQuestions;
+            this._answerTime = answerTime;
+
 
             this.roomName.Text = roomName;
 
@@ -44,6 +51,8 @@ namespace TriviaClient
             // start refreshing the rooms
             this._dispatcherTimer.Start();
             this.refresh();
+
+            
         }
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -88,10 +97,8 @@ namespace TriviaClient
 
             if (!jsonObject.ContainsKey("message"))
             {
-                /*
                 this._dispatcherTimer.Stop();
-                NavigationService?.GoBack();
-                */
+                NavigationService?.Navigate(new Game(this._stream, this._amountOfQuestions, this._answerTime, 1, 0, 0));
             }
             else
             {
@@ -136,7 +143,9 @@ namespace TriviaClient
                         Text = name,
                         Width = 360,
                         Height = 60,
-                        Foreground = isAdmin ? Brushes.Orange : Brushes.White,
+                        Foreground = isAdmin ?
+                            App.Current.Resources["Highlight"] as SolidColorBrush :
+                            App.Current.Resources["Text"] as SolidColorBrush,
                         FontSize = 42,
                         FontFamily = new FontFamily("Arial"),
                         FontWeight = FontWeights.Bold,

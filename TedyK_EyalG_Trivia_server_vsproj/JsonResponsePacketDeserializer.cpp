@@ -1,10 +1,6 @@
 #include "JsonResponsePacketDeserializer.h"
-#include "json.hpp"
-#include <iostream>>
-#include <sstream>
-using json = nlohmann::json;
-#define HEADER_END 5
-CreateRoomRequest JsonResponsePacketDeserializer::desirializeCreateRoomRequest(std::vector<unsigned char> buffer)
+
+CreateRoomRequest JsonResponsePacketDeserializer::desirializeCreateRoomRequest(Buffer buffer)
 {
     //make the json
     json data_as_json = bufferToJson(buffer);
@@ -17,7 +13,7 @@ CreateRoomRequest JsonResponsePacketDeserializer::desirializeCreateRoomRequest(s
     return request;
 }
 
-JoinRoomRequest JsonResponsePacketDeserializer::desirializeJoinRoomRequest(std::vector<unsigned char> buffer)
+JoinRoomRequest JsonResponsePacketDeserializer::desirializeJoinRoomRequest(Buffer buffer)
 {
     json data_as_json = bufferToJson(buffer);
 
@@ -28,7 +24,7 @@ JoinRoomRequest JsonResponsePacketDeserializer::desirializeJoinRoomRequest(std::
 }
 
 
-GetPlayersInRoomRequest JsonResponsePacketDeserializer::desirializeGetPlayersInRoomRequest(std::vector<unsigned char> buffer)
+GetPlayersInRoomRequest JsonResponsePacketDeserializer::desirializeGetPlayersInRoomRequest(Buffer buffer)
 {
     json data_as_json = bufferToJson(buffer);
     //make the request
@@ -38,7 +34,7 @@ GetPlayersInRoomRequest JsonResponsePacketDeserializer::desirializeGetPlayersInR
 }
 
 
-LoginRequest JsonResponsePacketDeserializer::desirializeLoginRequest(std::vector<unsigned char> buffer)
+LoginRequest JsonResponsePacketDeserializer::desirializeLoginRequest(Buffer buffer)
 {
 
     //make the json
@@ -52,7 +48,7 @@ LoginRequest JsonResponsePacketDeserializer::desirializeLoginRequest(std::vector
     return request;
 }
 
-SignupRequest JsonResponsePacketDeserializer::desirializeSignupRequest(std::vector<unsigned char> buffer)
+SignupRequest JsonResponsePacketDeserializer::desirializeSignupRequest(Buffer buffer)
 {
     //make the json
     json data_as_json = bufferToJson(buffer);
@@ -67,7 +63,35 @@ SignupRequest JsonResponsePacketDeserializer::desirializeSignupRequest(std::vect
     return request;
 }
 
-json JsonResponsePacketDeserializer::bufferToJson(std::vector<unsigned char> buffer)
+SubmitAnswerRequest JsonResponsePacketDeserializer::desirializeSubmitAnswerRequest(Buffer buffer)
+{
+    //make the json
+    json data_as_json = bufferToJson(buffer);
+
+    // make the request
+    SubmitAnswerRequest request;
+    request.answerID = data_as_json["answerID"];
+
+    return request;
+}
+
+AddQuestionRequest JsonResponsePacketDeserializer::desirializeAddQuestionRequest(Buffer buffer)
+{
+    //make the json
+    json data_as_json = bufferToJson(buffer);
+
+    // make the request
+    AddQuestionRequest request;
+    request.question = data_as_json["question"];
+    request.correctAnswer = data_as_json["correctAnswer"];
+    request.answer1 = data_as_json["answer1"];
+    request.answer2 = data_as_json["answer2"];
+    request.answer3 = data_as_json["answer3"];
+
+    return request;
+}
+
+json JsonResponsePacketDeserializer::bufferToJson(Buffer buffer)
 {
     //get the data as a string
     string data_as_str(buffer.begin() + HEADER_END, buffer.end());

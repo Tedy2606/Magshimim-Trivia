@@ -59,7 +59,16 @@ RequestResult RoomMemberRequestHandler::getRoomState(const RequestInfo& info)
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room);
+    if (response.hasGameBegun == STARTED) // game started --> create game handle
+    {
+        result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, 
+            this->m_room.getData().id);
+    }
+    else // game hasn't started --> create room member handle
+    {
+        result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room);
+    }
+
     result.buffer = seri.serializeResponse(response);
 
     return result;

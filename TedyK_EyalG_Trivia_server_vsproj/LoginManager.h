@@ -3,7 +3,9 @@
 #include "SqliteDatabase.h"
 #include "LoggedUser.h"
 #include <vector>
+
 using std::string;
+
 class LoginManager
 {
 public:

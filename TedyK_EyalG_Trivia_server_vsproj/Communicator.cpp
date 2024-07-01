@@ -1,19 +1,4 @@
 #include "Communicator.h"
-#include <exception>
-#include <iostream>
-#include <string>
-#include <thread>
-#include <sstream>
-#include <algorithm>
-#include "IRequestHandler.h"
-#include "JsonResponsePacketSerializer.h"
-#include "JsonResponsePacketDeserializer.h"
-#define HEADER_SIZE 5
-#define NAME_LEN_IN_BYTES 2
-#define PORT 56812
-using std::cout;
-using std::endl;
-
 
 Communicator* Communicator::m_instance = nullptr; // Definition of the static member variable
 Communicator::Communicator(RequestHandlerFactory& handlerFactory)
@@ -123,66 +108,68 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
+	// set starting handler to login handler
 	this->m_clients[clientSocket] = new LoginRequestHandler(this->m_handlerFactory);
-	JsonResponsePacketSerializer seri;
-	JsonResponsePacketDeserializer desi;
-	//conitinue from here 
 
 	try
 	{
 		while (true)
 		{
-
-			
-			
 			//needs to be const unsinged char...
 			const char* client_response_header = getPartFromSocket(clientSocket, HEADER_SIZE, 0);
-			int data_len = (client_response_header[1] << 24) | (client_response_header[2] << 16) | (client_response_header[3] << 8) | client_response_header[4];
+			int data_len = ((unsigned char)client_response_header[1] << 24) | ((unsigned char)client_response_header[2] << 16) | ((unsigned char)client_response_header[3] << 8) | (unsigned char)client_response_header[4];
 			const char* client_response_data = getPartFromSocket(clientSocket, data_len, 0);
 			
 			std::string client_response(client_response_header, HEADER_SIZE);
 			client_response.append(client_response_data, data_len);
 			//puts the client response int a vector
-			buffer buf(client_response.begin(), client_response.end());
+			Buffer buf(client_response.begin(), client_response.end());
 			
 			//make the info of the request 
-			buffer response;
 			RequestInfo info;
 			info.id = buf[0];
 			info.buffer = buf;
 			info.recival_time = time(nullptr);
 			
-			if (this->m_clients[clientSocket]->isRequestRelevant(info))
-			{
-				//handle requests 
-				RequestResult res = this->m_clients[clientSocket]->handleRequest(info);
-				response = res.buffer;
-				
-				// switch to new handle
-				delete this->m_clients[clientSocket];
-				this->m_clients[clientSocket] = res.newHandler;
-			}
-			else
-			{
-				//handle erros 
-				ErrorResponse err;
-				err.err = "ERROR";
-				response = seri.serializeResponse(err);
-			}
+			// handle the response
+			Buffer response = this->requestHandler(clientSocket, info);
 
 			//convert the vector to an str to send it
 			std::string responseStr(response.begin(), response.end());
 			
 			sendData(clientSocket, responseStr);
+
+			// free allocated data
+			delete client_response_header;
+			delete client_response_data;
 		}
 		
 	}
 	catch (const std::exception& e)
 	{
+		RequestInfo info;
+
+		std::cerr << e.what() << std::endl;
+
+		info.id = LEAVE_GAME_REQ;
+		this->requestHandler(clientSocket, info);
+
+		info.id = LEAVE_ROOM_REQ;
+		this->requestHandler(clientSocket, info);
+
+		info.id = CLOSE_ROOM_REQ;
+		this->requestHandler(clientSocket, info);
+
+		info.id = LOGOUT_MSG_REQ;
+		this->requestHandler(clientSocket, info);
+
 		closesocket(clientSocket);
 	}
 
+	std::cout << "Connection with a client has been closed." << std::endl;
 
+	// delete login handler
+	delete this->m_clients[clientSocket];
 }
 
 char* Communicator::getPartFromSocket(SOCKET sc, int bytesNum, int flags)
@@ -205,6 +192,34 @@ char* Communicator::getPartFromSocket(SOCKET sc, int bytesNum, int flags)
 	data[bytesNum] = 0;
 	return data;
 }
+
+Buffer Communicator::requestHandler(SOCKET clientSocket, RequestInfo info)
+{
+	JsonResponsePacketSerializer seri;
+
+	Buffer response;
+
+	if (this->m_clients[clientSocket]->isRequestRelevant(info))
+	{
+		//handle requests 
+		RequestResult res = this->m_clients[clientSocket]->handleRequest(info);
+		response = res.buffer;
+
+		// switch to new handle
+		delete this->m_clients[clientSocket];
+		this->m_clients[clientSocket] = res.newHandler;
+	}
+	else
+	{
+		//handle erros 
+		ErrorResponse err;
+		err.err = "ERROR";
+		response = seri.serializeResponse(err);
+	}
+
+	return response;
+}
+
 void Communicator::sendData(SOCKET sc, std::string message)
 {
 	const char* data = message.c_str();

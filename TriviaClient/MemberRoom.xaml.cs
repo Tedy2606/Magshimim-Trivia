@@ -103,14 +103,18 @@ namespace TriviaClient
             {
                 // get the room activity status
                 int hasGameBegun = jsonObject.Value<int>("hasGameBegun");
+                int answer_time = jsonObject.Value<int>("answerTimeout");
+                int questionCount = jsonObject.Value<int>("questionCount");
 
                 if (hasGameBegun == 0) // leave if room is closed
                 {
+                    this._dispatcherTimer.Stop();
                     leaveRoom();
                 }
                 else if (hasGameBegun == 2) // game has started
                 {
-                    // TODO: move to questions page
+                    this._dispatcherTimer.Stop();
+                    NavigationService?.Navigate(new Game(this._stream, questionCount, answer_time, 1, 0, 0));
                 }
 
                 // get the room players
@@ -129,7 +133,9 @@ namespace TriviaClient
                         Text = name,
                         Width = 360,
                         Height = 60,
-                        Foreground = isAdmin ? Brushes.Orange : Brushes.White,
+                        Foreground = isAdmin ? 
+                            App.Current.Resources["Highlight"] as SolidColorBrush : 
+                            App.Current.Resources["Text"] as SolidColorBrush,
                         FontSize = 42,
                         FontFamily = new FontFamily("Arial"),
                         FontWeight = FontWeights.Bold,

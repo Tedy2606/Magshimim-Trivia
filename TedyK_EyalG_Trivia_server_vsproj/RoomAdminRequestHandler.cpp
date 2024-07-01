@@ -41,6 +41,10 @@ RequestResult RoomAdminRequestHandler::closeRoom(const RequestInfo& info)
     // close the room
     this->m_roomManager.getRoom(this->m_room.getData().id).getData().isActive = CLOSED_ROOM;
 
+    // erase the room from the room manager after 20 seconds
+    std::thread thread([this]{ this->eraseRoom(this->m_roomManager, this->m_room.getData().id); });
+    thread.detach();
+
     // leave the room
     this->m_roomManager.getRoom(this->m_room.getData().id).removeUser(this->m_user);
     
@@ -64,7 +68,10 @@ RequestResult RoomAdminRequestHandler::startGame(const RequestInfo& info)
     response.status = OK_RESPONSE;
 
     // make a response and serialize it
-    result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room); // v4.0.0 CHANGE TO createGameRequestHandler
+    this->m_handlerFactory.getGameManager().createGame(this->m_roomManager.getRoom(this->m_room.getData().id));
+    
+    result.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, 
+        this->m_room.getData().id);
     result.buffer = seri.serializeResponse(response);
 
     return result;
@@ -88,4 +95,11 @@ RequestResult RoomAdminRequestHandler::getRoomState(const RequestInfo& info)
     result.buffer = seri.serializeResponse(response);
 
     return result;
+}
+
+void RoomAdminRequestHandler::eraseRoom(RoomManager& roomManager, const int id)
+{
+    std::this_thread::sleep_for(std::chrono::seconds(20));
+    
+    roomManager.deleteRoom(id);
 }

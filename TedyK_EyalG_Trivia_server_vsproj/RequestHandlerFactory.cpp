@@ -1,7 +1,7 @@
 #include "RequestHandlerFactory.h"
 
 RequestHandlerFactory::RequestHandlerFactory(IDataBase* database)
-    : m_loginManager(database), m_statisticsManager(database), m_roomManager()
+    : m_loginManager(database), m_statisticsManager(database), m_roomManager(), m_gameManager(database)
 {
     this->m_database = database;
 }
@@ -11,19 +11,24 @@ LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
     return new LoginRequestHandler(*this);
 }
 
-MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser user)
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser& user)
 {
     return new MenuRequestHandler(*this, user);
 }
 
-RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser user, Room room)
+RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser& user, Room& room)
 {
     return new RoomMemberRequestHandler(*this, room, user);
 }
 
-RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser user, Room room)
+RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser& user, Room& room)
 {
     return new RoomAdminRequestHandler(*this, room, user);
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser& user, int gameID)
+{
+    return new GameRequestHandler(*this, gameID, user);
 }
 
 LoginManager& RequestHandlerFactory::getLoginManager()
@@ -44,4 +49,9 @@ RoomManager& RequestHandlerFactory::getRoomManager()
 StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 {
     return this->m_statisticsManager;
+}
+
+GameManager& RequestHandlerFactory::getGameManager()
+{
+    return this->m_gameManager;
 }

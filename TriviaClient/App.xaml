@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:TriviaClient"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary Source="Themes/Minor.xaml"/>
     </Application.Resources>
 </Application>

@@ -2,6 +2,8 @@
 #include <string>
 #include "LoggedUser.h"
 #include <vector>
+#include <stdexcept>
+
 using std::string;
 
 struct RoomData
@@ -38,7 +40,6 @@ public:
 	**/
 	void addUser(LoggedUser user);
 
-
 	/***
 	* function removes a user 
 	* @param LoggedUser user - the user to remove from the room
@@ -46,17 +47,13 @@ public:
 	**/
 	void removeUser(LoggedUser user);
 
-
 	/***
 	* function returns all of the users
 	* @return ia vector with all of the usernames
 	**/
 	std::vector<string> getAllUsers();
 
-
-
 private:
 	RoomData m_metadata;
 	std::vector<LoggedUser> m_users;
 };
-

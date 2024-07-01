@@ -3,6 +3,11 @@
 #include "IDataBase.h"
 #include <iostream>
 #include <set>
+#include <vector>
+#include <list>
+#include <string>
+#include <cstdlib>
+#include <io.h> // For _access function
 
 #define DATABASE_PATH "database.sqlite"
 
@@ -92,8 +97,24 @@ public:
     */
     virtual std::vector<std::string> getHighScores() override;
 
+    /*
+    Method updates the statistics of the input username
+    @param username - the user to update
+    @param correctAnswers - number of correct answers to add
+    @param totalAnswers - number of total answers to add
+    @param totalAnswerTime - number of total answer time to add
+    @param score - amout of score to add
+    */
+    virtual void insertStatistics(const std::string& username, const int& correctAnswers, const int& totalAnswers, const int& totalAnswerTime, const float& score) override;
+
+    /*
+    Method inserts new question to the database
+    @param question - the question
+    @param correctAnswer - the correct answer
+    @param answer1, answer2, answer3 - the wrong answers
+    */
+    virtual void insertQuestion(const std::string& question, const std::string& correctAnswer, const std::string& answer1, const std::string& answer2, const std::string& answer3) override;
+
 private:
     sqlite3* _db;
 };
-
-

@@ -4,6 +4,7 @@
 
 //declare the class in order to be able to ahve a struct with a pointer to it 
 class IRequestHandler;
+
 //the info of the request 
 struct RequestInfo
 {
